@@ -1,6 +1,6 @@
 {
   "name": "mask-hooks",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Functions and react hooks for applying masks to data inputs and outputs",
   "main": "src/index.js",
   "scripts": {
@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/guilhermeasn/mask-hooks/issues"
   },
-  "homepage": "https://github.com/guilhermeasn/mask-hooks#readme"
+  "homepage": "https://github.com/guilhermeasn/mask-hooks#readme",
+  "dependencies": {
+    "react": "^17.0.1"
+  }
 }
