@@ -1,0 +1,26 @@
+{
+  "name": "mask-hooks",
+  "version": "1.0.0",
+  "description": "Functions and react hooks for applying masks to data inputs and outputs",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/guilhermeasn/mask-hooks.git"
+  },
+  "keywords": [
+    "mask",
+    "hooks",
+    "input",
+    "useMask",
+    "useMaskState"
+  ],
+  "author": "Guilherme Augusto Neves <guilheremasn@yahoo.com.br>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/guilhermeasn/mask-hooks/issues"
+  },
+  "homepage": "https://github.com/guilhermeasn/mask-hooks#readme"
+}
