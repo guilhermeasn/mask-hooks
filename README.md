@@ -34,7 +34,7 @@ export default function MaskPhone() {
 
     return (
         <>
-            <input type='text' value={ value } onChange={ input =>setValue(input.currentTarget.value) } />
+            <input type='text' value={ value } onChange={ input => setValue(input.currentTarget.value) } />
         </>
     );
 
@@ -54,7 +54,7 @@ export default function MaskPhone() {
 
     return (
         <>
-            <input type='text' value={ value } onChange={ input =>setValue(input.currentTarget.value) } />
+            <input type='text' value={ value } onChange={ input => setValue(input.currentTarget.value) } />
         </>
     );
 
@@ -65,10 +65,10 @@ export default function MaskPhone() {
 - useMask: utilize este para aplicar mascaras em muitos contextos, por exemplo, com dispatches do redux ou simples exibição de uma informação
 
 ```
-    import { useMask, presets } from 'mask-hooks';
+import { useMask, presets } from 'mask-hooks';
 
 
-    export default function MaskDocs() {
+export default function MaskDocs() {
 
     const documentMask = useMask(presets.DOCUMENT_CPF_CNPJ); /* { mask: [ "???.???.???-??" , "??.???.???/????-??" ] } */
 
@@ -141,13 +141,14 @@ export default function MaskBRL() {
 
  **Caracter: \*** - será substituido pelo restante do target.
 
- **Padrão: {\<numero\>|\<caracter\>}** - exemplo {3|,} funciona como o caracter **\***, porém adiciona um caracter entre o restante do target, de acordo com a quantidade de separação.
+ **Padrão: {\<numero\>|\<caracter\>}** - por exemplo {3|,} funciona como o caracter **\***, porém adiciona um caracter entre o restante do target de acordo com a quantidade desejada para a separação.
 
 - Outras configurações
 
-**Filtro:** retira determinados caracteres do target, você pode importar uma lista de filtros em *filters*
+**Filtro:** retira determinados caracteres do target, você pode importar uma lista de filtros em *filters*, opções de filters pré-configurados: NUMBERS, LETTERS, CHARACTERS ou NONE.
 
-**Mode:** direção do preenchimento do targer, você pode importar as opções disponíveis em *modes*
+**Mode:** direção do preenchimento do targer, você pode importar as opções disponíveis em *modes*,
+opções de modes: AUTO, NORMAL ou REVERSE.
 
 **Placeholder:** enquanto a mascara não for toda preenchida os caracteres **\*** e **?** serão prenchidos com o placeholder
 
