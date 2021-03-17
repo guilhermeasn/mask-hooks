@@ -60,7 +60,7 @@ export default () => {
                     <h4 className='col-12'>Exemplo Personalizavel</h4>
                     <p className='col-6'>Mask:<br/><input className='form-control rounded' type='text' value={ cMask } onChange={ input => { setCMask(input.currentTarget.value); setCVal(''); } } /></p>
                     <p className='col-6'>Placeholder:<br/><input className='form-control rounded' type='text' value={ cPlhd } onChange={ input => { setCPlhd(input.currentTarget.value); setCVal(''); } } /></p>
-                    <p className='col-12'>Target: <br/><input id='itest' className='form-control rounded' type='text' value={ cVal } onChange={ input => {setCVal(input.currentTarget.value); } } /></p>
+                    <p className='col-12'>Target: <br/><input className='form-control rounded' autoFocus type='text' value={ cVal } onChange={ input => {setCVal(input.currentTarget.value); } } /></p>
                 </div>
 
             </div>
