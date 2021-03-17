@@ -15,7 +15,7 @@ export default function mask(target, mask, filter = filters.NUMBERS, mode = mode
 	if(filter)  target = target.replace(filter, '');
 	if(target == '') return '';
 
-    target = target.replace(new RegExp('[' + placeholder + ']+$','gim'), '');
+    if(placeholder) target = target.replace(new RegExp('[\\' + placeholder.split('').join('\\') + ']+$','gim'), '');
 
     if(Array.isArray(mask)) {
         mask.sort((a, b) => a.replace(/\{\d+\|.+\}/i, '*').replace(/[^\?\*]/gim,'').length - b.replace(/\{\d+\|.+\}/i, '*').replace(/[^\?\*]/gim,'').length);
