@@ -1,15 +1,16 @@
-
+/* eslint-disable */
 import { useState } from 'react';
 import { filters, modes } from './constants';
 
 
+
 export default function mask(target, mask, filter = filters.NUMBERS, mode = modes.AUTO, placeholder = null) {
-    
+
     let result   = '';
 	let index    = 0;
     let repeater = null;
 
-    const reverse = (mode === 'auto') ? /^[^?]*\*.*\?.*$/.test(mask) : (mode === 'reverse');
+    const reverse = (mode === 'auto') ? (/^[^?]*\*.*\?.*$/.test(mask.replace(/\{\d+\|.+\}/i, '*')) || placeholder) : (mode === 'reverse');
     
     if(reverse) target = target.split('').reverse().join('');
 	if(filter)  target = target.replace(filter, '');
