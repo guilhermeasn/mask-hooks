@@ -23,7 +23,7 @@ export default () => {
     RegExp.prototype.toJSON = RegExp.prototype.toString;
 
     return (
-        <div className='bg-dark text-light p-5'>
+        <div className='bg-dark text-light py-5 px-3'>
 
             <div className='container'>
 
@@ -41,14 +41,14 @@ export default () => {
                 
                 {
                     Object.keys(presets).map((key, index) => (
-                        <div className='row' key={index}>
-                            <label className='col-6 text-light'>
+                        <div className='row my-5' key={index}>
+                            <label className='col-12 col-md-6 text-light'>
                                 { key }
                                 <pre className='text-light'>
                                     { JSON.stringify(presets[key], null, "\t") }
                                 </pre>
                             </label>
-                            <input className='col-6 form-control rounded' type='text' value={ values[key] } onChange={ input => setValues[key](input.currentTarget.value) } />
+                            <input className='col-12 col-md-6 form-control rounded' type='text' value={ values[key] } onChange={ input => setValues[key](input.currentTarget.value) } />
                         </div>
                     ))
                 }
