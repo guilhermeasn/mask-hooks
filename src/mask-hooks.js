@@ -13,9 +13,8 @@ export default function mask(target, mask, filter = filters.NUMBERS, mode = mode
     
     if(reverse) target = target.split('').reverse().join('');
 	if(filter)  target = target.replace(filter, '');
+    if(placeholder) target = target.replace(new RegExp('[' + placeholder + ']+$','gim'), '');
 	if(target == '') return '';
-
-    target = target.replace(new RegExp('[' + placeholder + ']+$','gim'), '');
 
     if(Array.isArray(mask)) {
         mask.sort((a, b) => a.replace(/\{\d+\|.+\}/i, '*').replace(/[^\?\*]/gim,'').length - b.replace(/\{\d+\|.+\}/i, '*').replace(/[^\?\*]/gim,'').length);
@@ -86,7 +85,7 @@ export default function mask(target, mask, filter = filters.NUMBERS, mode = mode
 	}
 	
 	const last = reverse ? result.charAt(0) : result.charAt(result.length-1);
-    if(reverse && last !== target.charAt(index-1) && last != mask.charAt(0) && last !== placeholder) {
+    if(reverse && last !== target.charAt(index-1) && last !== mask.charAt(0) && last !== placeholder) {
         result = result.substring(1);
     } else if(!reverse && last !== target.charAt(index-1) && last !== mask.charAt(mask.length-1) && last !== placeholder) {
         result = result.slice(0,-1);
