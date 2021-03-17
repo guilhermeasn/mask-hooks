@@ -6,8 +6,6 @@ import { filters, modes } from './constants';
 
 export default function mask(target, mask, filter = filters.NUMBERS, mode = modes.AUTO, placeholder = null) {
 
-    document.querySelectorAll('input').forEach(element => element.setSelectionRange(element.value.length, element.value.length));
-
     let result   = '';
 	let index    = 0;
     let repeater = null;
