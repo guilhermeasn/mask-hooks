@@ -1,12 +1,15 @@
 # mask-hooks
 
-Functions and react hooks for applying masks to data inputs and outputs
+Funções e react hooks para aplicar máscaras a variáveis de controle de inputs ou para exibição de dados!
 
-Funções e react hooks para aplicar máscaras a variáveis de controle de inputs ou para exibição de dados
+*Functions and react hooks for applying masks to data inputs and outputs*
+
+- [Ver exemplos](https://guilhermeasn.github.io/mask-hooks/)
 
 ## 🚀 Começando
 
 Execute no terminal o comando abaixo para instalar o **mask-hooks** no seu projeto
+
 ```
 npm install mask-hooks --save
 ```
