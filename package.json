@@ -1,6 +1,6 @@
 {
   "name": "mask-hooks",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Functions and react hooks for applying masks to data inputs and outputs",
   "main": "src/index.js",
   "scripts": {
