@@ -4,7 +4,13 @@ Funções e react hooks para aplicar máscaras a variáveis de controle de input
 
 *Functions and react hooks for applying masks to data inputs and outputs*
 
-- [Ver exemplos](https://guilhermeasn.github.io/mask-hooks/)
+- <a href='https://guilhermeasn.github.io/mask-hooks/' target='_blank'>Ver exemplos!</a>
+
+### 📋 Pré-requisitos
+
+- node
+- npm
+- react
 
 ## 🚀 Começando
 
@@ -13,12 +19,6 @@ Execute no terminal o comando abaixo para instalar o **mask-hooks** no seu proje
 ```
 npm install mask-hooks --save
 ```
-
-### 📋 Pré-requisitos
-
-- node
-- npm
-- react
 
 ### 🛠️ Exemplos de Uso
 
@@ -136,6 +136,21 @@ export default function MaskBRL() {
 
 }
 ```
+
+### 🛠️ Constantes disponíveis
+
+ + **filters** *: object*
+ + **modes**  *: object*
+ + **presets**  *: object*
+
+### 🛠️ Métodos disponíveis
+
+ + **mask(target, mask, filter = filters.NUMBERS, mode = modes.AUTO, placeholder = null)** *: string*
+ + **applyMask(target, config)** *: string*
+ + **useMask(config)** *: function*
+ + **useMaskState = (initialState, config)** *: array\[const, function\]*
+
+
 ### 🛠️ Configurações
 
  - Criação de máscaras
