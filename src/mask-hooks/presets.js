@@ -1,8 +1,6 @@
-/* eslint-disable */
 import { filters, modes } from './constants';
 
-
-export default {
+const presets = {
 
     ONLY_NUMBERS: {
         mask:        '*',
@@ -103,3 +101,5 @@ export default {
     }
 
 }
+
+export default presets;

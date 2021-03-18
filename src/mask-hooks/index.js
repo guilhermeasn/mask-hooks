@@ -1,7 +1,8 @@
 
 import { filters, modes } from './constants';
 import presets from './presets';
-import mask, { applyMask, useMask, useMaskState } from './mask-hooks';
+import mask, { applyMask } from './mask';
+import { useMask, useMaskState } from './hooks';
 
 
 export {
