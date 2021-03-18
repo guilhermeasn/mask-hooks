@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState }  from 'react';
 import { applyMask } from './mask';
 
 
@@ -11,6 +11,8 @@ export function useMask(config) {
 export const useMaskState = (initialState, config) => {
 
     const [target, setTarget] = useState(initialState);
-    return [ target, newTarget => setTarget(() => applyMask(newTarget, config)) ];
+    const mask = useMask(config);
+
+    return [ target, newTarget => setTarget(mask(newTarget)) ];
 
 }

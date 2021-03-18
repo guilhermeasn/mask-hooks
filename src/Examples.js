@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useMaskState, presets } from './mask-hooks';
+import { useMaskState, presets, MaskInput, MaskOutput } from './mask-hooks';
 
 // eslint-disable-next-line
 export default () => {
@@ -7,6 +7,8 @@ export default () => {
 
     let values    = [];
     let setValues = [];
+
+    const [tmi, settmi] = useState('123');
 
     const [cMask, setCMask] = useState('R$ *,??');
     const [cPlhd, setCPlhd] = useState('');
@@ -53,6 +55,26 @@ export default () => {
                         </div>
                     ))
                 }
+
+                <hr className='bg-light'/>
+
+                <div>
+                    <h4>Component MaskInput</h4>
+                    <p className='small'>
+                        { "<MaskInput value={vl} onChange={input => setVl(input.currentTarget.value)} mask='???.???.???-??' mode='reverse'  />" }
+                    </p>
+                    <MaskInput className='form-control' value={tmi} onChange={text => settmi(text.currentTarget.value)} mask='???.???.???-??' mode='reverse'  />
+                </div>
+                
+                <hr className='bg-light'/>
+
+                <div>
+                    <h4>Component MaskOutput</h4>
+                    <p className='small'>
+                        { "<MaskOutput filter='letters' mask='{1|, }'>abcdefghijklmnopqrstuvwxyz</MaskOutput>" }
+                    </p>
+                    <MaskOutput filter='letters' mask='{1|, }'>abcdefghijklmnopqrstuvwxyz</MaskOutput>
+                </div>
 
                 <hr className='bg-light'/>
 

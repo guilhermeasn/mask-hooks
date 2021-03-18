@@ -1,7 +1,7 @@
 import { filters, modes } from './constants';
 
 
-export default function mask(target, mask, filter = filters.NUMBERS, mode = modes.AUTO, placeholder = null) {
+export default function mask(target, mask = '*', filter = filters.NUMBERS, mode = modes.AUTO, placeholder = null) {
 
     let result   = '';
 	let index    = 0;
