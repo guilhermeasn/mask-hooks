@@ -111,26 +111,22 @@ export default function MaskBRL() {
 }
 ```
 
-- Estabeleça uma padronização para entradas de dados ilimitadas
+- Utilize as mascáras diretamente com os components MaskInput e MaskOutput
 
 ```
-import { useMaskState, filters, modes } from 'mask-hooks';
+import { useState } from 'react';
+import { MaskInput, MaskOutput } from 'mask-hooks';
 
 
-export default function MaskBRL() {
+export default function MaskComponents() {
 
-    // Adicionara pontos para separar os milhares R$ 1.250.500,00
-
-    const [value, setValue] = useMaskState('', {
-        mask:        'R$ {3|.},??',
-        mode:        modes.REVERSE,
-        filter:      filters.NUMERICS,
-        placeholder: '0'
-    });
+    const [value, setValue] = useState('');
 
     return (
         <>
-            <input type='text' value={ value } onChange={ input =>setValue(input.currentTarget.value) } />
+            <MaskInput className='form-control' value={ value } onChange={ input => setValue(input.currentTarget.value) } mask='???.???.???-??' mode='reverse'  />
+
+            <MaskOutput filter='letters' mask='{1|, }'>abcdefghijklmnopqrstuvwxyz</MaskOutput>
         </>
     );
 
@@ -150,6 +146,10 @@ export default function MaskBRL() {
  + **useMask(config)** *: function*
  + **useMaskState(initialState, config)** *: array\[const, function\]*
 
+### 🛠️ Componentes disponíveis
+
+ + **MaskInput** *: react component input*
+ + **MaskOutput** *: react fragment*
 
 ### 🛠️ Configurações
 

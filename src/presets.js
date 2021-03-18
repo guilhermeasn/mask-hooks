@@ -1,8 +1,6 @@
-
 import { filters, modes } from './constants';
 
-
-export default {
+const presets = {
 
     ONLY_NUMBERS: {
         mask:        '*',
@@ -14,28 +12,28 @@ export default {
     DATE_STAMP: {
         mask:        '????-??-??',
         filter:      filters.NUMBERS,
-        mode:        modes.NORMAL,
+        mode:        modes.AUTO,
         placeholder: '_'
     },
 
     DATE_PTBR: {
         mask:        '??/??/????',
         filter:      filters.NUMBERS,
-        mode:        modes.NORMAL,
+        mode:        modes.AUTO,
         placeholder: '_'
     },
 
     DATETIME_STAMP: {
         mask:        '????-??-?? ??:??:??',
         filter:      filters.NUMBERS,
-        mode:        modes.NORMAL,
+        mode:        modes.AUTO,
         placeholder: null
     },
 
     DATETIME_PTBR: {
         mask:        '??/??/???? ??:??',
         filter:      filters.NUMBERS,
-        mode:        modes.NORMAL,
+        mode:        modes.AUTO,
         placeholder: null
     },
 
@@ -103,3 +101,5 @@ export default {
     }
 
 }
+
+export default presets;

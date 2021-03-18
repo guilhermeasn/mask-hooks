@@ -1,10 +1,7 @@
-/* eslint-disable */
-import { useState } from 'react';
 import { filters, modes } from './constants';
 
 
-
-export default function mask(target, mask, filter = filters.NUMBERS, mode = modes.AUTO, placeholder = null) {
+export default function mask(target, mask = '*', filter = filters.NUMBERS, mode = modes.AUTO, placeholder = null) {
 
     let result   = '';
 	let index    = 0;
@@ -12,16 +9,16 @@ export default function mask(target, mask, filter = filters.NUMBERS, mode = mode
 
     const reverse = (mode === 'auto') ? (/^[^?]*\*.*\?.*$/.test(mask.replace(/\{\d+\|.+\}/i, '*')) || placeholder) : (mode === 'reverse');
     
-    if(reverse) target = target.split('').reverse().join('');
-	if(filter)  target = target.replace(filter, '');
+    if(reverse)     target = target.split('').reverse().join('');
+	if(filter)      target = target.replace(filter, '');
     if(placeholder) target = target.replace(new RegExp('[' + placeholder + ']+$','gim'), '');
-	if(target == '') return '';
+	if(target === '' || !target) return '';
 
     if(Array.isArray(mask)) {
-        mask.sort((a, b) => a.replace(/\{\d+\|.+\}/i, '*').replace(/[^\?\*]/gim,'').length - b.replace(/\{\d+\|.+\}/i, '*').replace(/[^\?\*]/gim,'').length);
+        mask.sort((a, b) => a.replace(/\{\d+\|.+\}/i, '*').replace(/[^?*]/gim,'').length - b.replace(/\{\d+\|.+\}/i, '*').replace(/[^?*]/gim,'').length);
         
         for(let c = 0; c < mask.length; c++) {
-            if(mask[c].replace(/\{\d+\|.+\}/i, '*').replace(/[^\?\*]/gim,'').length >= target.length || c === (mask.length - 1)) {
+            if(mask[c].replace(/\{\d+\|.+\}/i, '*').replace(/[^?*]/gim,'').length >= target.length || c === (mask.length - 1)) {
                 mask = mask[c];
                 break;
             }
@@ -33,7 +30,7 @@ export default function mask(target, mask, filter = filters.NUMBERS, mode = mode
         mask     = mask.replace(/\{\d+\|.+\}/i, '*');
     }
 
-    if(reverse && /^[^\*]*$/gim.test(mask) && target.length > mask.replace(/[^\?]/gim,'').length) {
+    if(reverse && /^[^*]*$/gim.test(mask) && target.length > mask.replace(/[^?]/gim,'').length) {
         target = target.substring(1);
     }
 	
@@ -66,14 +63,12 @@ export default function mask(target, mask, filter = filters.NUMBERS, mode = mode
             if(!remaining && !placeholder) break loop;
 
             if(reverse) {
-                const finisher = mask.substring(0, c).replace(/[\?\*]/gim,'');
+                const finisher = mask.substring(0, c).replace(/[?*]/gim,'');
                 return finisher + ((remaining) ? remaining.split('').reverse().join('') : (placeholder || '')) + result;
             } else {
-                const finisher  = mask.substring(c+1).replace(/[\?\*]/gim,'');
+                const finisher  = mask.substring(c+1).replace(/[?*]/gim,'');
 			    return result + ((remaining) ? remaining : (placeholder || '')) + finisher;
             }
-
-            break;
 			
 		  default:
 
@@ -99,18 +94,5 @@ export default function mask(target, mask, filter = filters.NUMBERS, mode = mode
 export function applyMask(target, config) {
 
     return mask(target, config.mask, config.filter, config.mode, config.placeholder);
-
-}
-
-export function useMask(config) {
-
-    return target => applyMask(target, config);
-
-}
-
-export const useMaskState = (initialState, config) => {
-
-    const  [target, setTarget] = useState(initialState);
-    return [ target, newTarget => setTarget(applyMask(newTarget, config)) ];
 
 }
