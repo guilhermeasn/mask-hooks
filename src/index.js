@@ -1,15 +1,8 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 
-import { filters, modes } from './constants';
-import presets from './presets';
-import mask, { applyMask, useMask, useMaskState } from './mask-hooks';
-
-
-export {
-    filters,
-    modes,
-    presets,
-    mask,
-    applyMask,
-    useMask,
-    useMaskState
-};
+ReactDOM.render(
+    <App />
+    ,document.getElementById('root')
+);
