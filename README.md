@@ -111,7 +111,7 @@ export default function MaskBRL() {
 }
 ```
 
-- Utilize as mascáras diretamente com os components MaskInput e MaskOutput
+<!-- - Utilize as mascáras diretamente com os components MaskInput e MaskOutput
 
 ```
 import { useState } from 'react';
@@ -131,7 +131,7 @@ export default function MaskComponents() {
     );
 
 }
-```
+``` -->
 
 ### 🛠️ Constantes disponíveis
 
@@ -146,10 +146,10 @@ export default function MaskComponents() {
  + **useMask(config)** *: function*
  + **useMaskState(initialState, config)** *: array\[const, function\]*
 
-### 🛠️ Componentes disponíveis
+<!-- ### 🛠️ Componentes disponíveis
 
  + **MaskInput** *: react component input*
- + **MaskOutput** *: react fragment*
+ + **MaskOutput** *: react fragment* -->
 
 ### 🛠️ Configurações
 
