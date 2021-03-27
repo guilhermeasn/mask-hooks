@@ -1,3 +1,4 @@
+import React from 'react';
 import { useMask, filters, modes } from './index';
 
 
@@ -10,7 +11,8 @@ export const MaskInput = props => {
         placeholder: props.placeholder || null
     } || {});
 
-    return (<input { ...props } value={ mask(props.value) }/>);
+    // return (<input { ...props } value={ mask(props.value) }/>);
+    return React.createElement('input', { ...props, value: mask(props.value || '') });
 
 }
 
@@ -22,7 +24,8 @@ export const MaskOutput = props => {
         mode:        props.mode        || modes.NORMAL,
         placeholder: props.placeholder || null
     } || {});
-
-    return (<>{ mask(props.children || '') }</>);
+    
+    // return (<>{ mask(props.children || '') }</>);
+    return React.createElement(React.Fragment, null, mask(props.children || ''));
 
 }
