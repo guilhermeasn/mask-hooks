@@ -1,28 +1,31 @@
-// import { useMask, filters, modes } from './index';
+import React from 'react';
+import { useMask, filters, modes } from './index';
 
 
-// export const MaskInput = props => {
+export const MaskInput = props => {
 
-//     const mask = useMask(props.config || props.preset || {
-//         mask:        props.mask        || '*',
-//         filter:      props.filter      || filters.NUMBERS,
-//         mode:        props.mode        || modes.NORMAL,
-//         placeholder: props.placeholder || null
-//     } || {});
+    const mask = useMask(props.config || props.preset || {
+        mask:        props.mask        || '*',
+        filter:      props.filter      || filters.NUMBERS,
+        mode:        props.mode        || modes.NORMAL,
+        placeholder: props.placeholder || null
+    } || {});
 
-//     return (<input { ...props } value={ mask(props.value) }/>);
+    // return (<input { ...props } value={ mask(props.value) }/>);
+    return React.createElement('input', { ...props, value: mask(props.value || '') });
 
-// }
+}
 
-// export const MaskOutput = props => {
+export const MaskOutput = props => {
 
-//     const mask = useMask(props.config || props.preset || {
-//         mask:        props.mask        || '*',
-//         filter:      props.filter      || filters.NUMBERS,
-//         mode:        props.mode        || modes.NORMAL,
-//         placeholder: props.placeholder || null
-//     } || {});
+    const mask = useMask(props.config || props.preset || {
+        mask:        props.mask        || '*',
+        filter:      props.filter      || filters.NUMBERS,
+        mode:        props.mode        || modes.NORMAL,
+        placeholder: props.placeholder || null
+    } || {});
+    
+    // return (<>{ mask(props.children || '') }</>);
+    return React.createElement(React.Fragment, null, mask(props.children || ''));
 
-//     return (<>{ mask(props.children || '') }</>);
-
-// }
+}
