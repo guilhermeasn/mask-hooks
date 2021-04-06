@@ -10,7 +10,7 @@ export default function mask(target, mask = '*', filter = filters.NUMBERS, mode 
     try {
         target = target.toString();
         placeholder = placeholder.toString();
-    } finally {}
+    } catch(e) {}
 
     const reverse = (mode === 'auto') ? (/^[^?]*\*.*\?.*$/.test(mask.replace(/\{\d+\|.+\}/i, '*')) || placeholder) : (mode === 'reverse');
     
