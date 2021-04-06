@@ -7,6 +7,11 @@ export default function mask(target, mask = '*', filter = filters.NUMBERS, mode 
 	let index    = 0;
     let repeater = null;
 
+    try {
+        target = target.toString();
+        placeholder = placeholder.toString();
+    } catch () {}
+
     const reverse = (mode === 'auto') ? (/^[^?]*\*.*\?.*$/.test(mask.replace(/\{\d+\|.+\}/i, '*')) || placeholder) : (mode === 'reverse');
     
     if(reverse)     target = target.split('').reverse().join('');
