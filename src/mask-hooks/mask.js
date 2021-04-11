@@ -12,7 +12,10 @@ export default function mask(target, mask = '*', filter = filters.NUMBERS, mode 
         placeholder = placeholder.toString();
     } catch(e) {}
 
+    const reverse = (mode === 'auto') ? (/^[^?]*?\*.*$/.test((Array.isArray(mask) ? mask[0] : mask).replace(/\{\d+\|.+\}/i, '*')) || placeholder) : (mode === 'reverse');
+
     if(target && target.length) {
+        if(reverse)     target = target.split('').reverse().join('');
         if(filter)      target = target.replace(filter, '');
         if(placeholder) target = target.replace(new RegExp('[' + placeholder + ']+$','gim'), '');
     }
@@ -34,12 +37,6 @@ export default function mask(target, mask = '*', filter = filters.NUMBERS, mode 
     if(/\{\d+\|.+\}/i.test(mask)) {
         repeater = mask.match(/\{(\d+)\|(.+)\}/i);
         mask     = mask.replace(/\{\d+\|.+\}/i, '*');
-    }
-
-    const reverse = (mode === 'auto') ? (/^[^?]*?\*.*$/.test(mask) || placeholder) : (mode === 'reverse');
-    
-    if(target && target.length) {
-        if(reverse)     target = target.split('').reverse().join('');
     }
 
     if(reverse && /^[^*]*$/gim.test(mask) && target.length > mask.replace(/[^?]/gim,'').length) {
