@@ -14,7 +14,7 @@ export default function mask(target, mask = '*', filter = filters.NUMBERS, mode 
 
     if(target === '' || !target) return '';
 
-    const reverse = (mode === 'auto') ? (/^[^?]*\*.*\?.*$/.test(mask.replace(/\{\d+\|.+\}/i, '*')) || placeholder) : (mode === 'reverse');
+    const reverse = (mode === 'auto') ? (/^[^?]*?\*.*$/.test(mask.replace(/\{\d+\|.+\}/i, '*')) || placeholder) : (mode === 'reverse');
     
     if(target && target.length) {
         if(reverse)     target = target.split('').reverse().join('');

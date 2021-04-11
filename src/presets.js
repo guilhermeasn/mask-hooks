@@ -1,103 +1,73 @@
-import { filters, modes } from './constants';
+import { modes } from './constants';
 
 const presets = {
 
     ONLY_NUMBERS: {
-        mask:        '*',
-        filter:      filters.NUMBERS,
-        mode:        modes.NORMAL,
-        placeholder: null
+        mask: '*',
+        mode: modes.NORMAL,
     },
 
     DATE_STAMP: {
-        mask:        '????-??-??',
-        filter:      filters.NUMBERS,
-        mode:        modes.AUTO,
-        placeholder: '_'
+        mask: '????-??-??'
     },
 
     DATE_PTBR: {
-        mask:        '??/??/????',
-        filter:      filters.NUMBERS,
-        mode:        modes.AUTO,
-        placeholder: '_'
+        mask: '??/??/????'
     },
 
     DATETIME_STAMP: {
-        mask:        '????-??-?? ??:??:??',
-        filter:      filters.NUMBERS,
-        mode:        modes.AUTO,
-        placeholder: null
+        mask: '????-??-?? ??:??:??',
     },
 
     DATETIME_PTBR: {
-        mask:        '??/??/???? ??:??',
-        filter:      filters.NUMBERS,
-        mode:        modes.AUTO,
-        placeholder: null
+        mask: '??/??/???? ??:??',
     },
 
     PHONE_USA: {
-        mask:        '(???) ???-????',
-        filter:      filters.NUMBERS,
-        mode:        modes.NORMAL,
-        placeholder: null
+        mask:   '(???) ???-????',
+        mode:    modes.NORMAL,
     },
 
     PHONE_BR: {
-        mask:        ['(??) ?????-????', '(??) ????-????'],
-        filter:      filters.NUMBERS,
-        mode:        modes.NORMAL,
-        placeholder: null
+        mask: ['(??) ?????-????', '(??) ????-????'],
+        mode: modes.NORMAL,
     },
 
     CURRENCY_POINT: {
         mask:        '{3|,}.??',
-        filter:      filters.NUMBERS,
         mode:        modes.REVERSE,
         placeholder: '0'
     },
 
     CURRENCY_COMMA: {
         mask:        '{3|.},??',
-        filter:      filters.NUMBERS,
         mode:        modes.REVERSE,
         placeholder: '0'
     },
 
     CURRENCY_PTBR: {
         mask:        'R$ {3|.},??',
-        filter:      filters.NUMBERS,
         mode:        modes.REVERSE,
         placeholder: '0'
     },
 
     DOCUMENT_CPF: {
-        mask:        '???.???.???-??',
-        filter:      filters.NUMBERS,
-        mode:        modes.REVERSE,
-        placeholder: '_'
+        mask: '???.???.???-??',
+        mode: modes.REVERSE,
     },
 
     DOCUMENT_CNPJ: {
-        mask:        '??.???.???/????-??',
-        filter:      filters.NUMBERS,
-        mode:        modes.REVERSE,
-        placeholder: '_'
+        mask: '??.???.???/????-??',
+        mode: modes.REVERSE,
     },
 
     DOCUMENT_CPF_CNPJ: {
-        mask:        ['???.???.???-??', '??.???.???/????-??'],
-        filter:      filters.NUMBERS,
-        mode:        modes.NORMAL,
-        placeholder: null
+        mask: ['???.???.???-??', '??.???.???/????-??'],
     },
 
     IP_V4: {
-        mask:        '???.???.???.???',
-        filter:      filters.NUMBERS,
-        mode:        modes.NORMAL,
-        placeholder: null
+        mask: '???.???.???.???',
+        mode: modes.NORMAL,
     }
 
 }
