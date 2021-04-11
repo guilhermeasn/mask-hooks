@@ -7,12 +7,20 @@ export default function mask(target, mask = '*', filter = filters.NUMBERS, mode 
 	let index    = 0;
     let repeater = null;
 
-    const reverse = (mode === 'auto') ? (/^[^?]*\*.*\?.*$/.test(mask.replace(/\{\d+\|.+\}/i, '*')) || placeholder) : (mode === 'reverse');
+    try {
+        target = target.toString();
+        placeholder = placeholder.toString();
+    } catch(e) {}
+
+    if(target === '' || !target) return '';
+
+    const reverse = (mode === 'auto') ? (/^[^?]*?\*.*$/.test(mask.replace(/\{\d+\|.+\}/i, '*')) || placeholder) : (mode === 'reverse');
     
-    if(reverse)     target = target.split('').reverse().join('');
-	if(filter)      target = target.replace(filter, '');
-    if(placeholder) target = target.replace(new RegExp('[' + placeholder + ']+$','gim'), '');
-	if(target === '' || !target) return '';
+    if(target && target.length) {
+        if(reverse)     target = target.split('').reverse().join('');
+        if(filter)      target = target.replace(filter, '');
+        if(placeholder) target = target.replace(new RegExp('[' + placeholder + ']+$','gim'), '');
+    }
 
     if(Array.isArray(mask)) {
         mask.sort((a, b) => a.replace(/\{\d+\|.+\}/i, '*').replace(/[^?*]/gim,'').length - b.replace(/\{\d+\|.+\}/i, '*').replace(/[^?*]/gim,'').length);

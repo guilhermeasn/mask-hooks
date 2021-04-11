@@ -8,9 +8,9 @@ export default () => {
     let values    = [];
     let setValues = [];
 
-    const [tmi, settmi] = useState('123');
+    const [tmi, settmi] = useState('');
 
-    const [cMask, setCMask] = useState('R$ *,??');
+    const [cMask, setCMask] = useState('$ *,??');
     const [cPlhd, setCPlhd] = useState('');
     const [cVal, setCVal]   = useMaskState('', {
         mask: cMask,
