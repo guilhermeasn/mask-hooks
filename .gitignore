@@ -105,3 +105,5 @@ dist
 
 # create-react-app for test and examples
 examples_react_app/
+
+.vscode/
