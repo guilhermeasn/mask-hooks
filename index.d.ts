@@ -30,10 +30,12 @@ declare const presets : {
     IP_V4 : object
 };
 
+declare function setTarget(target : string) : void | string;
+
 declare function mask(target : string, mask ?: string, filter ?: string, mode ?: string, placeholder ?: string ) : string;
-declare function applyMask(target : string, config ?: config) : string;
-declare function useMask(config ?: object) : typeof applyMask;
-declare function useMaskState(initialState ?: string, config ?: object) : [ target : string, setTarget : typeof applyMask ];
+declare function applyMask(target : string, config ?: object) : string;
+declare function useMask(config ?: object) : typeof setTarget;
+declare function useMaskState(initialState ?: string, config ?: object) : [ target : string, setTarget : typeof setTarget ];
 declare function MaskInput(props : object) : ReactFragment;
 declare function MaskOutput(props : object) : ReactFragment;
 
