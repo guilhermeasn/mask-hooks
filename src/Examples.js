@@ -41,6 +41,13 @@ export default () => {
                         <span className='small m-0 p-0'>By Neves, Guilherme</span>    
                     </div>
                 </div>
+
+                <div>
+                    GitHub:&nbsp;
+                    <a href='https://github.com/guilhermeasn/mask-hooks' target='_blank' rel="noreferrer">
+                        https://github.com/guilhermeasn/mask-hook
+                    </a>
+                </div>
                 
                 {
                     Object.keys(presets).map((key, index) => (
@@ -83,6 +90,17 @@ export default () => {
                     <p className='col-6'>Mask:<br/><input className='form-control rounded' type='text' value={ cMask } onChange={ input => { setCMask(input.currentTarget.value); setCVal(''); } } /></p>
                     <p className='col-6'>Placeholder:<br/><input className='form-control rounded' type='text' value={ cPlhd } onChange={ input => { setCPlhd(input.currentTarget.value); setCVal(''); } } /></p>
                     <p className='col-12'>Target: <br/><input className='form-control rounded' type='text' value={ cVal } onChange={ input => {setCVal(input.currentTarget.value); } } /></p>
+                </div>
+
+                <hr className='bg-light'/>
+
+                <div className='d-flex justify-content-between'>
+                    <small className='text-white-50'>
+                        MIT License
+                    </small>
+                    <a href='http://gn.dev.br/' className='small text-white-50' target='_blank' rel='noreferrer'>
+                        &lt;gn.dev.br/&gt;
+                    </a>
                 </div>
 
             </div>
