@@ -10,13 +10,15 @@
 
 export type MaskProps = {
     masks        : [string, ...string[]];
-    patterns    ?: { [key in `${string}`] : RegEx }
-    infinity    ?: boolean
-    mode        ?: 'AUTO' | 'NORMAL' | 'REVERSE';
-    placeholder ?: `${string}`;
+    patterns    ?: { [key in Char] : RegEx };
+    reverse     ?: boolean;
+    infinity    ?: boolean;
+    placeholder ?: Char | null;
     extra       ?: Extra | null;
     filter      ?: RegEx;
 }
+
+type Char = `${string}`;
 
 type Extra = {
     each : number;
@@ -37,8 +39,8 @@ export default class Mask {
         this._props = {
             masks: props.mask.sort(),
             patterns: props.patterns ?? defaultPatterns,
+            reverse: props.reverse ?? false,
             infinity: props.infinity ?? false,
-            mode: props.mode ?? 'AUTO',
             placeholder: props.placeholder ?? null,
             extra: props.extra ?? null
         }
