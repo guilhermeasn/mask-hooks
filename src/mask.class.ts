@@ -13,7 +13,7 @@
  */
 
 export type MaskProps = {
-    mask         : [string, ...string[]];
+    masks        : [string, ...string[]];
     mode        ?: 'AUTO' | 'NORMAL' | 'REVERSE';
     placeholder ?: `${string}` | null;
     extra       ?: Extra | null;
@@ -31,7 +31,7 @@ export default class Mask {
 
     constructor(props : MaskProps) {
         this._props = {
-            mask: props.mask,
+            masks: props.mask.sort(...),
             mode: props.mode ?? 'AUTO',
             placeholder: props.placeholder ?? null,
             extra: props.extra ?? null,
