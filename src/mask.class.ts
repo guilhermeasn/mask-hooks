@@ -1,23 +1,49 @@
-export type Target = string | number;
+/* Mask special chars:
+ *
+ * # - one number
+ * @ - one letter
+ * ? - one filtered
+ * 
+ * *# - residual numbers
+ * *@ - residual letters
+ * *? - residual filtereds
+ *
+ * \ - escape char
+ *
+ */
 
-export type MaskProps<MaskType = string | string[]> = {
-    mask         : MaskType;
+export type MaskProps = {
+    mask         : [string, ...string[]];
     mode        ?: 'AUTO' | 'NORMAL' | 'REVERSE';
-    placeholder ?: string | null;
+    placeholder ?: `${string}` | null;
+    extra       ?: Extra | null;
+    filter      ?: RegEx;
+}
+
+type Extra = {
+    each : number;
+    add  : string;
 }
 
 export default class Mask {
 
-    private _props : Required<MaskProps<string[]>>;
+    private _props : Required<MaskProps>;
 
     constructor(props : MaskProps) {
         this._props = {
-            mask: Array.isArray(props.mask) ? props.mask : [ props.mask ],
+            mask: props.mask,
             mode: props.mode ?? 'AUTO',
-            placeholder: props.placeholder ?? null
+            placeholder: props.placeholder ?? null,
+            extra: props.extra ?? null,
+            filter: props.filter ?? /A-Za-z0-9/
         }
     }
 
+    apply(target : string | number) : string {
 
+
+        return '';
+
+    }
 
 }
