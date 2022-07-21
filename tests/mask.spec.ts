@@ -24,4 +24,17 @@ describe('Mask class tests', () => {
 
     });
 
+    test('Mask aplly', () => {
+
+        const mask = new Mask({
+            masks: ['R$ #,##'],
+            reverse: true,
+            infinity: true,
+            placeholder: '0',
+        });
+
+        console.log(mask.apply('01234567890123456789'));
+
+    });
+
 });
