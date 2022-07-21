@@ -101,6 +101,8 @@ export default class Mask {
 
             } else if(this.props.infinity) {
 
+                //fail
+
                 const lastCharPatternIndex : number = mask.length - mask.split('').reverse().findIndex(char => char in this.props.patterns) - 1;
                 let maskChar = mask[lastCharPatternIndex];
 
