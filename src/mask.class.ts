@@ -1,3 +1,18 @@
+/*
+ * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
+ */
+
+/* Mask default chars:
+ *
+ * # - one number, can be changed
+ * @ - one letter, can be changed
+ * ? - one number or letter, can be changed
+ *
+ * \ - escape char
+ * ¬ - reserved char
+ *
+ */
+
 export type MaskProps = {
     masks        : [ string, ...string[] ];
     patterns    ?: { [key in string] : RegExp };
@@ -11,15 +26,6 @@ type Extra = {
     add  : string;
 }
 
-/* Mask default patterns:
- *
- * # - one number
- * @ - one letter
- * ? - one number or letter
- *
- * \ - escape char
- *
- */
 export const defaultPatterns = {
     '#': /[0-9]/,
     '@': /[A-Za-z]/,
@@ -27,6 +33,9 @@ export const defaultPatterns = {
 };
 
 export default class Mask {
+
+    private readonly _escape : string = '\\';    // escape char, must be only one character
+    private readonly _reserved : string = '¬';   // reserved char, must be only one character
 
     private _props : Required<MaskProps>;
 
@@ -48,86 +57,109 @@ export default class Mask {
             throw new Error('Pattern keys must be only one character');
         }
 
+        if(Object.keys(this.props.patterns).some(char => char === this._escape || char === this._reserved)) {
+            throw new Error(`The chars ${ this._escape } and ${ this._reserved } are reserveds`)
+        }
+
     }
 
     public get props() : Readonly<Required<MaskProps>> {
         return this._props;
     }
 
-    apply(target : string | number) : string {
+    public apply(target : string | number) {
+        return this._apply(target.toString(), 0);
+    }
+
+    private _apply(target : string, maskIndex : number) : string {
 
         let result = '';
         
-        let tval : string = target.toString();
-        let mask : string = this.props.masks.find(mask => mask.length > tval.length)
-                           ?? this.props.masks[this.props.masks.length - 1];
+        let mask : string = this.props.masks[maskIndex];
 
-        let tvalControl = tval.length;
+        let targetControl = target.length;
         let maskControl = mask.length;
 
         if(this.props.reverse) {
-            tval = tval.split('').reverse().join('');
+            target = target.split('').reverse().join('');
             mask = mask.split('').reverse().join('');
             mask = mask.replace(/(.)\\/, '\\$1');
         }
+
+        let infinityChar : string = '';
         
-        while(tvalControl) {
+        if(this.props.infinity) {
 
-            if(maskControl) {
+            mask = mask.replace(this._reserved, '');
 
-                let tvalChar = tval.charAt(tval.length - tvalControl);
-                let maskChar = mask.charAt(mask.length - maskControl);
+            let lastCharPattern = Math.max.apply(null, Object.keys(this.props.patterns).map<number>(char => {
+                return mask.lastIndexOf(char);
+            }));
 
-                if(maskChar === '\\') {
-                    maskControl--;
-                    result += mask.charAt(mask.length - maskControl);
-                    maskControl--;
-                } else if(maskChar in this.props.patterns) {
-                    if(this.props.patterns[maskChar].test(tvalChar)) {
-                        result += tvalChar;
-                        tvalControl--;
-                        maskControl--;
-                    } else {
-                        tvalControl--;
-                    }
-                } else if(tvalChar === maskChar) {
-                    result += maskChar;
-                    tvalControl--;
-                    maskControl--;
-                } else {
-                    result += maskChar;
-                    maskControl--;
-                }
+            infinityChar = mask[lastCharPattern];
 
-            } else if(this.props.infinity) {
+            mask = mask.substring(0, lastCharPattern) + this._reserved + mask.substring(lastCharPattern + 1);
 
-                //fail
+        }
+        
+        while(targetControl && maskControl) {
 
-                const lastCharPatternIndex : number = mask.length - mask.split('').reverse().findIndex(char => char in this.props.patterns) - 1;
-                let maskChar = mask[lastCharPatternIndex];
+            let targetChar = target.charAt(target.length - targetControl);
+            let maskChar = mask.charAt(mask.length - maskControl);
 
-                console.log(lastCharPatternIndex, maskChar);
+            if(maskChar === this._reserved) {
+                
+                result += target.substring(target.length - targetControl).split('').filter(char => this.props.patterns[infinityChar].test(char)).join('');
+                result += mask.substring(mask.length - --maskControl);
 
-                if(maskChar) {
-
-                    const remaining = tval.substring(tvalControl).split('').filter(char => {
-                        return this.props.patterns[maskChar].test(char)
-                    }).join('');
-
-                    result = result.substring(0, lastCharPatternIndex + 1) + remaining + result.substring(lastCharPatternIndex + 1);
-
-                }
+                targetControl = 0;
+                maskControl = 0;
 
                 break;
 
-            } else break;
+            } else if(maskChar === this._escape) {
+
+                result += mask.charAt(mask.length - --maskControl);
+                maskControl--;
+
+            } else if(maskChar in this.props.patterns) {
+
+                if(this.props.patterns[maskChar].test(targetChar)) {
+                    result += targetChar;
+                    targetControl--;
+                    maskControl--;
+                } else {
+                    targetControl--;
+                }
+
+            } else if(targetChar === maskChar) {
+
+                result += maskChar;
+                targetControl--;
+                maskControl--;
+
+            } else {
+
+                result += maskChar;
+                maskControl--;
+                
+            }
 
         }
 
+        if(targetControl && this.props.masks.length > ++maskIndex) {
+            return this._apply(target, maskIndex);
+        }
+
         while(this.props.placeholder && maskControl) {
+
             let maskChar = mask.charAt(mask.length - maskControl);
-            result += (maskChar in this.props.patterns) ? this.props.placeholder : maskChar;
+
+            if(maskChar === this._escape) result += mask.charAt(mask.length - --maskControl);
+            else result += (maskChar in this.props.patterns || maskChar === this._reserved) ? this.props.placeholder : maskChar;
+
             maskControl--;
+
         }
 
         return this.props.reverse ? result.split('').reverse().join('') : result;

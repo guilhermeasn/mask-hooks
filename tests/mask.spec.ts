@@ -24,7 +24,7 @@ describe('Mask class tests', () => {
 
     });
 
-    test('Mask aplly', () => {
+    test('Apply mask infinity reverse', () => {
 
         const mask = new Mask({
             masks: ['R$ #,##'],
@@ -33,7 +33,39 @@ describe('Mask class tests', () => {
             placeholder: '0',
         });
 
-        console.log(mask.apply('01234567890123456789'));
+        expect(mask.apply('229')).toBe('R$ 2,29');
+        expect(mask.apply('2290')).toBe('R$ 22,90');
+        expect(mask.apply('a123,45')).toBe('R$ 123,45');
+
+    });
+
+    test('Apply mask', () => {
+
+        const mask = new Mask({
+            masks: ['§ ???.\\?? §'],
+            infinity: true,
+            placeholder: '_',
+        });
+
+        expect(mask.apply('')).toBe('§ ___.?_ §');
+        expect(mask.apply('2290')).toBe('§ 229.?0 §');
+        expect(mask.apply('a1b2c3d4e5')).toBe('§ a1b.?2c3d4e5 §');
+
+    });
+
+    test('Apply mask multiple', () => {
+
+        const mask = new Mask({
+            masks: [
+                '###.###.###-##',
+                '##.###.###/####-##'
+            ]
+        });
+
+        expect(mask.apply('11122233344')).toBe('111.222.333-44');
+        expect(mask.apply('111.222.333-44')).toBe('111.222.333-44');
+        expect(mask.apply('11222333444455')).toBe('11.222.333/4444-55');
+        expect(mask.apply('11.222.333/4444-55')).toBe('11.222.333/4444-55');
 
     });
 
