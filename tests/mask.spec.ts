@@ -24,6 +24,29 @@ describe('Mask class tests', () => {
 
     });
 
+    test('Throw errors', () => {
+        
+        expect(() => new Mask({
+            masks: [ '?' ],
+            placeholder: 'abc'
+        })).toThrow(/placeholder/gim);
+
+        expect(() => new Mask({
+            masks: [ '?' ],
+            patterns: {
+                'err': /./ 
+            }
+        })).toThrow(/pattern/gim);
+
+        expect(() => new Mask({
+            masks: [ '?' ],
+            patterns: {
+                '¬': /./ 
+            }
+        })).toThrow(/reserveds/gim);
+
+    });
+
     test('Apply mask infinity reverse', () => {
 
         const mask = new Mask({
