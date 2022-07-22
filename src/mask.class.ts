@@ -88,7 +88,7 @@ export default class Mask {
 
         let infinityChar : string = '';
         
-        if(this.props.infinity) {
+        if(this.props.infinity && (this.props.masks.length - 1) === maskIndex) {
 
             mask = mask.replace(this._reserved, '');
 
