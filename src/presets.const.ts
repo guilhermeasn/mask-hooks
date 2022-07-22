@@ -85,9 +85,9 @@ const presets : { [key : string] : MaskProps } = {
         placeholder: '_'
     },
 
-    IP_V4: {
-        masks: [ '###.###.###.###' ],
-        placeholder: '_'
+    COLOR_HEX: {
+        masks: [ '#HHHHHH' ],
+        patterns: { 'H': /[A-Fa-f0-9]/ }
     }
 
 }
