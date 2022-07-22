@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
-    "build": "tsc"
+    "build": "tsc && tsc --project tsconfig.module.json && tsc --project tsconfig.declaration.json"
   },
   "repository": {
     "type": "git",
