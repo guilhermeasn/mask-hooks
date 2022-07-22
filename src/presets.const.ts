@@ -1,6 +1,23 @@
 import type { MaskProps } from "./mask.class";
 
-const presets : { [key : string] : MaskProps } = {
+export type PresetOption = (
+    'ONLY_NUMBERS'      |
+    'DATE_STAMP'        |
+    'DATE_PTBR'         |
+    'DATETIME_STAMP'    |
+    'DATETIME_PTBR'     |
+    'PHONE_USA'         |
+    'PHONE_BR'          |
+    'CURRENCY_POINT'    |
+    'CURRENCY_COMMA'    |
+    'CURRENCY_PTBR'     |
+    'DOCUMENT_CPF'      |
+    'DOCUMENT_CNPJ'     |
+    'DOCUMENT_CPF_CNPJ' |
+    'COLOR_HEX'
+);
+
+const presets : { [key in PresetOption] : MaskProps } = {
 
     ONLY_NUMBERS: {
         masks: [ '#' ],
