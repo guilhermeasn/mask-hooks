@@ -28,18 +28,26 @@ describe('Mask class tests', () => {
 
         const mask = new Mask({
             masks: ['R$ #,##'],
-            reverse: true,
-            infinity: true,
             placeholder: '0',
+            reverse: true,
+            infinity: {
+                add: '.',
+                each: 3
+            }
         });
 
-        expect(mask.apply('229')).toBe('R$ 2,29');
-        expect(mask.apply('2290')).toBe('R$ 22,90');
+        expect(mask.apply(229)).toBe('R$ 2,29');
+        expect(mask.apply(2290)).toBe('R$ 22,90');
+        expect(mask.apply('$ 22,90')).toBe('R$ 22,90');
+        expect(mask.apply('R$ 22,90')).toBe('R$ 22,90');
         expect(mask.apply('a123,45')).toBe('R$ 123,45');
+
+        expect(mask.apply(1234567890)).toBe('R$ 12.345.678,90');
+        expect(mask.apply('abcde1234567890123')).toBe('R$ 12.345.678.901,23');
 
     });
 
-    test('Apply mask', () => {
+    test('Apply mask with char scape', () => {
 
         const mask = new Mask({
             masks: ['§ ???.\\?? §'],
@@ -48,7 +56,7 @@ describe('Mask class tests', () => {
         });
 
         expect(mask.apply('')).toBe('§ ___.?_ §');
-        expect(mask.apply('2290')).toBe('§ 229.?0 §');
+        expect(mask.apply(2290)).toBe('§ 229.?0 §');
         expect(mask.apply('a1b2c3d4e5')).toBe('§ a1b.?2c3d4e5 §');
 
     });
@@ -62,9 +70,9 @@ describe('Mask class tests', () => {
             ]
         });
 
-        expect(mask.apply('11122233344')).toBe('111.222.333-44');
+        expect(mask.apply(11122233344)).toBe('111.222.333-44');
         expect(mask.apply('111.222.333-44')).toBe('111.222.333-44');
-        expect(mask.apply('11222333444455')).toBe('11.222.333/4444-55');
+        expect(mask.apply(11222333444455)).toBe('11.222.333/4444-55');
         expect(mask.apply('11.222.333/4444-55')).toBe('11.222.333/4444-55');
 
     });

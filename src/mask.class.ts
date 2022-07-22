@@ -27,6 +27,7 @@ type Extra = {
 }
 
 export const defaultPatterns = {
+    // test only one char at a time
     '#': /[0-9]/,
     '@': /[A-Za-z]/,
     '?': /[A-Za-z0-9]/
@@ -67,7 +68,7 @@ export default class Mask {
         return this._props;
     }
 
-    public apply(target : string | number) {
+    public apply<T extends { toString : () => string }>(target : T) : string {
         return this._apply(target.toString(), 0);
     }
 
@@ -109,7 +110,13 @@ export default class Mask {
 
             if(maskChar === this._reserved) {
                 
-                result += target.substring(target.length - targetControl).split('').filter(char => this.props.patterns[infinityChar].test(char)).join('');
+                let remaining : string = target.substring(target.length - targetControl).split('').filter(char => this.props.patterns[infinityChar].test(char)).join('');
+
+                if(typeof this.props.infinity === 'object' && this.props.infinity.each > 0) {
+                    remaining = remaining.match(new RegExp(`.{1,${ this.props.infinity.each }}`, 'g'))?.join(this.props.infinity.add) ?? remaining;
+                }
+
+                result += remaining;
                 result += mask.substring(mask.length - --maskControl);
 
                 targetControl = 0;

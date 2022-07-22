@@ -1,4 +1,4 @@
-import { MaskProps } from "./mask.class";
+import type { MaskProps } from "./mask.class";
 
 const presets : { [key : string] : MaskProps } = {
 
