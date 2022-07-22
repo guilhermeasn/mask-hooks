@@ -40,7 +40,7 @@ export default class Mask {
 
     private _props : Required<MaskProps>;
 
-    constructor(props : MaskProps) {
+    public constructor(props : MaskProps) {
 
         this._props = {
             masks:       props.masks.sort((a, b) => a.length - b.length),
@@ -59,7 +59,7 @@ export default class Mask {
         }
 
         if(Object.keys(this.props.patterns).some(char => char === this._escape || char === this._reserved)) {
-            throw new Error(`The chars ${ this._escape } and ${ this._reserved } are reserveds`)
+            throw new Error(`The characters ${ this._escape } and ${ this._reserved } are reserveds`)
         }
 
     }
@@ -76,7 +76,7 @@ export default class Mask {
 
         let result = '';
         
-        let mask : string = this.props.masks[maskIndex];
+        let mask : string = this.props.masks[maskIndex].replace(this._reserved, '');
 
         let targetControl = target.length;
         let maskControl = mask.length;
@@ -84,16 +84,14 @@ export default class Mask {
         if(this.props.reverse) {
             target = target.split('').reverse().join('');
             mask = mask.split('').reverse().join('');
-            mask = mask.replace(/(.)\\/, '\\$1');
+            mask = mask.replace(/(.)\\/g, '\\$1');
         }
 
         let infinityChar : string = '';
         
         if(this.props.infinity && (this.props.masks.length - 1) === maskIndex) {
 
-            mask = mask.replace(this._reserved, '');
-
-            let lastCharPattern = Math.max.apply(null, Object.keys(this.props.patterns).map<number>(char => {
+            let lastCharPattern = Math.max(...Object.keys(this.props.patterns).map<number>(char => {
                 return mask.lastIndexOf(char);
             }));
 
@@ -158,7 +156,7 @@ export default class Mask {
             return this._apply(target, maskIndex);
         }
 
-        while(this.props.placeholder && maskControl) {
+        while(maskControl && this.props.placeholder) {
 
             let maskChar = mask.charAt(mask.length - maskControl);
 

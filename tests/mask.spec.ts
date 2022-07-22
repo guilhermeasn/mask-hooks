@@ -73,14 +73,14 @@ describe('Mask class tests', () => {
     test('Apply mask with char scape', () => {
 
         const mask = new Mask({
-            masks: ['§ ???.\\?? §'],
+            masks: ['§ \\@???.\\?? §'],
             infinity: true,
             placeholder: '_',
         });
 
-        expect(mask.apply('')).toBe('§ ___.?_ §');
-        expect(mask.apply(2290)).toBe('§ 229.?0 §');
-        expect(mask.apply('a1b2c3d4e5')).toBe('§ a1b.?2c3d4e5 §');
+        expect(mask.apply('')).toBe('§ @___.?_ §');
+        expect(mask.apply(2290)).toBe('§ @229.?0 §');
+        expect(mask.apply('a1b2c3d4e5')).toBe('§ @a1b.?2c3d4e5 §');
 
     });
 
