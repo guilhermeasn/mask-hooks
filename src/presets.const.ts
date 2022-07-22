@@ -33,7 +33,10 @@ const presets : { [key : string] : MaskProps } = {
     },
 
     PHONE_BR: {
-        masks: [ '(##) #####-####', '(##) ####-####' ],
+        masks: [
+            '(##) #####-####',
+            '(##) ####-####'
+        ],
         placeholder: '_'
     },
 
