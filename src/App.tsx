@@ -1,27 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { useMaskState } from 'mask-hooks';
+import { presets } from "mask-hooks";
+import { Container } from "react-bootstrap";
+import { InputMask } from "./components/InputMask";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    return (
+        
+        <Container className="my-5">
+
+            <InputMask name='Only Numbers' mask={ presets.ONLY_NUMBERS } />
+
+        </Container>
+
+    );
+
 }
 
 export default App;
