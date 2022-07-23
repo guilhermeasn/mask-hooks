@@ -31,39 +31,64 @@ describe('Presets test all', () => {
     });
 
     test('Preset DATETIME_PTBR', () => {
-        expect(true).toBe(true);
+        expect(applyMask('a123b456c789d0', presets.DATETIME_PTBR)).toBe('12/34/5678 90:__');
+        expect(applyMask('a123b456c789d0', { ...presets.DATETIME_PTBR, reverse: true })).toBe('__/12/3456 78:90');
     });
 
     test('Preset PHONE_USA', () => {
-        expect(true).toBe(true);
+        expect(applyMask(1234567890321, presets.PHONE_USA)).toBe('(123) 456-7890');
     });
 
     test('Preset PHONE_BR', () => {
-        expect(true).toBe(true);
+        
+        const mask = useMask(presets.PHONE_BR);
+
+        expect(mask(24)).toBe('(24) ____-____');
+        expect(mask(1122223333)).toBe('(11) 2222-3333');
+        expect(mask(11233334444)).toBe('(11) 23333-4444');
+        expect(mask('(11) 2222-3333')).toBe('(11) 2222-3333');
+
     });
 
     test('Preset CURRENCY_POINT', () => {
-        expect(true).toBe(true);
+        expect(applyMask(1234567890321, presets.CURRENCY_POINT)).toBe('12,345,678,903.21');
     });
 
     test('Preset CURRENCY_COMMA', () => {
-        expect(true).toBe(true);
+        expect(applyMask('12,345,678,903.21', presets.CURRENCY_COMMA)).toBe('12.345.678.903,21');
     });
 
     test('Preset CURRENCY_PTBR', () => {
-        expect(true).toBe(true);
+        
+        const mask = useMask(presets.CURRENCY_PTBR);
+
+        expect(mask('')).toBe('R$ 0,00');
+        expect(mask(50)).toBe('R$ 0,50');
+        expect(mask('1,50')).toBe('R$ 1,50');
+        expect(mask(250.75)).toBe('R$ 250,75');
+        expect(mask('R$ 30000,00')).toBe('R$ 30.000,00');
+
     });
 
     test('Preset DOCUMENT_CPF', () => {
-        expect(true).toBe(true);
+        expect(applyMask('11122233344', presets.DOCUMENT_CPF)).toBe('111.222.333-44');
     });
 
     test('Preset DOCUMENT_CNPJ', () => {
-        expect(true).toBe(true);
+        expect(applyMask(12345, presets.DOCUMENT_CNPJ)).toBe('12.345.___/____-__');
+        expect(applyMask(12345, { ...presets.DOCUMENT_CNPJ, reverse: true })).toBe('__.___.___/_123-45');
     });
 
     test('Preset DOCUMENT_CPF_CNPJ', () => {
-        expect(true).toBe(true);
+        
+        const mask = useMask(presets.DOCUMENT_CPF_CNPJ);
+
+        expect(mask('')).toBe('___.___.___-__');
+        expect(mask(11122233344)).toBe('111.222.333-44');
+        expect(mask('111.222.333-44')).toBe('111.222.333-44');
+        expect(mask(11222333444455)).toBe('11.222.333/4444-55');
+        expect(mask('11.222.333/4444-55')).toBe('11.222.333/4444-55');
+
     });
 
     test('Preset COLOR_HEX', () => {
