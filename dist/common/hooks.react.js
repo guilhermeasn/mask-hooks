@@ -11,9 +11,10 @@ function useMask(settings) {
     return instance.current.apply;
 }
 exports.useMask = useMask;
-function useMaskState(initialState, settings) {
+function useMaskState(settings, initialState) {
+    var _a;
     var mask = useMask(settings);
-    var _a = (0, react_1.useState)(initialState.toString()), target = _a[0], setTarget = _a[1];
+    var _b = (0, react_1.useState)((_a = initialState === null || initialState === void 0 ? void 0 : initialState.toString()) !== null && _a !== void 0 ? _a : ''), target = _b[0], setTarget = _b[1];
     return [target, function (newTarget) { return setTarget(mask(newTarget)); }];
 }
 exports.useMaskState = useMaskState;

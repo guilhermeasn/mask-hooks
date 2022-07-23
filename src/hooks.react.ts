@@ -8,10 +8,10 @@ export function useMask(settings : MaskProps) {
 
 }
 
-export function useMaskState<T extends Stringable>(initialState : T , settings : MaskProps) {
+export function useMaskState<T extends Stringable>(settings : MaskProps, initialState ?: T) : [ string, (target : T) => void ] {
 
     const mask = useMask(settings);
-    const [ target, setTarget ] = useState<string>(initialState.toString());
+    const [ target, setTarget ] = useState<string>(initialState?.toString() ?? '');
 
     return [ target, (newTarget : T) => setTarget(mask(newTarget)) ];
 
