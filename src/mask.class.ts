@@ -62,6 +62,8 @@ export default class Mask {
 
     private _props : Required<MaskProps>;
 
+    private _lastTargetLength : number = 0;
+
     /* PUBLIC METHODS */
 
     public constructor(props : MaskProps) {
@@ -115,6 +117,10 @@ export default class Mask {
 
         let targetControl = target.length;
         let maskControl = mask.length;
+
+        if(this.props.placeholder) {
+            target = target.replace(new RegExp('[\\' + this.props.placeholder + ']+$','gim'), '');
+        }
 
         if(this.props.reverse) {
             target = Mask.reverser(target);
@@ -189,8 +195,8 @@ export default class Mask {
         if(targetControl && this.props.masks.length > ++maskIndex) {
             return this._apply(target, maskIndex);
         }
-
-        while(maskControl && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(char => char in this.props.patterns))) {
+        
+        while(maskControl && this._lastTargetLength <= target.length && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(char => char in this.props.patterns))) {
 
             let maskChar = mask.charAt(mask.length - maskControl);
 
@@ -200,6 +206,8 @@ export default class Mask {
             maskControl--;
 
         }
+
+        this._lastTargetLength = target.length;
 
         if(this.props.reverse) result = Mask.reverser(result);
 

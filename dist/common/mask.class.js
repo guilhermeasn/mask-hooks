@@ -11,6 +11,7 @@ var Mask = /** @class */ (function () {
         /* ATTRIBUTES */
         this._escape = '\\'; // escape char, must be only one character
         this._reserved = '¬'; // reserved char, must be only one character
+        this._lastTargetLength = 0;
         this._props = {
             masks: props.masks.sort(function (a, b) { return a.length - b.length; }),
             patterns: (_a = props.patterns) !== null && _a !== void 0 ? _a : Mask.defaultPatterns,
@@ -64,6 +65,9 @@ var Mask = /** @class */ (function () {
         var mask = this.props.masks[maskIndex].replace(this._reserved, '');
         var targetControl = target.length;
         var maskControl = mask.length;
+        if (this.props.placeholder) {
+            target = target.replace(new RegExp('[\\' + this.props.placeholder + ']+$', 'gim'), '');
+        }
         if (this.props.reverse) {
             target = Mask.reverser(target);
             mask = Mask.reverser(mask);
@@ -115,7 +119,7 @@ var Mask = /** @class */ (function () {
         if (targetControl && this.props.masks.length > ++maskIndex) {
             return this._apply(target, maskIndex);
         }
-        while (maskControl && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(function (char) { return char in _this.props.patterns; }))) {
+        while (maskControl && this._lastTargetLength <= target.length && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(function (char) { return char in _this.props.patterns; }))) {
             var maskChar = mask.charAt(mask.length - maskControl);
             if (maskChar === this._escape)
                 result += mask.charAt(mask.length - --maskControl);
@@ -123,6 +127,7 @@ var Mask = /** @class */ (function () {
                 result += (maskChar in this.props.patterns || maskChar === this._reserved) ? this.props.placeholder : maskChar;
             maskControl--;
         }
+        this._lastTargetLength = target.length;
         if (this.props.reverse)
             result = Mask.reverser(result);
         switch (this.props.transform) {
