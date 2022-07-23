@@ -1,11 +1,12 @@
 export declare type MaskProps = {
-    masks: [string, ...string[]];
+    masks: string[];
     patterns?: {
         [key in string]: RegExp;
     };
     placeholder?: string;
     reverse?: boolean;
     infinity?: boolean | Extra;
+    transform?: 'uppercase' | 'lowercase' | 'capitalize' | 'capitalizeAll' | 'none';
 };
 declare type Extra = {
     each: number;
@@ -21,6 +22,7 @@ export default class Mask {
         '?': RegExp;
     };
     static reverser(target: string): string;
+    static capitalize(target: string, all?: boolean): string;
     private readonly _escape;
     private readonly _reserved;
     private _props;

@@ -4,7 +4,7 @@
 export default class Mask {
     /* PUBLIC METHODS */
     constructor(props) {
-        var _a, _b, _c, _d;
+        var _a, _b, _c, _d, _e;
         /* ATTRIBUTES */
         this._escape = '\\'; // escape char, must be only one character
         this._reserved = '¬'; // reserved char, must be only one character
@@ -13,8 +13,12 @@ export default class Mask {
             patterns: (_a = props.patterns) !== null && _a !== void 0 ? _a : Mask.defaultPatterns,
             placeholder: (_b = props.placeholder) !== null && _b !== void 0 ? _b : '',
             reverse: (_c = props.reverse) !== null && _c !== void 0 ? _c : false,
-            infinity: (_d = props.infinity) !== null && _d !== void 0 ? _d : false
+            infinity: (_d = props.infinity) !== null && _d !== void 0 ? _d : false,
+            transform: (_e = props.transform) !== null && _e !== void 0 ? _e : 'none'
         };
+        if (this.props.masks.length < 1) {
+            throw new Error('At least one mask must be informed');
+        }
         if (this.props.placeholder.length > 1) {
             throw new Error('The placeholder must be at most one character');
         }
@@ -27,6 +31,13 @@ export default class Mask {
     }
     static reverser(target) {
         return target.split('').reverse().join('');
+    }
+    static capitalize(target, all = false) {
+        if (all)
+            return target.split(' ').reduce((p, c) => p + ' ' + Mask.capitalize(c), '').trim();
+        target = target.toLowerCase();
+        const i = target.search(/[a-z]/);
+        return target.substring(0, i) + target.charAt(i).toUpperCase() + target.substring(i + 1);
     }
     get props() {
         return this._props;
@@ -95,7 +106,7 @@ export default class Mask {
         if (targetControl && this.props.masks.length > ++maskIndex) {
             return this._apply(target, maskIndex);
         }
-        while (maskControl && this.props.placeholder) {
+        while (maskControl && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(char => char in this.props.patterns))) {
             let maskChar = mask.charAt(mask.length - maskControl);
             if (maskChar === this._escape)
                 result += mask.charAt(mask.length - --maskControl);
@@ -103,7 +114,15 @@ export default class Mask {
                 result += (maskChar in this.props.patterns || maskChar === this._reserved) ? this.props.placeholder : maskChar;
             maskControl--;
         }
-        return this.props.reverse ? Mask.reverser(result) : result;
+        if (this.props.reverse)
+            result = Mask.reverser(result);
+        switch (this.props.transform) {
+            case 'lowercase': return result.toLowerCase();
+            case 'uppercase': return result.toUpperCase();
+            case 'capitalize': return Mask.capitalize(result, false);
+            case 'capitalizeAll': return Mask.capitalize(result, true);
+            default: return result;
+        }
     }
 }
 /* STATIC METHODS */

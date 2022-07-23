@@ -76,7 +76,8 @@ var presets = {
     },
     COLOR_HEX: {
         masks: ['#HHHHHH'],
-        patterns: { 'H': /[A-Fa-f0-9]/ }
+        patterns: { 'H': /[A-Fa-f0-9]/ },
+        transform: 'uppercase'
     }
 };
 exports.default = presets;
