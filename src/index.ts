@@ -10,7 +10,8 @@ export function useMask(settings : MaskProps) : <T extends Stringable>(target : 
 
 export function applyMask<T extends Stringable>(target : T, settings : MaskProps) : string {
 
-    return new Mask(settings).apply(target);
+    const mask = new Mask(settings);
+    return mask.apply(target);
 
 }
 
