@@ -25,6 +25,10 @@ describe('Mask class tests', () => {
     });
 
     test('Throw errors', () => {
+
+        expect(() => new Mask({
+            masks: []
+        })).toThrow(/mask/gim);
         
         expect(() => new Mask({
             masks: [ '?' ],
@@ -97,6 +101,19 @@ describe('Mask class tests', () => {
         expect(mask.apply('111.222.333-44')).toBe('111.222.333-44');
         expect(mask.apply(11222333444455)).toBe('11.222.333/4444-55');
         expect(mask.apply('11.222.333/4444-55')).toBe('11.222.333/4444-55');
+
+    });
+
+    test('Appy mask with transform', () => {
+
+        const masks = [ '=> @@@@@ @@@!' ];
+        const target = 'aBcDefGh';
+
+        expect(new Mask({ masks, transform: 'none' }).apply(target)).toBe('=> aBcDe fGh!');
+        expect(new Mask({ masks, transform: 'lowercase' }).apply(target)).toBe('=> abcde fgh!');
+        expect(new Mask({ masks, transform: 'uppercase' }).apply(target)).toBe('=> ABCDE FGH!');
+        expect(new Mask({ masks, transform: 'capitalize' }).apply(target)).toBe('=> Abcde fgh!');
+        expect(new Mask({ masks, transform: 'capitalizeAll' }).apply(target)).toBe('=> Abcde Fgh!');
 
     });
 

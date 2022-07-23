@@ -8,12 +8,9 @@ export function useMask(settings : MaskProps) : <T extends Stringable>(target : 
 
 }
 
-export function applyMask<T extends Stringable>(target : T, masks : string | [string, ...string[]], options : Omit<MaskProps, 'masks'> = {}) : string {
+export function applyMask<T extends Stringable>(target : T, settings : MaskProps) : string {
 
-    return new Mask({
-        ...options,
-        masks: Array.isArray(masks) ? masks : [ masks ]
-    }).apply(target);
+    return new Mask(settings).apply(target);
 
 }
 

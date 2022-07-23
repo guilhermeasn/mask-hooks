@@ -14,11 +14,12 @@
  */
 
 export type MaskProps = {
-    masks        : [ string, ...string[] ];
+    masks        : string[];
     patterns    ?: { [key in string] : RegExp };
     placeholder ?: string;
     reverse     ?: boolean;
     infinity    ?: boolean | Extra;
+    transform   ?: 'uppercase' | 'lowercase' | 'capitalize' | 'capitalizeAll' | 'none';
 }
 
 type Extra = {
@@ -45,6 +46,15 @@ export default class Mask {
         return target.split('').reverse().join('');
     }
 
+    public static capitalize(target : string, all: boolean = false) : string {
+        if(all) return target.split(' ').reduce((p, c) => p + ' ' + Mask.capitalize(c), '').trim();
+
+        target = target.toLowerCase();
+        const i = target.search(/[a-z]/);
+        
+        return target.substring(0, i) + target.charAt(i).toUpperCase() + target.substring(i + 1);
+    }
+
     /* ATTRIBUTES */
 
     private readonly _escape : string = '\\';    // escape char, must be only one character
@@ -61,7 +71,12 @@ export default class Mask {
             patterns:    props.patterns    ?? Mask.defaultPatterns,
             placeholder: props.placeholder ?? '',
             reverse:     props.reverse     ?? false,
-            infinity:    props.infinity    ?? false
+            infinity:    props.infinity    ?? false,
+            transform:   props.transform   ?? 'none'
+        }
+
+        if(this.props.masks.length < 1) {
+            throw new Error('At least one mask must be informed');
         }
 
         if(this.props.placeholder.length > 1) {
@@ -175,7 +190,7 @@ export default class Mask {
             return this._apply(target, maskIndex);
         }
 
-        while(maskControl && this.props.placeholder) {
+        while(maskControl && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(char => char in this.props.patterns))) {
 
             let maskChar = mask.charAt(mask.length - maskControl);
 
@@ -186,7 +201,15 @@ export default class Mask {
 
         }
 
-        return this.props.reverse ? Mask.reverser(result) : result;
+        if(this.props.reverse) result = Mask.reverser(result);
+
+        switch(this.props.transform) {
+            case 'lowercase':     return result.toLowerCase();
+            case 'uppercase':     return result.toUpperCase();
+            case 'capitalize':    return Mask.capitalize(result, false);
+            case 'capitalizeAll': return Mask.capitalize(result, true);
+            default:              return result;
+        }
 
     }
 
