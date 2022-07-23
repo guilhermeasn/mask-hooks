@@ -26,9 +26,7 @@
     "url": "https://github.com/guilhermeasn/mask-hooks/issues"
   },
   "homepage": "https://github.com/guilhermeasn/mask-hooks#readme",
-  "dependencies": {
-    "react": "^18.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^28.1.6",
     "jest": "^28.1.3",
