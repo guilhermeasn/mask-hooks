@@ -4,7 +4,7 @@ import type { MaskProps, Stringable } from './mask.class';
 export function useMask(settings : MaskProps) : <T extends Stringable>(target : T) => string {
 
     const mask = new Mask(settings);
-    return mask.apply;
+    return mask.apply.bind(mask);
 
 }
 

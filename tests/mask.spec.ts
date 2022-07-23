@@ -104,7 +104,7 @@ describe('Mask class tests', () => {
 
     });
 
-    test('Appy mask with transform', () => {
+    test('Appy mask and transform', () => {
 
         const masks = [ '=> @@@@@ @@@!' ];
         const target = 'aBcDefGh';
