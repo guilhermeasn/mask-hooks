@@ -72,7 +72,7 @@ describe('Presets test all', () => {
         
         expect(mask(345)).toBe('#345');
         expect(mask('f34aa1')).toBe('#F34AA1');
-        expect(mask('#f34Aa1')).toBe('#F34AA1');
+        expect(mask('#zf34Aa1z')).toBe('#F34AA1');
 
     });
 
