@@ -26,25 +26,39 @@ type Extra = {
     add  : string;
 }
 
-export const defaultPatterns = {
-    // test only one char at a time
-    '#': /[0-9]/,
-    '@': /[A-Za-z]/,
-    '?': /[A-Za-z0-9]/
-};
+export type Stringable = {
+    toString : () => string;
+}
 
 export default class Mask {
+
+    /* STATIC METHODS */
+
+    public static defaultPatterns = {
+        // test only one char at a time
+        '#': /[0-9]/,
+        '@': /[A-Za-z]/,
+        '?': /[A-Za-z0-9]/
+    };
+
+    public static reverser(target : string) : string {
+        return target.split('').reverse().join('');
+    }
+
+    /* ATTRIBUTES */
 
     private readonly _escape : string = '\\';    // escape char, must be only one character
     private readonly _reserved : string = '¬';   // reserved char, must be only one character
 
     private _props : Required<MaskProps>;
 
+    /* PUBLIC METHODS */
+
     public constructor(props : MaskProps) {
 
         this._props = {
             masks:       props.masks.sort((a, b) => a.length - b.length),
-            patterns:    props.patterns    ?? defaultPatterns,
+            patterns:    props.patterns    ?? Mask.defaultPatterns,
             placeholder: props.placeholder ?? '',
             reverse:     props.reverse     ?? false,
             infinity:    props.infinity    ?? false
@@ -68,8 +82,14 @@ export default class Mask {
         return this._props;
     }
 
-    public apply<T extends { toString : () => string }>(target : T) : string {
+    public apply<T extends Stringable>(target : T) : string {
         return this._apply(target.toString(), 0);
+    }
+
+    /* PRIVATE METHODS */
+
+    private _addReservedChar(mask : string, index : number) : string {
+        return mask.substring(0, index) + this._reserved + mask.substring(index + 1);
     }
 
     private _apply(target : string, maskIndex : number) : string {
@@ -82,12 +102,12 @@ export default class Mask {
         let maskControl = mask.length;
 
         if(this.props.reverse) {
-            target = target.split('').reverse().join('');
-            mask = mask.split('').reverse().join('');
+            target = Mask.reverser(target);
+            mask = Mask.reverser(mask);
             mask = mask.replace(/(.)\\/g, '\\$1');
         }
 
-        let infinityChar : string = '';
+        let infinityPattern : RegExp = /./;
         
         if(this.props.infinity && (this.props.masks.length - 1) === maskIndex) {
 
@@ -95,9 +115,9 @@ export default class Mask {
                 return mask.lastIndexOf(char);
             }));
 
-            infinityChar = mask[lastCharPattern];
+            infinityPattern = this.props.patterns[mask[lastCharPattern]];
 
-            mask = mask.substring(0, lastCharPattern) + this._reserved + mask.substring(lastCharPattern + 1);
+            mask = this._addReservedChar(mask, lastCharPattern);
 
         }
         
@@ -108,7 +128,7 @@ export default class Mask {
 
             if(maskChar === this._reserved) {
                 
-                let remaining : string = target.substring(target.length - targetControl).split('').filter(char => this.props.patterns[infinityChar].test(char)).join('');
+                let remaining : string = target.substring(target.length - targetControl).split('').filter(char => infinityPattern.test(char)).join('');
 
                 if(typeof this.props.infinity === 'object' && this.props.infinity.each > 0) {
                     remaining = remaining.match(new RegExp(`.{1,${ this.props.infinity.each }}`, 'g'))?.join(this.props.infinity.add) ?? remaining;
@@ -131,11 +151,10 @@ export default class Mask {
 
                 if(this.props.patterns[maskChar].test(targetChar)) {
                     result += targetChar;
-                    targetControl--;
                     maskControl--;
-                } else {
-                    targetControl--;
                 }
+                
+                targetControl--;
 
             } else if(targetChar === maskChar) {
 
@@ -167,7 +186,7 @@ export default class Mask {
 
         }
 
-        return this.props.reverse ? result.split('').reverse().join('') : result;
+        return this.props.reverse ? Mask.reverser(result) : result;
 
     }
 
