@@ -4,7 +4,7 @@ import { Col, Container, FormCheck, Row } from "react-bootstrap";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Input from "./components/Input";
-import { InputMask } from "./components/InputMask";
+import InputMask from "./components/InputMask";
 import Links from "./components/Links";
 import Select from "./components/Select";
 
@@ -128,7 +128,7 @@ export default function App() {
 
                 <Col md={ 12 } className='my-2'>
                     <hr />
-                    <InputMask { ...customMask } eraseOnBlur />
+                    <InputMask { ...customMask } />
                 </Col>
 
             </Row>

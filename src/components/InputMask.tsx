@@ -1,15 +1,18 @@
 import { MaskProps, useMask } from "mask-hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 
-export function InputMask({ eraseOnBlur = false, ...props } : MaskProps & { eraseOnBlur ?: boolean }) {
+export default function InputMask(props : MaskProps) {
 
     const mask = useMask(props);
-    const [ value, setValueRoot ] = useState<string>('');
+    const [ value, setValue ] = useState<string>('');
 
-    function setValue(value : string) {
-        setValueRoot(mask(value));
-    } 
+    function setValueMask(value : string) {
+        setValue(mask(value));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => setValueMask(''), [ props ]);
 
     return (
 
@@ -18,8 +21,7 @@ export function InputMask({ eraseOnBlur = false, ...props } : MaskProps & { eras
             <Form.Control
                 title='Result'
                 value={ value }
-                onChange={ (input : any) => setValue(input.currentTarget.value) }
-                onBlur={ () => eraseOnBlur && setTimeout(() => setValue(''), 1000) }
+                onChange={ (input : any) => setValueMask(input.currentTarget.value) }
             />
         </Form.Group>
 
