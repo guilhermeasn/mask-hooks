@@ -150,6 +150,8 @@ The useMask receives the settings parameter of type MaskProps. See available set
 You can import pre-established mask configurations. See the options:
 
  - ONLY_NUMBERS
+ - ONLY_LETTERS
+ - ONLY_CHARS
  - DATE_STAMP
  - DATE_PTBR
  - DATETIME_STAMP
