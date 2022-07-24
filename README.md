@@ -1,79 +1,76 @@
-# mask-hooks
+# mask-hooks v2
 
-Funções e react hooks para aplicar máscaras a variáveis de controle de inputs ou para exibição de dados!
+[![tests](https://github.com/guilhermeasn/mask-hooks/actions/workflows/tests.yml/badge.svg)](https://github.com/guilhermeasn/mask-hooks/actions/workflows/tests.yml)
+[![pages-build-deployment](https://github.com/guilhermeasn/mask-hooks/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/guilhermeasn/mask-hooks/actions/workflows/pages/pages-build-deployment)
+[![npm](https://img.shields.io/npm/v/mask-hooks.svg)](https://www.npmjs.com/package/mask-hooks)
+[![size](https://img.shields.io/bundlephobia/minzip/mask-hooks)](https://www.npmjs.com/package/mask-hooks)
+[![downloads](https://img.shields.io/npm/dt/mask-hooks)](https://www.npmjs.com/package/mask-hooks)
 
-*Functions and react hooks for applying masks to data inputs and outputs*
+Functions and hooks for applying masks to data inputs and outputs
 
-- <a href='https://guilhermeasn.github.io/mask-hooks/' target='_blank'>Ver exemplos!</a>
+[Examples page](https://guilhermeasn.github.io/mask-hooks/)
 
-### 📋 Pré-requisitos
+## Migrating
 
-- node
-- npm
-- react
+*The second version of mask-hooks is now independent of React and can be used in more different development contexts. That's why the React components and the useMaskState hook have been removed. Now fully supports typescript.*
 
-## 🚀 Começando
+## Installation
 
-Execute no terminal o comando abaixo para instalar o **mask-hooks** no seu projeto
-
-```
-npm install mask-hooks --save
-```
-
-### 🛠️ Exemplos de Uso
-
-
-- useMaskState: Um substituto do rect hook useState para o uso de mascaras
+Run the command below in the terminal to install **mask-hooks** in your project
 
 ```
-import { useMaskState } from 'mask-hooks';
+npm install mask-hooks
+```
 
+Or with Yarn
 
-export default function MaskPhone() {
+```
+yarn add mask-hooks
+```
 
-    const [value, setValue] = useMaskState('', {
-        mask: '(??) ????-????'
+## Examples
+
+```
+import { useMask } from "mask-hooks";
+
+export function InputMask() {
+
+    // these mask settings can also be imported from presets
+
+    const mask = useMask({
+        masks: [ 'R$ #,##' ],
+        placeholder: '0',
+        reverse: true,
+        infinity: {
+            add: '.',
+            each: 3
+        }
     });
 
+    const [ value, setValue ] = useState('');
+
+    function setValueMask(value : string) {
+        setValue(mask(value));
+    } 
+
     return (
-        <>
-            <input type='text' value={ value } onChange={ input => setValue(input.currentTarget.value) } />
-        </>
+
+        <input
+            value={ value }
+            onChange={ input => setValueMask(input.currentTarget.value) }
+        />
+
     );
 
 }
-
 ```
-
-- useMaskState com preset: para máscaras pré-configuradas
-
-```
-import { useMaskState, presets } from 'mask-hooks';
-
-
-export default function MaskPhone() {
-
-    const [value, setValue] = useMaskState('', presets.PHONE_BR);
-
-    return (
-        <>
-            <input type='text' value={ value } onChange={ input => setValue(input.currentTarget.value) } />
-        </>
-    );
-
-}
-
-```
-
-- useMask: utilize este para aplicar mascaras em muitos contextos diferentes, por exemplo, com dispatches do redux ou simples exibição de uma informação
 
 ```
 import { useMask, presets } from 'mask-hooks';
 
-
 export default function MaskDocs() {
 
-    const documentMask = useMask(presets.DOCUMENT_CPF_CNPJ); /* { mask: [ "???.???.???-??" , "??.???.???/????-??" ] } */
+    const documentMask = useMask(presets.DOCUMENT_CPF_CNPJ);
 
     return (
         <>
@@ -85,113 +82,42 @@ export default function MaskDocs() {
 }
 ```
 
-- Configure além das mascaras, placeholders, filtros, e direção de preenchimento
+## MaskProps
 
-```
-import { useMaskState, filters, modes } from 'mask-hooks';
+The useMask receives the settings parameter of type MaskProps. See available settings:
 
+|Prop|Type|Default|Details|
+|---|---|---|---|
+|**masks**|`Array<string>`||The masks that will be applied to the target. By default the characters ?, #, @ will be replaced by letters or numbers, numbers, letters, respectively. This character pattern can be changed.|
+|**placeholder**|`string`|`''`|Autofill of the mask to be filled|
+|**reverse**|`boolean`|`false`|Mask fill in inverted mode|
+|**transform**|`'uppercase'`<br />`'lowercase'`<br />`'capitalize'`<br />`'capitalizeAll'`<br />`'none'`|`'none'`|Apply a transformation to the result string|
+|**infinity**|`boolean`<br />`{each:number;add:string;}`|`false`|Allows data entry indefinitely by the last mask replacement character|
+|**patterns**|`{[key in string]: RegExp}`|`{'#': /[0-9]/,'@': /[A-Za-z]/,'?': /[A-Za-z0-9]/}`|Characters to be substituted in the mask if approved by the regular expression|
 
-export default function MaskBRL() {
+## Presets
 
-    // Resultado ao começar a digitar R$ 0,00
+You can import pre-established mask configurations. See the options:
 
-    const [value, setValue] = useMaskState('', {
-        mask:        'R$ *,??',
-        mode:        modes.REVERSE,
-        filter:      filters.NUMERICS,
-        placeholder: '0'
-    });
+ - ONLY_NUMBERS
+ - DATE_STAMP
+ - DATE_PTBR
+ - DATETIME_STAMP
+ - DATETIME_PTBR
+ - PHONE_USA
+ - PHONE_BR
+ - CURRENCY_POINT
+ - CURRENCY_COMMA
+ - CURRENCY_PTBR
+ - DOCUMENT_CPF
+ - DOCUMENT_CNPJ
+ - DOCUMENT_CPF_CNPJ
+ - COLOR_HEX
 
-    return (
-        <>
-            <input type='text' value={ value } onChange={ input => setValue(input.currentTarget.value) } />
-        </>
-    );
+## Author
 
-}
-```
+* **Guilherme Neves** - [github repos](https://github.com/guilhermeasn/) - [website](https://gn.dev.br/)
 
-- Utilize as mascáras diretamente com os components MaskInput e MaskOutput
+## 📄 License
 
-```
-import { useState } from 'react';
-import { MaskInput, MaskOutput } from 'mask-hooks';
-
-
-export default function MaskComponents() {
-
-    const [value, setValue] = useState('');
-
-    return (
-        <>
-            <MaskInput className='form-control' value={ value } onChange={ input => setValue(input.currentTarget.value) } mask='???.???.???-??' mode='reverse'  />
-
-            <MaskOutput filter='letters' mask='{1|, }'>abcdefghijklmnopqrstuvwxyz</MaskOutput>
-        </>
-    );
-
-}
-```
-
-### 🛠️ Constantes disponíveis
-
- + **filters** *: object*
- + **modes**  *: object*
- + **presets**  *: object*
-
-### 🛠️ Métodos disponíveis
-
- + **mask(target, mask, filter = filters.NUMBERS, mode = modes.AUTO, placeholder = null)** *: string*
- + **applyMask(target, config)** *: string*
- + **useMask(config)** *: function*
- + **useMaskState(initialState, config)** *: array\[const, function\]*
-
-<!-- ### 🛠️ Componentes disponíveis
-
- + **MaskInput** *: react component input*
- + **MaskOutput** *: react fragment* -->
-
-### 🛠️ Configurações
-
- - Criação de máscaras
-
- **Caracter: ?** - será substituido por um caracter do target.
-
- **Caracter: \*** - será substituido pelo restante do target.
-
- **Padrão: {\<numero\>|\<caracter\>}** - por exemplo {3|,} funciona como o caracter **\***, porém adiciona um caracter entre o restante do target de acordo com a quantidade desejada para a separação.
-
-- Outras configurações
-
-**Filtro:** retira determinados caracteres do target, você pode importar uma lista de filtros em *filters*, opções de filters pré-configurados: NUMBERS, LETTERS, CHARACTERS ou NONE.
-
-**Mode:** direção do preenchimento do target, você pode importar as opções disponíveis em *modes*,
-opções de modes: AUTO, NORMAL ou REVERSE.
-
-**Placeholder:** enquanto a mascara não for toda preenchida os caracteres **\*** e **?** serão prenchidos com o placeholder
-
-- Mascáras Pré-configuradas;
-
-    Você poderá utilizar uma mascará pré-configurada importando *presets*, como estas:
-    - ONLY_NUMBERS
-    - DATE_STAMP
-    - DATE_PTBR
-    - DATETIME_STAMP
-    - DATETIME_PTBR
-    - PHONE_USA
-    - PHONE_BR
-    - CURRENCY_POINT
-    - CURRENCY_COMMA
-    - CURRENCY_PTBR
-    - DOCUMENT_CPF
-    - DOCUMENT_CNPJ
-    - DOCUMENT_CPF_CNPJ
-    - IP_V4
-
-## ✒️ Autor
-
-* **Guilherme Neves** - [repositórios github](https://github.com/guilhermeasn/)
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT - veja o arquivo [LICENSE.md](https://github.com/guilhermeasn/mask-hooks/blob/master/LICENSE) para detalhes.
+This project is under the MIT license - see file [LICENSE](https://github.com/guilhermeasn/mask-hooks/blob/master/LICENSE) for details.

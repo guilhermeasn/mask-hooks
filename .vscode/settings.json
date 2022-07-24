@@ -1,0 +1,12 @@
+{
+    "workbench.colorCustomizations": {
+        "editor.background": "#000000",
+        "terminal.background": "#101010",
+        "activityBar.background": "#133417",
+        "titleBar.activeBackground": "#1B4920",
+        "titleBar.activeForeground": "#F7FCF8"
+    },
+    "material-icon-theme.folders.associations": {
+        "workflows": "github"
+    }
+}
