@@ -1,17 +1,11 @@
 "use strict";
-/*
- * @author Guilherme Neves <guilhermeasn@yahoo.com.br>
- */
 Object.defineProperty(exports, "__esModule", { value: true });
-var Mask = /** @class */ (function () {
-    /* PUBLIC METHODS */
+var Mask = (function () {
     function Mask(props) {
         var _this = this;
         var _a, _b, _c, _d, _e;
-        /* ATTRIBUTES */
-        this._escape = '\\'; // escape char, must be only one character
-        this._reserved = '¬'; // reserved char, must be only one character
-        this._lastTargetLength = 0;
+        this._escape = '\\';
+        this._reserved = '¬';
         this._props = {
             masks: props.masks.sort(function (a, b) { return a.length - b.length; }),
             patterns: (_a = props.patterns) !== null && _a !== void 0 ? _a : Mask.defaultPatterns,
@@ -32,6 +26,7 @@ var Mask = /** @class */ (function () {
         if (Object.keys(this.props.patterns).some(function (char) { return char === _this._escape || char === _this._reserved; })) {
             throw new Error("The characters ".concat(this._escape, " and ").concat(this._reserved, " are reserveds"));
         }
+        this._remnant = this.apply('').split('');
     }
     Mask.reverser = function (target) {
         return target.split('').reverse().join('');
@@ -54,23 +49,30 @@ var Mask = /** @class */ (function () {
     Mask.prototype.apply = function (target) {
         return this._apply(target.toString(), 0);
     };
-    /* PRIVATE METHODS */
     Mask.prototype._addReservedChar = function (mask, index) {
         return mask.substring(0, index) + this._reserved + mask.substring(index + 1);
     };
     Mask.prototype._apply = function (target, maskIndex) {
         var _this = this;
         var _a, _b;
+        if (this._remnant && target) {
+            var find_1 = false;
+            target = target.split('').filter(function (char, i) {
+                if (!find_1)
+                    find_1 = _this._remnant[i] !== char;
+                return find_1;
+            }).join('');
+        }
         var result = '';
         var mask = this.props.masks[maskIndex].replace(this._reserved, '');
         var targetControl = target.length;
         var maskControl = mask.length;
+        var infinityPattern = /./;
         if (this.props.reverse) {
             target = Mask.reverser(target);
             mask = Mask.reverser(mask);
             mask = mask.replace(/(.)\\/g, '\\$1');
         }
-        var infinityPattern = /./;
         if (this.props.infinity && (this.props.masks.length - 1) === maskIndex) {
             var lastCharPattern = Math.max.apply(Math, Object.keys(this.props.patterns).map(function (char) {
                 return mask.lastIndexOf(char);
@@ -85,9 +87,6 @@ var Mask = /** @class */ (function () {
                 var remaining = target.substring(target.length - targetControl).split('').filter(function (char) { return infinityPattern.test(char); }).join('');
                 if (typeof this.props.infinity === 'object' && this.props.infinity.each > 0) {
                     remaining = (_b = (_a = remaining.match(new RegExp(".{1,".concat(this.props.infinity.each, "}"), 'g'))) === null || _a === void 0 ? void 0 : _a.join(this.props.infinity.add)) !== null && _b !== void 0 ? _b : remaining;
-                }
-                if (this.props.placeholder) {
-                    remaining = remaining.replace(new RegExp('([' + this.props.placeholder + '])[' + this.props.placeholder + ']+$', 'gim'), '$1');
                 }
                 result += remaining;
                 result += mask.substring(mask.length - --maskControl);
@@ -119,7 +118,7 @@ var Mask = /** @class */ (function () {
         if (targetControl && this.props.masks.length > ++maskIndex) {
             return this._apply(target, maskIndex);
         }
-        while (maskControl && this._lastTargetLength <= target.length && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(function (char) { return char in _this.props.patterns; }))) {
+        while (maskControl && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(function (char) { return char in _this.props.patterns; }))) {
             var maskChar = mask.charAt(mask.length - maskControl);
             if (maskChar === this._escape)
                 result += mask.charAt(mask.length - --maskControl);
@@ -127,7 +126,6 @@ var Mask = /** @class */ (function () {
                 result += (maskChar in this.props.patterns || maskChar === this._reserved) ? this.props.placeholder : maskChar;
             maskControl--;
         }
-        this._lastTargetLength = target.length;
         if (this.props.reverse)
             result = Mask.reverser(result);
         switch (this.props.transform) {
@@ -138,9 +136,7 @@ var Mask = /** @class */ (function () {
             default: return result;
         }
     };
-    /* STATIC METHODS */
     Mask.defaultPatterns = {
-        // test only one char at a time
         '#': /[0-9]/,
         '@': /[A-Za-z]/,
         '?': /[A-Za-z0-9]/

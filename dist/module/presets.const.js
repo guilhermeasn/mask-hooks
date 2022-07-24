@@ -4,31 +4,25 @@ const presets = {
         infinity: true
     },
     DATE_STAMP: {
-        masks: ['####-##-##'],
-        placeholder: '_'
+        masks: ['####-##-##']
     },
     DATE_PTBR: {
-        masks: ['##/##/####'],
-        placeholder: '_'
+        masks: ['##/##/####']
     },
     DATETIME_STAMP: {
-        masks: ['####-##-## ##:##:##'],
-        placeholder: '_'
+        masks: ['####-##-## ##:##:##']
     },
     DATETIME_PTBR: {
-        masks: ['##/##/#### ##:##'],
-        placeholder: '_'
+        masks: ['##/##/#### ##:##']
     },
     PHONE_USA: {
-        masks: ['(###) ###-####'],
-        placeholder: '_'
+        masks: ['(###) ###-####']
     },
     PHONE_BR: {
         masks: [
             '(##) #####-####',
             '(##) ####-####'
-        ],
-        placeholder: '_'
+        ]
     },
     CURRENCY_POINT: {
         masks: ['#.##'],
@@ -58,19 +52,16 @@ const presets = {
         }
     },
     DOCUMENT_CPF: {
-        masks: ['###.###.###-##'],
-        placeholder: '_'
+        masks: ['###.###.###-##']
     },
     DOCUMENT_CNPJ: {
-        masks: ['##.###.###/####-##'],
-        placeholder: '_'
+        masks: ['##.###.###/####-##']
     },
     DOCUMENT_CPF_CNPJ: {
         masks: [
             '###.###.###-##',
             '##.###.###/####-##'
-        ],
-        placeholder: '_'
+        ]
     },
     COLOR_HEX: {
         masks: ['#HHHHHH'],

@@ -10,7 +10,7 @@ describe('Presets test all', () => {
         
         const mask = useMask(presets.DATE_STAMP);
 
-        expect(mask(2022)).toBe('2022-__-__');
+        expect(mask(20221)).toBe('2022-1');
         expect(mask(20220723)).toBe('2022-07-23');
         expect(mask('2022-07-23')).toBe('2022-07-23');
 
@@ -24,15 +24,15 @@ describe('Presets test all', () => {
         
         const mask = useMask(presets.DATETIME_STAMP);
 
-        expect(mask(2022)).toBe('2022-__-__ __:__:__');
+        expect(mask(2022)).toBe('2022');
         expect(mask(20220723110331)).toBe('2022-07-23 11:03:31');
         expect(mask('2022-07-23 11:03:31')).toBe('2022-07-23 11:03:31');
 
     });
 
     test('Preset DATETIME_PTBR', () => {
-        expect(applyMask('a123b456c789d0', presets.DATETIME_PTBR)).toBe('12/34/5678 90:__');
-        expect(applyMask('a123b456c789d0', { ...presets.DATETIME_PTBR, reverse: true })).toBe('__/12/3456 78:90');
+        expect(applyMask('a123b456c789d000', presets.DATETIME_PTBR)).toBe('12/34/5678 90:00');
+        expect(applyMask('a123b456c789d0', { ...presets.DATETIME_PTBR, reverse: true, placeholder: '_' })).toBe('__/12/3456 78:90');
     });
 
     test('Preset PHONE_USA', () => {
@@ -43,7 +43,7 @@ describe('Presets test all', () => {
         
         const mask = useMask(presets.PHONE_BR);
 
-        expect(mask(24)).toBe('(24) ____-____');
+        expect(mask(24)).toBe('(24');
         expect(mask(1122223333)).toBe('(11) 2222-3333');
         expect(mask(11233334444)).toBe('(11) 23333-4444');
         expect(mask('(11) 2222-3333')).toBe('(11) 2222-3333');
@@ -75,15 +75,14 @@ describe('Presets test all', () => {
     });
 
     test('Preset DOCUMENT_CNPJ', () => {
-        expect(applyMask(12345, presets.DOCUMENT_CNPJ)).toBe('12.345.___/____-__');
-        expect(applyMask(12345, { ...presets.DOCUMENT_CNPJ, reverse: true })).toBe('__.___.___/_123-45');
+        expect(applyMask(12345, presets.DOCUMENT_CNPJ)).toBe('12.345');
+        expect(applyMask(12345, { ...presets.DOCUMENT_CNPJ, reverse: true })).toBe('123-45');
     });
 
     test('Preset DOCUMENT_CPF_CNPJ', () => {
         
         const mask = useMask(presets.DOCUMENT_CPF_CNPJ);
-
-        expect(mask('')).toBe('___.___.___-__');
+        
         expect(mask(11122233344)).toBe('111.222.333-44');
         expect(mask('111.222.333-44')).toBe('111.222.333-44');
         expect(mask(11222333444455)).toBe('11.222.333/4444-55');
