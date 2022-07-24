@@ -59,14 +59,16 @@ export default class Mask {
 
     private readonly _escape : string = '\\';    // escape char, must be only one character
     private readonly _reserved : string = '¬';   // reserved char, must be only one character
+    
+    private _remnant : string[];
 
     private _props : Required<MaskProps>;
-
-    private _lastTargetLength : number = 0;
 
     /* PUBLIC METHODS */
 
     public constructor(props : MaskProps) {
+
+        // fill props needed
 
         this._props = {
             masks:       props.masks.sort((a, b) => a.length - b.length),
@@ -76,6 +78,8 @@ export default class Mask {
             infinity:    props.infinity    ?? false,
             transform:   props.transform   ?? 'none'
         }
+
+        // avalia e lança erros
 
         if(this.props.masks.length < 1) {
             throw new Error('At least one mask must be informed');
@@ -92,6 +96,10 @@ export default class Mask {
         if(Object.keys(this.props.patterns).some(char => char === this._escape || char === this._reserved)) {
             throw new Error(`The characters ${ this._escape } and ${ this._reserved } are reserveds`)
         }
+
+        // data that is auto-populated
+
+        this._remnant = this.apply('').split('');
 
     }
 
@@ -111,6 +119,21 @@ export default class Mask {
 
     private _apply(target : string, maskIndex : number) : string {
 
+        // erase the remnant mask and placeholer
+
+        if(this._remnant && target) {
+
+            let find : boolean = false;
+
+            target = target.split('').filter((char, i) => {
+                if(!find) find = this._remnant[i] !== char;
+                return find;
+            }).join('');
+
+        }
+
+        // control variables
+
         let result = '';
         
         let mask : string = this.props.masks[maskIndex].replace(this._reserved, '');
@@ -118,13 +141,17 @@ export default class Mask {
         let targetControl = target.length;
         let maskControl = mask.length;
 
+        let infinityPattern : RegExp = /./;
+
+        // reverse fill preparation
+
         if(this.props.reverse) {
             target = Mask.reverser(target);
             mask = Mask.reverser(mask);
             mask = mask.replace(/(.)\\/g, '\\$1');
         }
 
-        let infinityPattern : RegExp = /./;
+        // marks the location in the mask with the reserved char for infinity data
         
         if(this.props.infinity && (this.props.masks.length - 1) === maskIndex) {
 
@@ -137,6 +164,8 @@ export default class Mask {
             mask = this._addReservedChar(mask, lastCharPattern);
 
         }
+
+        // fill the mask with the target
         
         while(targetControl && maskControl) {
 
@@ -188,11 +217,15 @@ export default class Mask {
 
         }
 
+        // if there is more target, move to a bigger mask if available
+
         if(targetControl && this.props.masks.length > ++maskIndex) {
             return this._apply(target, maskIndex);
         }
+
+        // fills the rest of the mask with a placeholder or just completes the mask that there are no more characters to replace
         
-        while(maskControl && this._lastTargetLength <= target.length && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(char => char in this.props.patterns))) {
+        while(maskControl && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(char => char in this.props.patterns))) {
 
             let maskChar = mask.charAt(mask.length - maskControl);
 
@@ -203,9 +236,11 @@ export default class Mask {
 
         }
 
-        this._lastTargetLength = target.length;
+        // reverse the reverse data
 
         if(this.props.reverse) result = Mask.reverser(result);
+
+        // returns result with optional transformation
 
         switch(this.props.transform) {
             case 'lowercase':     return result.toLowerCase();
