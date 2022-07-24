@@ -81,3 +81,43 @@ export default function MaskDocs() {
 
 }
 ```
+
+## MaskProps
+
+The useMask receives the settings parameter of type MaskProps. See available settings:
+
+|Prop|type|Default|Details|
+|---|---|---|---|
+|**masks**|`Array<string>`||The masks that will be applied to the target. By default the characters ?, #, @ will be replaced by letters or numbers, numbers, letters, respectively. This character pattern can be changed.|
+|**placeholder**|`string`|`''`|Autofill of the mask to be filled|
+|**reverse**|`boolean`|`false`|Mask fill in inverted mode|
+|**transform**|`'uppercase'`<br />`'lowercase'`<br />`'capitalize'`<br />`'capitalizeAll'`<br />`'none'`|`'none'`|Apply a transformation to the result string|
+|**infinity**|`boolean`<br />`{each:number;add:string;}`|`false`|Allows data entry indefinitely by the last mask replacement character|
+|**patterns**|`{[key in string]: RegExp}`|`{'#': /[0-9]/,'@': /[A-Za-z]/,'?': /[A-Za-z0-9]/}`|Characters to be substituted in the mask if approved by the regular expression|
+
+## Presets
+
+You can import pre-established mask configurations. See the options:
+
+ - ONLY_NUMBERS
+ - DATE_STAMP
+ - DATE_PTBR
+ - DATETIME_STAMP
+ - DATETIME_PTBR
+ - PHONE_USA
+ - PHONE_BR
+ - CURRENCY_POINT
+ - CURRENCY_COMMA
+ - CURRENCY_PTBR
+ - DOCUMENT_CPF
+ - DOCUMENT_CNPJ
+ - DOCUMENT_CPF_CNPJ
+ - COLOR_HEX'
+
+## Author
+
+* **Guilherme Neves** - [github repos](https://github.com/guilhermeasn/)
+
+## 📄 License
+
+This project is under the MIT license - see file [LICENSE](https://github.com/guilhermeasn/mask-hooks/blob/master/LICENSE) for details.
