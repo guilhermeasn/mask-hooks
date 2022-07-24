@@ -7,5 +7,5 @@ export function applyMask(target, settings) {
     const mask = new Mask(settings);
     return mask.apply(target);
 }
-export { default as presets } from './presets.const';
+export { default as presets, getPresetMask } from './presets.const';
 export { Mask };

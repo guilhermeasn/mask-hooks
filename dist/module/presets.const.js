@@ -1,6 +1,17 @@
+export function getPresetMask(preset, change = {}) {
+    return Object.assign(Object.assign({}, presets[preset]), change);
+}
 const presets = {
     ONLY_NUMBERS: {
         masks: ['#'],
+        infinity: true
+    },
+    ONLY_LETTERS: {
+        masks: ['@'],
+        infinity: true
+    },
+    ONLY_CHARS: {
+        masks: ['?'],
         infinity: true
     },
     DATE_STAMP: {
