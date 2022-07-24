@@ -65,9 +65,6 @@ var Mask = /** @class */ (function () {
         var mask = this.props.masks[maskIndex].replace(this._reserved, '');
         var targetControl = target.length;
         var maskControl = mask.length;
-        if (this.props.placeholder) {
-            target = target.replace(new RegExp('[\\' + this.props.placeholder + ']+$', 'gim'), '');
-        }
         if (this.props.reverse) {
             target = Mask.reverser(target);
             mask = Mask.reverser(mask);
@@ -88,6 +85,9 @@ var Mask = /** @class */ (function () {
                 var remaining = target.substring(target.length - targetControl).split('').filter(function (char) { return infinityPattern.test(char); }).join('');
                 if (typeof this.props.infinity === 'object' && this.props.infinity.each > 0) {
                     remaining = (_b = (_a = remaining.match(new RegExp(".{1,".concat(this.props.infinity.each, "}"), 'g'))) === null || _a === void 0 ? void 0 : _a.join(this.props.infinity.add)) !== null && _b !== void 0 ? _b : remaining;
+                }
+                if (this.props.placeholder) {
+                    remaining = remaining.replace(new RegExp('([' + this.props.placeholder + '])[' + this.props.placeholder + ']+$', 'gim'), '$1');
                 }
                 result += remaining;
                 result += mask.substring(mask.length - --maskControl);

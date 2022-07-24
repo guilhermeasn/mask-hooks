@@ -118,10 +118,6 @@ export default class Mask {
         let targetControl = target.length;
         let maskControl = mask.length;
 
-        if(this.props.placeholder) {
-            target = target.replace(new RegExp('[\\' + this.props.placeholder + ']+$','gim'), '');
-        }
-
         if(this.props.reverse) {
             target = Mask.reverser(target);
             mask = Mask.reverser(mask);
