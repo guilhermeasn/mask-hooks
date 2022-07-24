@@ -1,15 +1,10 @@
 import { MaskProps, useMask } from "mask-hooks";
 import { useState } from "react";
-import { Form, InputGroup } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
-type InputMaskProps = {
-    name : string;
-    settings : MaskProps
-}
+export function InputMask({ eraseOnBlur = false, ...props } : MaskProps & { eraseOnBlur ?: boolean }) {
 
-export function InputMask({ name, settings } : InputMaskProps) {
-
-    const mask = useMask(settings);
+    const mask = useMask(props);
     const [ value, setValueRoot ] = useState<string>('');
 
     function setValue(value : string) {
@@ -18,18 +13,15 @@ export function InputMask({ name, settings } : InputMaskProps) {
 
     return (
 
-        <InputGroup className="mb-3">
-
-            <InputGroup.Text className="text-success">
-                { name }
-            </InputGroup.Text>
-
+        <Form.Group>
+            <Form.Label>Result</Form.Label>
             <Form.Control
+                title='Result'
                 value={ value }
                 onChange={ (input : any) => setValue(input.currentTarget.value) }
+                onBlur={ () => eraseOnBlur && setTimeout(() => setValue(''), 1000) }
             />
-
-        </InputGroup>
+        </Form.Group>
 
     );
 

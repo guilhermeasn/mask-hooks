@@ -6008,7 +6008,7 @@ makeerror@1.0.12:
     tmpl "1.0.5"
 
 "mask-hooks@file:../mask-hooks":
-  version "2.0.7"
+  version "2.0.0"
 
 mdn-data@2.0.14:
   version "2.0.14"
