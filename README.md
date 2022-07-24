@@ -50,7 +50,7 @@ export function InputMask() {
 
     const [ value, setValue ] = useState('');
 
-    function setValueMask(value : string) {
+    function setValueMask(value) {
         setValue(mask(value));
     }
 
