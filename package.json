@@ -1,7 +1,7 @@
 {
   "name": "mask-hooks",
   "version": "2.0.0",
-  "description": "Functions and react hooks for applying masks to data inputs and outputs",
+  "description": "Functions and hooks for applying masks to data inputs and outputs",
   "main": "dist/common/index.js",
   "module": "dist/module/index.js",
   "types": "dist/types/index.d.ts",
