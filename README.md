@@ -32,6 +32,7 @@ yarn add mask-hooks
 
 ```
 import { useMask } from "mask-hooks";
+import { useState } from "react";
 
 export function InputMask() {
 
@@ -51,7 +52,7 @@ export function InputMask() {
 
     function setValueMask(value : string) {
         setValue(mask(value));
-    } 
+    }
 
     return (
 
