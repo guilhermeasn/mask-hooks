@@ -86,7 +86,7 @@ export default function MaskDocs() {
 
 The useMask receives the settings parameter of type MaskProps. See available settings:
 
-|Prop|type|Default|Details|
+|Prop|Type|Default|Details|
 |---|---|---|---|
 |**masks**|`Array<string>`||The masks that will be applied to the target. By default the characters ?, #, @ will be replaced by letters or numbers, numbers, letters, respectively. This character pattern can be changed.|
 |**placeholder**|`string`|`''`|Autofill of the mask to be filled|
@@ -116,7 +116,7 @@ You can import pre-established mask configurations. See the options:
 
 ## Author
 
-* **Guilherme Neves** - [github repos](https://github.com/guilhermeasn/)
+* **Guilherme Neves** - [github repos](https://github.com/guilhermeasn/) - [website](https://gn.dev.br/)
 
 ## 📄 License
 
