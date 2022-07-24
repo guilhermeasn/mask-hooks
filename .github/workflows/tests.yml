@@ -5,9 +5,9 @@ name: tests
 
 on:
   push:
-    branches: [ master ]  # add master after merge
+    branches: [ master ]
   pull_request:
-    branches: [ master ]  # add master after merge
+    branches: [ master ]
 
 jobs:
   build:

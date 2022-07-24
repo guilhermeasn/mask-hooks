@@ -2,9 +2,9 @@
 
 [![tests](https://github.com/guilhermeasn/mask-hooks/actions/workflows/tests.yml/badge.svg)](https://github.com/guilhermeasn/mask-hooks/actions/workflows/tests.yml)
 [![pages-build-deployment](https://github.com/guilhermeasn/mask-hooks/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/guilhermeasn/mask-hooks/actions/workflows/pages/pages-build-deployment)
-[![npm](https://img.shields.io/npm/v/mask-hooks.svg)](https://www.npmjs.com/package/mask-hooks)
-[![size](https://img.shields.io/bundlephobia/minzip/mask-hooks)](https://www.npmjs.com/package/mask-hooks)
-[![downloads](https://img.shields.io/npm/dt/mask-hooks)](https://www.npmjs.com/package/mask-hooks)
+[![npm](https://img.shields.io/npm/v/mask-hooks.svg)](https://www.npmjs.com/package/mask-hooks/v/latest)
+[![size](https://img.shields.io/bundlephobia/minzip/mask-hooks)](https://www.npmjs.com/package/mask-hooks/v/latest)
+[![downloads](https://img.shields.io/npm/dt/mask-hooks)](https://www.npmjs.com/package/mask-hooks/v/latest)
 
 Functions and hooks for applying masks to data inputs and outputs
 
@@ -116,8 +116,8 @@ You can import pre-established mask configurations. See the options:
 
 ## Author
 
-* **Guilherme Neves** - [github repos](https://github.com/guilhermeasn/) - [website](https://gn.dev.br/)
+* **Guilherme Neves** - [github](https://github.com/guilhermeasn/) - [website](https://gn.dev.br/)
 
-## 📄 License
+## License
 
 This project is under the MIT license - see file [LICENSE](https://github.com/guilhermeasn/mask-hooks/blob/master/LICENSE) for details.
