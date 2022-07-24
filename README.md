@@ -112,7 +112,7 @@ You can import pre-established mask configurations. See the options:
  - DOCUMENT_CPF
  - DOCUMENT_CNPJ
  - DOCUMENT_CPF_CNPJ
- - COLOR_HEX'
+ - COLOR_HEX
 
 ## Author
 
