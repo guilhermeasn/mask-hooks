@@ -1,9 +1,19 @@
-import { useMask, applyMask, presets } from '../src';
+import { useMask, applyMask, presets, getPresetMask } from '../src';
 
 describe('Presets test all', () => {
 
     test('Preset ONLY_NUMBERS', () => {
-        expect(applyMask('a123b456c789d0', presets.ONLY_NUMBERS)).toBe('1234567890');
+        expect(applyMask('a123b456c789d0e', presets.ONLY_NUMBERS)).toBe('1234567890');
+    });
+
+    test('Preset ONLY_LETTERS', () => {
+        expect(applyMask('a123b456c789d0e', presets.ONLY_LETTERS)).toBe('abcde');
+        expect(applyMask('a123b456c789d0e', getPresetMask('ONLY_LETTERS', { transform: 'uppercase' }))).toBe('ABCDE');
+        expect(applyMask('a123b456c789d0e', getPresetMask('ONLY_LETTERS', { transform: 'capitalize' }))).toBe('Abcde');
+    });
+
+    test('Preset ONLY_CHARS', () => {
+        expect(applyMask('a123 b 456c _ 789d0e!', presets.ONLY_CHARS)).toBe('a123b456c789d0e');
     });
     
     test('Preset DATE_STAMP', () => {
@@ -32,7 +42,7 @@ describe('Presets test all', () => {
 
     test('Preset DATETIME_PTBR', () => {
         expect(applyMask('a123b456c789d000', presets.DATETIME_PTBR)).toBe('12/34/5678 90:00');
-        expect(applyMask('a123b456c789d0', { ...presets.DATETIME_PTBR, reverse: true, placeholder: '_' })).toBe('__/12/3456 78:90');
+        expect(applyMask('a123b456c789d0', getPresetMask('DATETIME_PTBR', { reverse: true, placeholder: '_' }))).toBe('__/12/3456 78:90');
     });
 
     test('Preset PHONE_USA', () => {
@@ -76,7 +86,7 @@ describe('Presets test all', () => {
 
     test('Preset DOCUMENT_CNPJ', () => {
         expect(applyMask(12345, presets.DOCUMENT_CNPJ)).toBe('12.345');
-        expect(applyMask(12345, { ...presets.DOCUMENT_CNPJ, reverse: true })).toBe('123-45');
+        expect(applyMask(12345, getPresetMask('DOCUMENT_CNPJ', { reverse: true }))).toBe('123-45');
     });
 
     test('Preset DOCUMENT_CPF_CNPJ', () => {

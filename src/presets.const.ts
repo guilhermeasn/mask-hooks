@@ -2,6 +2,8 @@ import type { MaskProps } from "./mask.class";
 
 export type PresetOption = (
     'ONLY_NUMBERS'      |
+    'ONLY_LETTERS'      |
+    'ONLY_CHARS'        |
     'DATE_STAMP'        |
     'DATE_PTBR'         |
     'DATETIME_STAMP'    |
@@ -17,10 +19,27 @@ export type PresetOption = (
     'COLOR_HEX'
 );
 
+export function getPresetMask(preset : PresetOption, change : Partial<MaskProps> = {}) : MaskProps {
+    return {
+        ...presets[preset],
+        ...change
+    }
+}
+
 const presets : { [key in PresetOption] : MaskProps } = {
 
     ONLY_NUMBERS: {
         masks: [ '#' ],
+        infinity: true
+    },
+
+    ONLY_LETTERS: {
+        masks: [ '@' ],
+        infinity: true
+    },
+
+    ONLY_CHARS: {
+        masks: [ '?' ],
         infinity: true
     },
 

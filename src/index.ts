@@ -15,7 +15,7 @@ export function applyMask<T extends Stringable>(target : T, settings : MaskProps
 
 }
 
-export { default as presets } from './presets.const';
+export { default as presets, getPresetMask } from './presets.const';
 export type { PresetOption } from './presets.const';
 export type { MaskProps, Stringable };
 export { Mask };

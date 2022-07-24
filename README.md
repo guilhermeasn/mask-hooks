@@ -83,7 +83,56 @@ export default function MaskDocs() {
 }
 ```
 
-## MaskProps
+## Resources
+
+Resources exported by the **mask-hooks** package:
+
+ - **Function `useMask`**: main resource to use package
+
+```
+function useMask(settings: MaskProps): <T extends Stringable>(target: T) => string
+```
+
+ - **Function `applyMask`**: use a mask directly on the target
+
+```
+function applyMask<T extends Stringable>(target: T, settings: MaskProps): string
+```
+
+ - **Class `Mask`**: application mask core
+
+```
+class Mask {
+
+    static defaultPatterns: {
+        '#': RegExp;
+        '@': RegExp;
+        '?': RegExp;
+    };
+    static reverser(target: string): string;
+    static capitalize(target: string, all?: boolean): string;
+
+    constructor(props: MaskProps);
+
+    get props(): Readonly<Required<MaskProps>>;
+    apply<T extends Stringable>(target: T): string;
+
+}
+```
+
+ - **Constant `presets`**: preconfigured masks
+
+```
+const presets: { [key in PresetOption]: MaskProps; }
+```
+
+ - **Function `getPresetMask`**: get a preset, optionally being able to change its settings
+
+```
+function getPresetMask(preset: PresetOption, change: Partial<MaskProps> = {}) : MaskProps
+```
+
+## Type MaskProps
 
 The useMask receives the settings parameter of type MaskProps. See available settings:
 
@@ -96,7 +145,7 @@ The useMask receives the settings parameter of type MaskProps. See available set
 |**infinity**|`boolean`<br />`{each:number;add:string;}`|`false`|Allows data entry indefinitely by the last mask replacement character|
 |**patterns**|`{[key in string]: RegExp}`|`{'#': /[0-9]/,'@': /[A-Za-z]/,'?': /[A-Za-z0-9]/}`|Characters to be substituted in the mask if approved by the regular expression|
 
-## Presets
+## Type PresetOption
 
 You can import pre-established mask configurations. See the options:
 
