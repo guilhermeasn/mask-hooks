@@ -1,21 +1,26 @@
-import { MaskProps } from "mask-hooks";
+import { MaskProps, useMask } from "mask-hooks";
 import { useState } from "react";
 import { Form, InputGroup } from "react-bootstrap";
 
 type InputMaskProps = {
     name : string;
-    mask : MaskProps
+    settings : MaskProps
 }
 
-export function InputMask({ name, mask } : InputMaskProps) {
+export function InputMask({ name, settings } : InputMaskProps) {
 
-    const [ value, setValue ] = useState<string>('');
+    const mask = useMask(settings);
+    const [ value, setValueRoot ] = useState<string>('');
+
+    function setValue(value : string) {
+        setValueRoot(mask(value));
+    } 
 
     return (
 
         <InputGroup className="mb-3">
 
-            <InputGroup.Text>
+            <InputGroup.Text className="text-success">
                 { name }
             </InputGroup.Text>
 
