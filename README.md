@@ -30,6 +30,8 @@ yarn add mask-hooks
 
 ## Examples
 
+ - Custom Mask
+
 ```
 import { useMask } from "mask-hooks";
 import { useState } from "react";
@@ -66,6 +68,8 @@ export function InputMask() {
 }
 ```
 
+ - Preset Mask
+
 ```
 import { useMask, presets } from 'mask-hooks';
 
@@ -78,6 +82,25 @@ export default function MaskDocs() {
             <p>{ documentMask('11122233345')    /* print 111.222.333-45 */     }</p>
             <p>{ documentMask('11222333000145') /* print 11.222.333/0001-45 */ }</p>
         </>
+    );
+
+}
+```
+
+ - Changed Preset Mask
+
+```
+import { applyMask, getPresetMask } from 'mask-props';
+
+export default function MaskProduct() {
+
+    return (
+        <div>
+            {
+                applyMask('h3pbvfhb27rjtgh', getPresetMask('PRODUCT_KEY', { placeholder: '_' }))
+                /* print H3PBV-FHB27-RJTGH-_____-_____ */
+            }
+        <div>
     );
 
 }
