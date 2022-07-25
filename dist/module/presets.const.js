@@ -53,6 +53,15 @@ const presets = {
             each: 3
         }
     },
+    CURRENCY_DOLLAR: {
+        masks: ['$#.##'],
+        placeholder: '0',
+        reverse: true,
+        infinity: {
+            add: ',',
+            each: 3
+        }
+    },
     CURRENCY_PTBR: {
         masks: ['R$ #,##'],
         placeholder: '0',
@@ -73,6 +82,16 @@ const presets = {
             '###.###.###-##',
             '##.###.###/####-##'
         ]
+    },
+    ZIPCODE_USA: {
+        masks: ['#####']
+    },
+    ZIPCODE_BR: {
+        masks: ['##.###-###']
+    },
+    PRODUCT_KEY: {
+        masks: ['?????-?????-?????-?????-?????'],
+        transform: 'uppercase'
     },
     COLOR_HEX: {
         masks: ['#HHHHHH'],
