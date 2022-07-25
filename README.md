@@ -160,10 +160,14 @@ You can import pre-established mask configurations. See the options:
  - PHONE_BR
  - CURRENCY_POINT
  - CURRENCY_COMMA
+ - CURRENCY_DOLLAR
  - CURRENCY_PTBR
  - DOCUMENT_CPF
  - DOCUMENT_CNPJ
  - DOCUMENT_CPF_CNPJ
+ - ZIPCODE_USA
+ - ZIPCODE_BR
+ - PRODUCT_KEY
  - COLOR_HEX
 
 ## Author
