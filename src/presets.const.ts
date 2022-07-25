@@ -12,10 +12,14 @@ export type PresetOption = (
     'PHONE_BR'          |
     'CURRENCY_POINT'    |
     'CURRENCY_COMMA'    |
+    'CURRENCY_DOLLAR'   |
     'CURRENCY_PTBR'     |
     'DOCUMENT_CPF'      |
     'DOCUMENT_CNPJ'     |
     'DOCUMENT_CPF_CNPJ' |
+    'ZIPCODE_USA'       |
+    'ZIPCODE_BR'        |
+    'PRODUCT_KEY'       |
     'COLOR_HEX'
 );
 
@@ -90,6 +94,16 @@ const presets : { [key in PresetOption] : MaskProps } = {
         }
     },
 
+    CURRENCY_DOLLAR: {
+        masks: [ '$#.##' ],
+        placeholder: '0',
+        reverse: true,
+        infinity: {
+            add: ',',
+            each: 3
+        }
+    },
+
     CURRENCY_PTBR: {
         masks: [ 'R$ #,##' ],
         placeholder: '0',
@@ -113,6 +127,19 @@ const presets : { [key in PresetOption] : MaskProps } = {
             '###.###.###-##',
             '##.###.###/####-##'
         ]
+    },
+
+    ZIPCODE_USA: {
+        masks: [ '#####' ]
+    },
+
+    ZIPCODE_BR: {
+        masks: [ '##.###-###' ]
+    },
+
+    PRODUCT_KEY: {
+        masks: [ '?????-?????-?????-?????-?????' ],
+        transform: 'uppercase'
     },
 
     COLOR_HEX: {

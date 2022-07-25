@@ -68,6 +68,10 @@ describe('Presets test all', () => {
         expect(applyMask('12,345,678,903.21', presets.CURRENCY_COMMA)).toBe('12.345.678.903,21');
     });
 
+    test('Preset CURRENCY_DOLLAR', () => {
+        expect(applyMask(1234567890321, presets.CURRENCY_DOLLAR)).toBe('$12,345,678,903.21');
+    });
+
     test('Preset CURRENCY_PTBR', () => {
         
         const mask = useMask(presets.CURRENCY_PTBR);
@@ -97,6 +101,23 @@ describe('Presets test all', () => {
         expect(mask('111.222.333-44')).toBe('111.222.333-44');
         expect(mask(11222333444455)).toBe('11.222.333/4444-55');
         expect(mask('11.222.333/4444-55')).toBe('11.222.333/4444-55');
+
+    });
+
+    test('Preset ZIPCODE_USA', () => {
+        expect(applyMask(1234567890, presets.ZIPCODE_USA)).toBe('12345');
+    });
+        
+    test('Preset ZIPCODE_BR', () => {
+        expect(applyMask(25850000, presets.ZIPCODE_BR)).toBe('25.850-000');
+    });
+
+    test('Preset PRODUCT_KEY', () => {
+
+        expect(applyMask('h3pbvfhb27rjtghx9ydcjddh6', presets.PRODUCT_KEY)).toBe('H3PBV-FHB27-RJTGH-X9YDC-JDDH6');
+
+        expect(applyMask('h3pbvfhb27rjtgh', getPresetMask('PRODUCT_KEY', { placeholder: '_' }))).toBe('H3PBV-FHB27-RJTGH-_____-_____');
+        expect(applyMask('h3pbvfhb27rjtgh', presets.PRODUCT_KEY)).toBe('H3PBV-FHB27-RJTGH');
 
     });
 
