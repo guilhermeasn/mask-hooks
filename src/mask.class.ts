@@ -60,7 +60,7 @@ export default class Mask {
     private readonly _escape : string = '\\';    // escape char, must be only one character
     private readonly _reserved : string = '¬';   // reserved char, must be only one character
     
-    private _remnant : string[];
+    private _remnant : string[][];
 
     private _props : Required<MaskProps>;
 
@@ -99,7 +99,7 @@ export default class Mask {
 
         // data that is auto-populated
 
-        this._remnant = this.apply('').split('');
+        this._remnant = this.props.masks.map((_, i) => this._apply('', i).split(''));
 
     }
 
@@ -126,7 +126,7 @@ export default class Mask {
             let find : boolean = false;
 
             target = target.split('').filter((char, i) => {
-                if(!find) find = this._remnant[i] !== char;
+                if(!find) find = this._remnant[maskIndex][i] !== char;
                 return find;
             }).join('');
 

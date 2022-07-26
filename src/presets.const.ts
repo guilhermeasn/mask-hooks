@@ -23,13 +23,6 @@ export type PresetOption = (
     'COLOR_HEX'
 );
 
-export function getPresetMask(preset : PresetOption, change : Partial<MaskProps> = {}) : MaskProps {
-    return {
-        ...presets[preset],
-        ...change
-    }
-}
-
 const presets : { [key in PresetOption] : MaskProps } = {
 
     ONLY_NUMBERS: {
