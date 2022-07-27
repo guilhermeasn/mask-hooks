@@ -104,7 +104,7 @@ describe('Mask class tests', () => {
 
     });
 
-    test('Appy mask and transform', () => {
+    test('Apply mask and transform', () => {
 
         const masks = [ '=> @@@@@ @@@!' ];
         const target = 'aBcDefGh';
@@ -114,6 +114,22 @@ describe('Mask class tests', () => {
         expect(new Mask({ masks, transform: 'uppercase' }).apply(target)).toBe('=> ABCDE FGH!');
         expect(new Mask({ masks, transform: 'capitalize' }).apply(target)).toBe('=> Abcde fgh!');
         expect(new Mask({ masks, transform: 'capitalizeAll' }).apply(target)).toBe('=> Abcde Fgh!');
+
+    });
+
+    test('Mask verification completed', () => {
+
+        const mask = new Mask({
+            masks: [ '???' ]
+        });
+
+        expect(mask.isCompleted()).toBe(false);
+
+        mask.apply('abc');
+        expect(mask.isCompleted()).toBe(true);
+
+        mask.apply('ab');
+        expect(mask.isCompleted()).toBe(false);
 
     });
 

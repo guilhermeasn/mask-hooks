@@ -60,7 +60,8 @@ export default class Mask {
     private readonly _escape : string = '\\';    // escape char, must be only one character
     private readonly _reserved : string = '¬';   // reserved char, must be only one character
     
-    private _remnant : string[];
+    private _completed : boolean = false;
+    private _remnant : string[][];
 
     private _props : Required<MaskProps>;
 
@@ -79,7 +80,7 @@ export default class Mask {
             transform:   props.transform   ?? 'none'
         }
 
-        // avalia e lança erros
+        // throw errors
 
         if(this.props.masks.length < 1) {
             throw new Error('At least one mask must be informed');
@@ -99,12 +100,16 @@ export default class Mask {
 
         // data that is auto-populated
 
-        this._remnant = this.apply('').split('');
+        this._remnant = this.props.masks.map((_, i) => this._apply('', i).split(''));
 
     }
 
     public get props() : Readonly<Required<MaskProps>> {
         return this._props;
+    }
+
+    public isCompleted() : boolean {
+        return this._completed;
     }
 
     public apply<T extends Stringable>(target : T) : string {
@@ -121,12 +126,12 @@ export default class Mask {
 
         // erase the remnant mask and placeholer
 
-        if(this._remnant && target) {
+        if(target && this._remnant[maskIndex]) {
 
             let find : boolean = false;
 
             target = target.split('').filter((char, i) => {
-                if(!find) find = this._remnant[i] !== char;
+                if(!find) find = this._remnant[maskIndex][i] !== char;
                 return find;
             }).join('');
 
@@ -235,6 +240,10 @@ export default class Mask {
             maskControl--;
 
         }
+
+        // save status
+
+        this._completed = maskControl === 0;
 
         // reverse the reverse data
 
