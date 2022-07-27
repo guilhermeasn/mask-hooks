@@ -123,13 +123,13 @@ describe('Mask class tests', () => {
             masks: [ '???' ]
         });
 
-        expect(mask.isCompleted()).toBe(false);
+        expect(mask.completed).toBe(false);
 
         mask.apply('abc');
-        expect(mask.isCompleted()).toBe(true);
+        expect(mask.completed).toBe(true);
 
         mask.apply('ab');
-        expect(mask.isCompleted()).toBe(false);
+        expect(mask.completed).toBe(false);
 
     });
 
