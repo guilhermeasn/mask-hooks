@@ -1,11 +1,8 @@
 import Mask from './mask.class';
 import type { MaskProps, Stringable } from './mask.class';
-import presets from './presets.const';
-import type { PresetOption } from './presets.const';
-export declare type ApplyMask = <T extends Stringable>(target: T) => string;
-export declare function useMask(settings: MaskProps): ApplyMask;
-export declare function usePresetMask(preset: PresetOption, change?: Partial<MaskProps>): ApplyMask;
+export declare function useMask(settings: MaskProps): <T extends Stringable>(target: T) => string;
 export declare function applyMask<T extends Stringable>(target: T, settings: MaskProps): string;
-export declare function getPresetMask(preset: PresetOption, change?: Partial<MaskProps>): MaskProps;
-export type { MaskProps, Stringable, PresetOption };
-export { Mask, presets };
+export { default as presets, getPresetMask } from './presets.const';
+export type { PresetOption } from './presets.const';
+export type { MaskProps, Stringable };
+export { Mask };

@@ -26,7 +26,7 @@ var Mask = (function () {
         if (Object.keys(this.props.patterns).some(function (char) { return char === _this._escape || char === _this._reserved; })) {
             throw new Error("The characters ".concat(this._escape, " and ").concat(this._reserved, " are reserveds"));
         }
-        this._remnant = this.props.masks.map(function (_, i) { return _this._apply('', i).split(''); });
+        this._remnant = this.apply('').split('');
     }
     Mask.reverser = function (target) {
         return target.split('').reverse().join('');
@@ -59,7 +59,7 @@ var Mask = (function () {
             var find_1 = false;
             target = target.split('').filter(function (char, i) {
                 if (!find_1)
-                    find_1 = _this._remnant[maskIndex][i] !== char;
+                    find_1 = _this._remnant[i] !== char;
                 return find_1;
             }).join('');
         }

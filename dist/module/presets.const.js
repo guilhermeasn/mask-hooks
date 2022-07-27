@@ -1,3 +1,6 @@
+export function getPresetMask(preset, change = {}) {
+    return Object.assign(Object.assign({}, presets[preset]), change);
+}
 const presets = {
     ONLY_NUMBERS: {
         masks: ['#'],

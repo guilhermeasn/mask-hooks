@@ -23,7 +23,7 @@ export default class Mask {
         if (Object.keys(this.props.patterns).some(char => char === this._escape || char === this._reserved)) {
             throw new Error(`The characters ${this._escape} and ${this._reserved} are reserveds`);
         }
-        this._remnant = this.props.masks.map((_, i) => this._apply('', i).split(''));
+        this._remnant = this.apply('').split('');
     }
     static reverser(target) {
         return target.split('').reverse().join('');
@@ -50,7 +50,7 @@ export default class Mask {
             let find = false;
             target = target.split('').filter((char, i) => {
                 if (!find)
-                    find = this._remnant[maskIndex][i] !== char;
+                    find = this._remnant[i] !== char;
                 return find;
             }).join('');
         }
