@@ -108,7 +108,7 @@ export default class Mask {
         return this._props;
     }
 
-    public isCompleted() : boolean {
+    public get completed() : boolean {
         return this._completed;
     }
 
