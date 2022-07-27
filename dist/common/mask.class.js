@@ -6,6 +6,7 @@ var Mask = (function () {
         var _a, _b, _c, _d, _e;
         this._escape = '\\';
         this._reserved = '¬';
+        this._completed = false;
         this._props = {
             masks: props.masks.sort(function (a, b) { return a.length - b.length; }),
             patterns: (_a = props.patterns) !== null && _a !== void 0 ? _a : Mask.defaultPatterns,
@@ -26,7 +27,7 @@ var Mask = (function () {
         if (Object.keys(this.props.patterns).some(function (char) { return char === _this._escape || char === _this._reserved; })) {
             throw new Error("The characters ".concat(this._escape, " and ").concat(this._reserved, " are reserveds"));
         }
-        this._remnant = this.apply('').split('');
+        this._remnant = this.props.masks.map(function (_, i) { return _this._apply('', i).split(''); });
     }
     Mask.reverser = function (target) {
         return target.split('').reverse().join('');
@@ -46,6 +47,9 @@ var Mask = (function () {
         enumerable: false,
         configurable: true
     });
+    Mask.prototype.isCompleted = function () {
+        return this._completed;
+    };
     Mask.prototype.apply = function (target) {
         return this._apply(target.toString(), 0);
     };
@@ -55,11 +59,11 @@ var Mask = (function () {
     Mask.prototype._apply = function (target, maskIndex) {
         var _this = this;
         var _a, _b;
-        if (this._remnant && target) {
+        if (target && this._remnant[maskIndex]) {
             var find_1 = false;
             target = target.split('').filter(function (char, i) {
                 if (!find_1)
-                    find_1 = _this._remnant[i] !== char;
+                    find_1 = _this._remnant[maskIndex][i] !== char;
                 return find_1;
             }).join('');
         }
@@ -126,6 +130,7 @@ var Mask = (function () {
                 result += (maskChar in this.props.patterns || maskChar === this._reserved) ? this.props.placeholder : maskChar;
             maskControl--;
         }
+        this._completed = maskControl === 0;
         if (this.props.reverse)
             result = Mask.reverser(result);
         switch (this.props.transform) {

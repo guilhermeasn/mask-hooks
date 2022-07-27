@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Mask = exports.getPresetMask = exports.presets = exports.applyMask = exports.useMask = void 0;
+exports.Mask = exports.getPresetMask = exports.presets = exports.applyMask = exports.useCompleteMask = exports.useMask = void 0;
 var mask_class_1 = __importDefault(require("./mask.class"));
 exports.Mask = mask_class_1.default;
 function useMask(settings) {
@@ -11,6 +11,11 @@ function useMask(settings) {
     return mask.apply.bind(mask);
 }
 exports.useMask = useMask;
+function useCompleteMask(settings) {
+    var mask = new mask_class_1.default(settings);
+    return [mask.apply.bind(mask), mask.isCompleted.bind(mask)];
+}
+exports.useCompleteMask = useCompleteMask;
 function applyMask(target, settings) {
     var mask = new mask_class_1.default(settings);
     return mask.apply(target);

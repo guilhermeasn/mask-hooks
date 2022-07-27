@@ -3,6 +3,7 @@ export default class Mask {
         var _a, _b, _c, _d, _e;
         this._escape = '\\';
         this._reserved = '¬';
+        this._completed = false;
         this._props = {
             masks: props.masks.sort((a, b) => a.length - b.length),
             patterns: (_a = props.patterns) !== null && _a !== void 0 ? _a : Mask.defaultPatterns,
@@ -23,7 +24,7 @@ export default class Mask {
         if (Object.keys(this.props.patterns).some(char => char === this._escape || char === this._reserved)) {
             throw new Error(`The characters ${this._escape} and ${this._reserved} are reserveds`);
         }
-        this._remnant = this.apply('').split('');
+        this._remnant = this.props.masks.map((_, i) => this._apply('', i).split(''));
     }
     static reverser(target) {
         return target.split('').reverse().join('');
@@ -38,6 +39,9 @@ export default class Mask {
     get props() {
         return this._props;
     }
+    isCompleted() {
+        return this._completed;
+    }
     apply(target) {
         return this._apply(target.toString(), 0);
     }
@@ -46,11 +50,11 @@ export default class Mask {
     }
     _apply(target, maskIndex) {
         var _a, _b;
-        if (this._remnant && target) {
+        if (target && this._remnant[maskIndex]) {
             let find = false;
             target = target.split('').filter((char, i) => {
                 if (!find)
-                    find = this._remnant[i] !== char;
+                    find = this._remnant[maskIndex][i] !== char;
                 return find;
             }).join('');
         }
@@ -117,6 +121,7 @@ export default class Mask {
                 result += (maskChar in this.props.patterns || maskChar === this._reserved) ? this.props.placeholder : maskChar;
             maskControl--;
         }
+        this._completed = maskControl === 0;
         if (this.props.reverse)
             result = Mask.reverser(result);
         switch (this.props.transform) {

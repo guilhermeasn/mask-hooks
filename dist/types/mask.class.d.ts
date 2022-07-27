@@ -25,10 +25,12 @@ export default class Mask {
     static capitalize(target: string, all?: boolean): string;
     private readonly _escape;
     private readonly _reserved;
+    private _completed;
     private _remnant;
     private _props;
     constructor(props: MaskProps);
     get props(): Readonly<Required<MaskProps>>;
+    isCompleted(): boolean;
     apply<T extends Stringable>(target: T): string;
     private _addReservedChar;
     private _apply;

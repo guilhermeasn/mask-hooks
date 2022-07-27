@@ -10,10 +10,6 @@ Functions and hooks for applying masks to data inputs and outputs
 
 [Examples page](https://guilhermeasn.github.io/mask-hooks/)
 
-## Migrating
-
-*The second version of mask-hooks is now independent of React and can be used in more different development contexts. That's why the React components and the useMaskState hook have been removed. Now fully supports typescript.*
-
 ## Installation
 
 Run the command below in the terminal to install **mask-hooks** in your project
@@ -37,8 +33,6 @@ import { useMask } from "mask-hooks";
 import { useState } from "react";
 
 export function InputMask() {
-
-    // these mask settings can also be imported from presets
 
     const mask = useMask({
         masks: [ 'R$ #,##' ],
@@ -90,14 +84,16 @@ export default function MaskDocs() {
  - Changed Preset Mask
 
 ```
-import { applyMask, getPresetMask } from 'mask-props';
+import { useMask, getPresetMask } from 'mask-props';
 
 export default function MaskProduct() {
+
+    const productKeyMask = useMask(getPresetMask('PRODUCT_KEY', { placeholder: '_' }));
 
     return (
         <div>
             {
-                applyMask('h3pbvfhb27rjtgh', getPresetMask('PRODUCT_KEY', { placeholder: '_' }))
+                productKeyMask('h3pbvfhb27rjtgh')
                 /* print H3PBV-FHB27-RJTGH-_____-_____ */
             }
         <div>
@@ -106,14 +102,55 @@ export default function MaskProduct() {
 }
 ```
 
+ - Mask verification completed
+
+```
+import { useCompleteMask, presets } from "mask-hooks";
+import { useState } from "react";
+
+export function InputMask() {
+
+    const [ mask, isCompleted ] = useCompleteMask(presets.DATE_STAMP);
+    const [ value, setValue ] = useState('');
+
+    return (
+
+        <input
+            value={ value }
+            onChange={ input => setValue(mask(input.currentTarget.value)) }
+            style={ { color: isCompleted() ? "#000000" | "#ff0000" } }
+        />
+
+    );
+
+}
+```
+
+- use mask directly
+
+```
+import { applyMask, presets } from 'mask-hooks';
+
+export default function maskColor(target) {
+    return applyMask(target, presets.COLOR_HEX);
+}
+
+```
+
 ## Resources
 
 Resources exported by the **mask-hooks** package:
 
- - **Function `useMask`**: main resource to use package
+ - **Function `useMask`**: main resource to use package. Returns a function to use the preconfigured mask.
 
 ```
 function useMask(settings: MaskProps): <T extends Stringable>(target: T) => string
+```
+
+ - **Function `useCompleteMask`**: Returns an array with a function to use the preconfigured mask and with a function to check if the mask is completely filled.
+
+```
+function useCompleteMask(settings : MaskProps) : [ <T extends Stringable>(target: T) => string, () => boolean ]
 ```
 
  - **Function `applyMask`**: use a mask directly on the target
@@ -161,7 +198,7 @@ The useMask receives the settings parameter of type MaskProps. See available set
 
 |Prop|Type|Default|Details|
 |---|---|---|---|
-|**masks**|`Array<string>`||The masks that will be applied to the target. By default the characters ?, #, @ will be replaced by letters or numbers, numbers, letters, respectively. This character pattern can be changed.|
+|**masks**|`Array<string>`||The masks that will be applied to the target. By default the characters `?`, `#`, `@` will be replaced by letters or numbers, numbers, letters, respectively. This character pattern can be changed. To escape a replacement character use `\` before it.|
 |**placeholder**|`string`|`''`|Autofill of the mask to be filled|
 |**reverse**|`boolean`|`false`|Mask fill in inverted mode|
 |**transform**|`'uppercase'`<br />`'lowercase'`<br />`'capitalize'`<br />`'capitalizeAll'`<br />`'none'`|`'none'`|Apply a transformation to the result string|
@@ -192,6 +229,10 @@ You can import pre-established mask configurations. See the options:
  - ZIPCODE_BR
  - PRODUCT_KEY
  - COLOR_HEX
+
+## Migrating v1 to v2
+
+*The second version of mask-hooks is now independent of React and can be used in more different development contexts. That's why the React components and the useMaskState hook have been removed. Now fully supports typescript.*
 
 ## Author
 
