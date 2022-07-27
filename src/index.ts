@@ -1,19 +1,24 @@
 import Mask from './mask.class';
 import type { MaskProps, Stringable } from './mask.class';
 
-export type MaskApplicator = <T extends Stringable>(target : T) => string;
-
-export function useMask(settings : MaskProps) : MaskApplicator {
+export function useMask(settings : MaskProps) : <T extends Stringable>(target : T) => string {
 
     const mask = new Mask(settings);
     return mask.apply.bind(mask);
 
 }
 
-export function useCompleteMask(settings : MaskProps) : [ MaskApplicator, () => boolean ] {
+export function useCompleteMask(settings : MaskProps) : <T extends Stringable>(target : T) => { result : string, completed : boolean } {
 
     const mask = new Mask(settings);
-    return [ mask.apply.bind(mask), mask.isCompleted.bind(mask) ];
+    function apply<T extends Stringable>(target : T) {
+          return ({
+              result: mask.apply(target),
+              completed: mask.completed
+          })
+    }
+
+    return apply.bind(mask);
 
 }
 
