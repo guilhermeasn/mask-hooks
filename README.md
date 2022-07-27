@@ -110,15 +110,23 @@ import { useState } from "react";
 
 export function InputMask() {
 
-    const [ mask, isCompleted ] = useCompleteMask(presets.DATE_STAMP);
+    const maskComplete = useCompleteMask(presets.DATE_STAMP);
+
     const [ value, setValue ] = useState('');
+    const [ completed, setCompleted ] = useState(false);
+
+    function setValueMask(value) {
+        const { result, completed } = mask(value);
+        setValue(result);
+        setCompleted(completed);
+    }
 
     return (
 
         <input
             value={ value }
-            onChange={ input => setValue(mask(input.currentTarget.value)) }
-            style={ { color: isCompleted() ? "#000000" | "#ff0000" } }
+            onChange={ input => setValueMask(input.currentTarget.value) }
+            style={ { color: completed ? "#000000" | "#ff0000" } }
         />
 
     );
@@ -147,10 +155,10 @@ Resources exported by the **mask-hooks** package:
 function useMask(settings: MaskProps): <T extends Stringable>(target: T) => string
 ```
 
- - **Function `useCompleteMask`**: Returns an array with a function to use the preconfigured mask and with a function to check if the mask is completely filled.
+ - **Function `useCompleteMask`**: Returns a function to use the preconfigured mask.
 
 ```
-function useCompleteMask(settings : MaskProps) : [ <T extends Stringable>(target: T) => string, () => boolean ]
+function useCompleteMask(settings : MaskProps) : <T extends Stringable>(target: T) => { result : string, completed : boolean }
 ```
 
  - **Function `applyMask`**: use a mask directly on the target
