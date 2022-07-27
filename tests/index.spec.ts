@@ -11,15 +11,11 @@ describe('Functions and hooks tests', () => {
 
     test('Hook useCompleteMask', () => {
 
-        const [ mask, isCompleted ] = useCompleteMask(getPresetMask('COLOR_HEX'));
+        const maskComplete = useCompleteMask(getPresetMask('COLOR_HEX'));
         
-        expect(isCompleted()).toBe(false);
-
-        mask('c3c3c3');
-        expect(isCompleted()).toBe(true);
-
-        mask('c3');
-        expect(isCompleted()).toBe(false);
+        expect(maskComplete('').completed).toBe(false);
+        expect(maskComplete('c3c3c3').completed).toBe(true);
+        expect(maskComplete('c3').completed).toBe(false);
 
     });
 
