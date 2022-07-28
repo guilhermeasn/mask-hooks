@@ -243,7 +243,7 @@ export default class Mask {
 
         // save status
 
-        this._completed = maskControl === 0;
+        this._completed = maskControl === 0 && result !== '';
 
         // reverse the reverse data
 

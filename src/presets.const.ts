@@ -143,7 +143,10 @@ const presets : { [key in PresetOption] : MaskProps } = {
     },
 
     COLOR_HEX: {
-        masks: [ '#HHHHHH' ],
+        masks: [
+            '#HHH',
+            '#HHHHHH'
+        ],
         patterns: { 'H': /[A-Fa-f0-9]/ },
         transform: 'uppercase'
     }
