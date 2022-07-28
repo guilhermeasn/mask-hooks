@@ -30,7 +30,7 @@ export default class Mask {
     private _props;
     constructor(props: MaskProps);
     get props(): Readonly<Required<MaskProps>>;
-    isCompleted(): boolean;
+    get completed(): boolean;
     apply<T extends Stringable>(target: T): string;
     private _addReservedChar;
     private _apply;

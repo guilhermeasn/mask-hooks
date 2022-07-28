@@ -39,7 +39,7 @@ export default class Mask {
     get props() {
         return this._props;
     }
-    isCompleted() {
+    get completed() {
         return this._completed;
     }
     apply(target) {

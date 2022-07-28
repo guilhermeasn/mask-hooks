@@ -5,7 +5,13 @@ export function useMask(settings) {
 }
 export function useCompleteMask(settings) {
     const mask = new Mask(settings);
-    return [mask.apply.bind(mask), mask.isCompleted.bind(mask)];
+    function apply(target) {
+        return ({
+            result: mask.apply(target),
+            completed: mask.completed
+        });
+    }
+    return apply.bind(mask);
 }
 export function applyMask(target, settings) {
     const mask = new Mask(settings);

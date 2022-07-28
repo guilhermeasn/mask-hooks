@@ -47,9 +47,13 @@ var Mask = (function () {
         enumerable: false,
         configurable: true
     });
-    Mask.prototype.isCompleted = function () {
-        return this._completed;
-    };
+    Object.defineProperty(Mask.prototype, "completed", {
+        get: function () {
+            return this._completed;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Mask.prototype.apply = function (target) {
         return this._apply(target.toString(), 0);
     };

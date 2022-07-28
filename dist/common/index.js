@@ -13,7 +13,13 @@ function useMask(settings) {
 exports.useMask = useMask;
 function useCompleteMask(settings) {
     var mask = new mask_class_1.default(settings);
-    return [mask.apply.bind(mask), mask.isCompleted.bind(mask)];
+    function apply(target) {
+        return ({
+            result: mask.apply(target),
+            completed: mask.completed
+        });
+    }
+    return apply.bind(mask);
 }
 exports.useCompleteMask = useCompleteMask;
 function applyMask(target, settings) {
