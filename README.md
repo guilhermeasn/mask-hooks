@@ -126,7 +126,7 @@ export function InputMask() {
         <input
             value={ value }
             onChange={ input => setValueMask(input.currentTarget.value) }
-            style={ { color: completed ? "#000000" | "#ff0000" } }
+            style={ { color: completed ? "#000000" : "#ff0000" } }
         />
 
     );
@@ -158,7 +158,7 @@ function useMask(settings: MaskProps): <T extends Stringable>(target: T) => stri
  - **Function `useCompleteMask`**: Returns a function to use the preconfigured mask.
 
 ```
-function useCompleteMask(settings : MaskProps) : <T extends Stringable>(target: T) => { result : string, completed : boolean }
+function useCompleteMask(settings: MaskProps): <T extends Stringable>(target: T) => { result: string, completed: boolean }
 ```
 
  - **Function `applyMask`**: use a mask directly on the target
@@ -183,6 +183,8 @@ class Mask {
     constructor(props: MaskProps);
 
     get props(): Readonly<Required<MaskProps>>;
+    get completed(): boolean;
+
     apply<T extends Stringable>(target: T): string;
 
 }
@@ -200,7 +202,7 @@ const presets: { [key in PresetOption]: MaskProps; }
 function getPresetMask(preset: PresetOption, change: Partial<MaskProps> = {}) : MaskProps
 ```
 
-## Type MaskProps
+## MaskProps
 
 The useMask receives the settings parameter of type MaskProps. See available settings:
 
@@ -213,7 +215,7 @@ The useMask receives the settings parameter of type MaskProps. See available set
 |**infinity**|`boolean`<br />`{each:number;add:string;}`|`false`|Allows data entry indefinitely by the last mask replacement character|
 |**patterns**|`{[key in string]: RegExp}`|`{'#': /[0-9]/,'@': /[A-Za-z]/,'?': /[A-Za-z0-9]/}`|Characters to be substituted in the mask if approved by the regular expression|
 
-## Type PresetOption
+## Presets
 
 You can import pre-established mask configurations. See the options:
 
