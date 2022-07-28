@@ -116,7 +116,7 @@ export function InputMask() {
     const [ completed, setCompleted ] = useState(false);
 
     function setValueMask(value) {
-        const { result, completed } = mask(value);
+        const { result, completed } = maskComplete(value);
         setValue(result);
         setCompleted(completed);
     }
