@@ -1,6 +1,6 @@
 {
   "name": "examples_mask_hooks_2",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "homepage": "./",
   "license": "MIT",
   "dependencies": {
@@ -12,7 +12,7 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "bootstrap": "^5.2.0",
-    "mask-hooks": "^2.2.0",
+    "mask-hooks": "^2.3.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.4.0",
     "react-dom": "^18.2.0",
@@ -25,8 +25,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "reload:local": "yarn upgrade file:..\\mask-hooks",
-    "reload": "yarn upgrade mask-hooks"
+    "maskhooks:local": "yarn remove mask-hooks && yarn add file:..\\mask-hooks",
+    "maskhooks:npm": "yarn remove mask-hooks && yarn add mask-hooks"
   },
   "eslintConfig": {
     "extends": [
