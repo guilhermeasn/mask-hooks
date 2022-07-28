@@ -6007,10 +6007,10 @@ makeerror@1.0.12:
   dependencies:
     tmpl "1.0.5"
 
-mask-hooks@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/mask-hooks/-/mask-hooks-2.3.0.tgz#aaa4632486f5ec0c7144236d17ad19b99d023467"
-  integrity sha512-sQgMcyvrz/b/EqEjEmyg2pChNuFuVzWdMvb4OnaOaF6K3Bjj5q0/nHXJouQds42sjipDXJrMAN3KhfcpTvzMAA==
+mask-hooks@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/mask-hooks/-/mask-hooks-2.3.1.tgz#584d9f53d46cb54fe5e3598142787d39a1da3cf0"
+  integrity sha512-gAWT2QPiCoKhVLx2Sgfy1OCZU2o6pnhFZuAjERmeZqm0yTnCo45cRmQ1ueD/hW1mBJUb+X3UjYt48a3eLxLGmg==
 
 mdn-data@2.0.14:
   version "2.0.14"
