@@ -199,7 +199,7 @@ const presets: { [key in PresetOption]: MaskProps; }
  - **Function `getPresetMask`**: get a preset, optionally being able to change its settings
 
 ```
-function getPresetMask(preset: PresetOption, change: Partial<MaskProps> = {}) : MaskProps
+function getPresetMask(preset: PresetOption, change: Partial<MaskProps> = {}): MaskProps
 ```
 
 ## MaskProps
