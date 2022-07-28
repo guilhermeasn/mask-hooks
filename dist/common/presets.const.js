@@ -110,7 +110,10 @@ var presets = {
         transform: 'uppercase'
     },
     COLOR_HEX: {
-        masks: ['#HHHHHH'],
+        masks: [
+            '#HHH',
+            '#HHHHHH'
+        ],
         patterns: { 'H': /[A-Fa-f0-9]/ },
         transform: 'uppercase'
     }

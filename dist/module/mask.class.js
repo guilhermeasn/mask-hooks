@@ -121,7 +121,7 @@ export default class Mask {
                 result += (maskChar in this.props.patterns || maskChar === this._reserved) ? this.props.placeholder : maskChar;
             maskControl--;
         }
-        this._completed = maskControl === 0;
+        this._completed = maskControl === 0 && result !== '';
         if (this.props.reverse)
             result = Mask.reverser(result);
         switch (this.props.transform) {
