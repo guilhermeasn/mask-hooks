@@ -57,11 +57,11 @@ export default class Mask {
 
     /* ATTRIBUTES */
 
-    private readonly _escape : string = '\\';    // escape char, must be only one character
+    private readonly _escape   : string = '\\';  // escape char, must be only one character
     private readonly _reserved : string = '¬';   // reserved char, must be only one character
     
     private _completed : boolean = false;
-    private _remnant : string[][];
+    private _remnant   : string[][];
 
     private _props : Required<MaskProps>;
 
@@ -139,12 +139,12 @@ export default class Mask {
 
         // control variables
 
-        let result = '';
+        let result : string = '';
         
         let mask : string = this.props.masks[maskIndex].replace(this._reserved, '');
 
-        let targetControl = target.length;
-        let maskControl = mask.length;
+        let targetControl : number = target.length;
+        let maskControl   : number = mask.length;
 
         let infinityPattern : RegExp = /./;
 
@@ -152,8 +152,7 @@ export default class Mask {
 
         if(this.props.reverse) {
             target = Mask.reverser(target);
-            mask = Mask.reverser(mask);
-            mask = mask.replace(/(.)\\/g, '\\$1');
+            mask   = Mask.reverser(mask).replace(/(.)\\/g, '\\$1');
         }
 
         // marks the location in the mask with the reserved char for infinity data
