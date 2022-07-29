@@ -65,8 +65,7 @@ export default class Mask {
         let infinityPattern = /./;
         if (this.props.reverse) {
             target = Mask.reverser(target);
-            mask = Mask.reverser(mask);
-            mask = mask.replace(/(.)\\/g, '\\$1');
+            mask = Mask.reverser(mask).replace(/(.)\\/g, '\\$1');
         }
         if (this.props.infinity && (this.props.masks.length - 1) === maskIndex) {
             let lastCharPattern = Math.max(...Object.keys(this.props.patterns).map(char => {

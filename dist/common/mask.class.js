@@ -78,8 +78,7 @@ var Mask = (function () {
         var infinityPattern = /./;
         if (this.props.reverse) {
             target = Mask.reverser(target);
-            mask = Mask.reverser(mask);
-            mask = mask.replace(/(.)\\/g, '\\$1');
+            mask = Mask.reverser(mask).replace(/(.)\\/g, '\\$1');
         }
         if (this.props.infinity && (this.props.masks.length - 1) === maskIndex) {
             var lastCharPattern = Math.max.apply(Math, Object.keys(this.props.patterns).map(function (char) {
