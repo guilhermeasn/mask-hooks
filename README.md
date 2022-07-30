@@ -1,4 +1,4 @@
-# mask-hooks
+# mask-hooks v1
 
 Funções e react hooks para aplicar máscaras a variáveis de controle de inputs ou para exibição de dados!
 
@@ -14,10 +14,16 @@ Funções e react hooks para aplicar máscaras a variáveis de controle de input
 
 ## 🚀 Começando
 
-Execute no terminal o comando abaixo para instalar o **mask-hooks** no seu projeto
+Execute no terminal o comando abaixo para instalar a primeira versão do **mask-hooks** no seu projeto
 
 ```
-npm install mask-hooks --save
+npm install mask-hooks@1.3.2
+```
+
+Para instalar a [versão atual](https://github.com/guilhermeasn/mask-hooks) execute
+
+```
+npm install mask-hooks
 ```
 
 ### 🛠️ Exemplos de Uso
@@ -194,4 +200,4 @@ opções de modes: AUTO, NORMAL ou REVERSE.
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT - veja o arquivo [LICENSE.md](https://github.com/guilhermeasn/mask-hooks/blob/master/LICENSE) para detalhes.
+Este projeto está sob a licença MIT - veja o arquivo [LICENSE](https://github.com/guilhermeasn/mask-hooks/blob/master/LICENSE) para detalhes.
