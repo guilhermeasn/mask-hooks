@@ -1,10 +1,8 @@
 import { CompleteMask, MaskProps, useCompleteMask } from "mask-hooks";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 
 export default function InputMask(props : MaskProps) {
-
-    const inputElement = useRef<HTMLInputElement>(null);
 
     const maskComplete = useCompleteMask(props);
     const [ maskData, setMaskData ] = useState<CompleteMask>(maskComplete(''));
@@ -19,7 +17,6 @@ export default function InputMask(props : MaskProps) {
             <Form.Label>Result</Form.Label>
 
             <Form.Control
-                ref={ inputElement }
                 title='Result'
                 value={ maskData.result }
                 onChange={ (input : any) => setMaskData(maskComplete(input.currentTarget.value)) }
