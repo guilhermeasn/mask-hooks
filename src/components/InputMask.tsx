@@ -22,17 +22,11 @@ export default function InputMask(props : MaskProps) {
                 ref={ inputElement }
                 title='Result'
                 value={ maskData.result }
-                onChange={ (input : any) =>  {
-                    setMaskData(maskComplete(input.currentTarget.value));
-                    if(props.infinity) {
-                        inputElement.current?.setSelectionRange(maskData.result.length + 1, maskData.result.length + 1);
-                        inputElement.current?.focus();
-                    }
-                } }
+                onChange={ (input : any) => setMaskData(maskComplete(input.currentTarget.value)) }
             />
 
             <Form.Text className="text-white-50">
-                { Object.values(maskData).every(v => !!v)
+                { maskData.completed
                     ? '✓ completed mask'
                     : '✗ uncompleted mask'
                 }
