@@ -7,7 +7,7 @@
   "types": "dist/types/index.d.ts",
   "scripts": {
     "test": "jest",
-    "build": "rimraf dist && tsc && tsc --project tsconfig.module.json"
+    "build": "rimraf dist && tsc --project tsconfig.json && tsc --project tsconfig.m.json"
   },
   "repository": {
     "type": "git",
@@ -17,10 +17,9 @@
     "mask",
     "hooks",
     "input",
-    "useMask",
-    "useMaskState"
+    "useMask"
   ],
-  "author": "Guilherme Augusto Neves <guilheremasn@yahoo.com.br>",
+  "author": "Guilherme Augusto Neves <guilhermeasn@yahoo.com.br>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/guilhermeasn/mask-hooks/issues"
