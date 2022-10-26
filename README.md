@@ -84,7 +84,7 @@ export default function MaskDocs() {
  - Changed Preset Mask
 
 ```
-import { useMask, getPresetMask } from 'mask-props';
+import { useMask, getPresetMask } from 'mask-hooks';
 
 export default function MaskProduct() {
 
