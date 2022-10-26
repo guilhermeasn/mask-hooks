@@ -37,7 +37,7 @@ var Mask = (function () {
         if (all)
             return target.split(' ').reduce(function (p, c) { return p + ' ' + Mask.capitalize(c); }, '').trim();
         target = target.toLowerCase();
-        var i = target.search(/[a-z]/);
+        var i = target.search(/[a-zçáéíóúàèìòùâêîôûäëïöüãõ]/);
         return target.substring(0, i) + target.charAt(i).toUpperCase() + target.substring(i + 1);
     };
     Object.defineProperty(Mask.prototype, "props", {

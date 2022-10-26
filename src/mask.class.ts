@@ -50,7 +50,7 @@ export default class Mask {
         if(all) return target.split(' ').reduce((p, c) => p + ' ' + Mask.capitalize(c), '').trim();
 
         target = target.toLowerCase();
-        const i = target.search(/[a-z]/);
+        const i = target.search(/[a-zçáéíóúàèìòùâêîôûäëïöüãõ]/);
         
         return target.substring(0, i) + target.charAt(i).toUpperCase() + target.substring(i + 1);
     }

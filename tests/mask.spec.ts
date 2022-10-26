@@ -133,4 +133,22 @@ describe('Mask class tests', () => {
 
     });
 
+    test('Capitalization of special characters', () => {
+
+        const mask = new Mask({
+            masks: ['*'],
+            infinity: true,
+            patterns: { '*': /./ },
+            transform: "capitalizeAll"
+        });
+
+        expect(mask.apply('=> ç ã õ <=')).toBe('=> Ç Ã Õ <=');
+        expect(mask.apply('=> a á â à ä <=')).toBe('=> A Á Â À Ä <=');
+        expect(mask.apply('=> e é ê è ë <=')).toBe('=> E É Ê È Ë <=');
+        expect(mask.apply('=> i í î ì ï <=')).toBe('=> I Í Î Ì Ï <=');
+        expect(mask.apply('=> o ó ô ò ö <=')).toBe('=> O Ó Ô Ò Ö <=');
+        expect(mask.apply('=> u ú û ù ü <=')).toBe('=> U Ú Û Ù Ü <=');
+
+    });
+
 });
