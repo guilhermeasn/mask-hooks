@@ -6,7 +6,7 @@
 [![size](https://img.shields.io/bundlephobia/minzip/mask-hooks)](https://bundlephobia.com/package/mask-hooks)
 [![downloads](https://img.shields.io/npm/dt/mask-hooks)](https://www.npmjs.com/package/mask-hooks/)
 
-Functions and hooks for applying masks to data inputs and outputs
+Lightweight package with functions and hooks for masking data inputs and outputs for Node.JS projects.
 
 [Examples page](https://guilhermeasn.github.io/mask-hooks/)
 
