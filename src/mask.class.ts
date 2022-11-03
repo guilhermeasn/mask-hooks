@@ -206,17 +206,15 @@ export default class Mask {
                 
                 targetControl--;
 
-            } else if(targetChar === maskChar) {
-
-                result += maskChar;
-                targetControl--;
-                maskControl--;
-
             } else {
 
                 result += maskChar;
                 maskControl--;
                 
+                if(targetChar === maskChar) {
+                    targetControl--;
+                }
+
             }
 
         }

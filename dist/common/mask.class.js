@@ -112,14 +112,12 @@ var Mask = (function () {
                 }
                 targetControl--;
             }
-            else if (targetChar === maskChar) {
-                result += maskChar;
-                targetControl--;
-                maskControl--;
-            }
             else {
                 result += maskChar;
                 maskControl--;
+                if (targetChar === maskChar) {
+                    targetControl--;
+                }
             }
         }
         if (targetControl && this.props.masks.length > ++maskIndex) {
