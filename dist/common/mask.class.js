@@ -113,11 +113,11 @@ var Mask = (function () {
                 targetControl--;
             }
             else {
-                result += maskChar;
-                maskControl--;
                 if (targetChar === maskChar) {
                     targetControl--;
                 }
+                result += maskChar;
+                maskControl--;
             }
         }
         if (targetControl && this.props.masks.length > ++maskIndex) {

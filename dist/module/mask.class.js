@@ -100,11 +100,11 @@ export default class Mask {
                 targetControl--;
             }
             else {
-                result += maskChar;
-                maskControl--;
                 if (targetChar === maskChar) {
                     targetControl--;
                 }
+                result += maskChar;
+                maskControl--;
             }
         }
         if (targetControl && this.props.masks.length > ++maskIndex) {
