@@ -24,7 +24,7 @@ Or with Yarn
 yarn add mask-hooks
 ```
 
-## Examples
+## Examples with React
 
  - Custom Mask
 
