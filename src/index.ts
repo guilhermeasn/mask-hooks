@@ -6,6 +6,7 @@ export type MaskApplicator<O = string> = <T extends Stringable>(target : T) => O
 export type CompleteMask = {
     result    : string;
     completed : boolean;
+    entries   : number;
 }
 
 export function useMask(settings : MaskProps) : MaskApplicator {
@@ -22,7 +23,8 @@ export function useCompleteMask(settings : MaskProps) : MaskApplicator<CompleteM
     function apply<T extends Stringable>(target : T) : CompleteMask {
         return ({
             result: mask.apply(target),
-            completed: mask.completed
+            completed: mask.completed,
+            entries: mask.entries
         })
     }
 
