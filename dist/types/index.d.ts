@@ -4,6 +4,7 @@ export declare type MaskApplicator<O = string> = <T extends Stringable>(target: 
 export declare type CompleteMask = {
     result: string;
     completed: boolean;
+    entries: number;
 };
 export declare function useMask(settings: MaskProps): MaskApplicator;
 export declare function useCompleteMask(settings: MaskProps): MaskApplicator<CompleteMask>;

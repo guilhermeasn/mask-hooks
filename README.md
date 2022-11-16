@@ -155,10 +155,10 @@ Resources exported by the **mask-hooks** package:
 function useMask(settings: MaskProps): <T extends Stringable>(target: T) => string
 ```
 
- - **Function `useCompleteMask`**: Returns a function to use the preconfigured mask.
+ - **Function `useCompleteMask`**: Returns a function to use the preconfigured mask with additional information in the result.
 
 ```
-function useCompleteMask(settings: MaskProps): <T extends Stringable>(target: T) => { result: string, completed: boolean }
+function useCompleteMask(settings: MaskProps): <T extends Stringable>(target: T) => { result: string, completed: boolean; entries: number; }
 ```
 
  - **Function `applyMask`**: use a mask directly on the target
@@ -184,6 +184,7 @@ class Mask {
 
     get props(): Readonly<Required<MaskProps>>;
     get completed(): boolean;
+    get entries(): number;
 
     apply<T extends Stringable>(target: T): string;
 

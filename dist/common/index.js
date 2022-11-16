@@ -16,7 +16,8 @@ function useCompleteMask(settings) {
     function apply(target) {
         return ({
             result: mask.apply(target),
-            completed: mask.completed
+            completed: mask.completed,
+            entries: mask.entries
         });
     }
     return apply.bind(mask);
