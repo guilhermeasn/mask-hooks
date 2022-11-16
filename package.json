@@ -8,7 +8,7 @@
   "scripts": {
     "test": "jest",
     "build": "rimraf dist && tsc --project tsconfig.json && tsc --project tsconfig.m.json",
-    "publish": "npm pack --pack-destination .\\packs\\ && npm publish"
+    "packpublish": "npm pack --pack-destination .\\packs\\ && npm publish"
   },
   "repository": {
     "type": "git",
