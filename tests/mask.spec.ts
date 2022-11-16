@@ -5,12 +5,12 @@ describe('Mask class tests', () => {
     test('Default props and sort masks', () => {
 
         const mask = new Mask({
-            masks: ['abcde', 'a', 'abc']
+            masks: ['#.#', '--((@))--', '?@#']
         });
 
-        expect(mask.props.masks[0]).toBe('a');
-        expect(mask.props.masks[1]).toBe('abc');
-        expect(mask.props.masks[2]).toBe('abcde');
+        expect(mask.props.masks[0]).toBe('--((@))--');
+        expect(mask.props.masks[1]).toBe('#.#');
+        expect(mask.props.masks[2]).toBe('?@#');
 
         expect(mask.props.patterns).toStrictEqual({
             '#': /[0-9]/,
@@ -99,8 +99,11 @@ describe('Mask class tests', () => {
 
         expect(mask.apply(11122233344)).toBe('111.222.333-44');
         expect(mask.apply('111.222.333-44')).toBe('111.222.333-44');
+        expect(mask.apply('11122233344asdasda')).toBe('111.222.333-44');
+        expect(mask.apply('11122233344asdasda12')).toBe('11.122.233/3441-2');
         expect(mask.apply(11222333444455)).toBe('11.222.333/4444-55');
         expect(mask.apply('11.222.333/4444-55')).toBe('11.222.333/4444-55');
+        expect(mask.apply('11.222.333/4')).toBe('112.223.334');
 
     });
 

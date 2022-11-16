@@ -61,6 +61,7 @@ export default class Mask {
     private readonly _reserved : string = '¬';   // reserved char, must be only one character
     
     private _completed : boolean = false;
+    private _entries   : number  = 0;
     private _remnant   : string[][];
 
     private _props : Required<MaskProps>;
@@ -72,13 +73,20 @@ export default class Mask {
         // fill props needed
 
         this._props = {
-            masks:       props.masks.sort((a, b) => a.length - b.length),
+            masks:       props.masks,
             patterns:    props.patterns    ?? Mask.defaultPatterns,
             placeholder: props.placeholder ?? '',
             reverse:     props.reverse     ?? false,
             infinity:    props.infinity    ?? false,
             transform:   props.transform   ?? 'none'
         }
+
+        // sort masks by pattern chars
+
+        this._props.masks = this.props.masks.sort((a, b) =>
+            a.split('').filter(i => i in this.props.patterns).length -
+            b.split('').filter(i => i in this.props.patterns).length
+        );
 
         // throw errors
 
@@ -112,15 +120,15 @@ export default class Mask {
         return this._completed;
     }
 
+    public get entries() : number {
+        return this._entries;
+    }
+
     public apply<T extends Stringable>(target : T) : string {
         return this._apply(target.toString(), 0);
     }
 
     /* PRIVATE METHODS */
-
-    private _addReservedChar(mask : string, index : number) : string {
-        return mask.substring(0, index) + this._reserved + mask.substring(index + 1);
-    }
 
     private _apply(target : string, maskIndex : number) : string {
 
@@ -136,6 +144,8 @@ export default class Mask {
             }).join('');
 
         }
+
+        this._entries = 0;
 
         // control variables
 
@@ -165,7 +175,7 @@ export default class Mask {
 
             infinityPattern = this.props.patterns[mask[lastCharPattern]];
 
-            mask = this._addReservedChar(mask, lastCharPattern);
+            mask = mask.substring(0, lastCharPattern) + this._reserved + mask.substring(lastCharPattern + 1);
 
         }
 
@@ -187,6 +197,8 @@ export default class Mask {
                 result += remaining;
                 result += mask.substring(mask.length - --maskControl);
 
+                this._entries++;
+
                 targetControl = 0;
                 maskControl = 0;
 
@@ -202,6 +214,7 @@ export default class Mask {
                 if(this.props.patterns[maskChar].test(targetChar)) {
                     result += targetChar;
                     maskControl--;
+                    this._entries++;
                 }
                 
                 targetControl--;
@@ -222,7 +235,9 @@ export default class Mask {
         // if there is more target, move to a bigger mask if available
 
         if(targetControl && this.props.masks.length > ++maskIndex) {
-            return this._apply(target, maskIndex);
+            const lastEntries : number = this.entries;
+            const nextResult  : string = this._apply(target, maskIndex);
+            if(this.entries > lastEntries) return nextResult;
         }
 
         // fills the rest of the mask with a placeholder or just completes the mask that there are no more characters to replace
