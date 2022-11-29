@@ -8,6 +8,8 @@
 
 Lightweight package with functions and hooks for masking data inputs and outputs for Node.JS projects.
 
+[![Demonstration](mask-hooks_demo.gif)](https://guilhermeasn.github.io/mask-hooks/)
+
 [Examples page](https://guilhermeasn.github.io/mask-hooks/)
 
 ## Installation
