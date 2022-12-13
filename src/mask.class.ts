@@ -238,6 +238,7 @@ export default class Mask {
             const lastEntries : number = this.entries;
             const nextResult  : string = this._apply(target, maskIndex);
             if(this.entries > lastEntries) return nextResult;
+            this._entries = lastEntries;
         }
 
         // fills the rest of the mask with a placeholder or just completes the mask that there are no more characters to replace

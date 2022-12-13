@@ -118,6 +118,7 @@ export default class Mask {
             const nextResult = this._apply(target, maskIndex);
             if (this.entries > lastEntries)
                 return nextResult;
+            this._entries = lastEntries;
         }
         while (maskControl && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(char => char in this.props.patterns))) {
             let maskChar = mask.charAt(mask.length - maskControl);
