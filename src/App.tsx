@@ -7,6 +7,7 @@ import Input from "./components/Input";
 import InputMask from "./components/InputMask";
 import Links from "./components/Links";
 import Select from "./components/Select";
+// import { Test } from "./components/Test";
 
 export default function App() {
 
@@ -136,6 +137,8 @@ export default function App() {
             <hr className="m-3 mb-1" />
 
             <Footer />
+            
+            {/* <Test /> */}
 
         </Container>
 

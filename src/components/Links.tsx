@@ -6,12 +6,12 @@ export default function Links() {
 
             <p>
                 GitHub:&nbsp;
-                <a href='https://github.com/guilhermeasn/mask-hooks' className="text-info" target='_blank' rel="noreferrer">
+                <a href='https://github.com/guilhermeasn/mask-hooks' className="text-info" target='_blank' rel="noopener noreferrer">
                     https://github.com/guilhermeasn/mask-hooks
                 </a>
             <br />
                 NPM:&nbsp;
-                <a href='https://www.npmjs.com/package/mask-hooks' className="text-info" target='_blank' rel="noreferrer">
+                <a href='https://www.npmjs.com/package/mask-hooks' className="text-info" target='_blank' rel="noopener noreferrer">
                     https://www.npmjs.com/package/mask-hooks
                 </a>
             </p>
