@@ -5,6 +5,7 @@ export declare type CompleteMask = {
     result: string;
     completed: boolean;
     entries: number;
+    cleaned: string;
 };
 export declare function useMask(settings: MaskProps): MaskApplicator;
 export declare function useCompleteMask(settings: MaskProps): MaskApplicator<CompleteMask>;

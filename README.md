@@ -46,17 +46,13 @@ export function InputMask() {
         }
     });
 
-    const [ value, setValue ] = useState('');
-
-    function setValueMask(value) {
-        setValue(mask(value));
-    }
+    const [ value, setValue ] = useState(mask(''));
 
     return (
 
         <input
             value={ value }
-            onChange={ input => setValueMask(input.currentTarget.value) }
+            onChange={ input => setValue(mask(input.currentTarget.value)) }
         />
 
     );
@@ -113,22 +109,15 @@ import { useState } from "react";
 export function InputMask() {
 
     const maskComplete = useCompleteMask(presets.DATE_STAMP);
-
-    const [ value, setValue ] = useState('');
-    const [ completed, setCompleted ] = useState(false);
-
-    function setValueMask(value) {
-        const { result, completed } = maskComplete(value);
-        setValue(result);
-        setCompleted(completed);
-    }
+    const [ data, setData ] = useState(maskComplete(''));
 
     return (
 
         <input
-            value={ value }
-            onChange={ input => setValueMask(input.currentTarget.value) }
-            style={ { color: completed ? "#000000" : "#ff0000" } }
+            value={ data.result }
+            onChange={ input => setData(maskComplete(input.currentTarget.value)) }
+            style={ { color: data.completed ? "#000000" : "#ff0000" } }
+            title={ `${ data.entries } entries: ${ data.cleaned }` }
         />
 
     );
@@ -160,7 +149,7 @@ function useMask(settings: MaskProps): <T extends Stringable>(target: T) => stri
  - **Function `useCompleteMask`**: Returns a function to use the preconfigured mask with additional information in the result.
 
 ```
-function useCompleteMask(settings: MaskProps): <T extends Stringable>(target: T) => { result: string, completed: boolean; entries: number; }
+function useCompleteMask(settings: MaskProps): <T extends Stringable>(target: T) => { result: string, completed: boolean; entries: number; cleaned: string; }
 ```
 
  - **Function `applyMask`**: use a mask directly on the target
@@ -186,6 +175,7 @@ class Mask {
 
     get props(): Readonly<Required<MaskProps>>;
     get completed(): boolean;
+    get cleaned(): string;
     get entries(): number;
 
     apply<T extends Stringable>(target: T): string;

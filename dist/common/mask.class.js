@@ -7,7 +7,7 @@ var Mask = (function () {
         this._escape = '\\';
         this._reserved = '¬';
         this._completed = false;
-        this._entries = 0;
+        this._cleaned = '';
         this._props = {
             masks: props.masks,
             patterns: (_a = props.patterns) !== null && _a !== void 0 ? _a : Mask.defaultPatterns,
@@ -59,9 +59,22 @@ var Mask = (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Mask.prototype, "cleaned", {
+        get: function () {
+            switch (this.props.transform) {
+                case 'lowercase': return this._cleaned.toLowerCase();
+                case 'uppercase': return this._cleaned.toUpperCase();
+                case 'capitalize': return Mask.capitalize(this._cleaned, false);
+                case 'capitalizeAll': return Mask.capitalize(this._cleaned, true);
+                default: return this._cleaned;
+            }
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Mask.prototype, "entries", {
         get: function () {
-            return this._entries;
+            return this._cleaned.length;
         },
         enumerable: false,
         configurable: true
@@ -80,7 +93,7 @@ var Mask = (function () {
                 return find_1;
             }).join('');
         }
-        this._entries = 0;
+        this._cleaned = '';
         var result = '';
         var mask = this.props.masks[maskIndex].replace(this._reserved, '');
         var targetControl = target.length;
@@ -102,12 +115,12 @@ var Mask = (function () {
             var maskChar = mask.charAt(mask.length - maskControl);
             if (maskChar === this._reserved) {
                 var remaining = target.substring(target.length - targetControl).split('').filter(function (char) { return infinityPattern.test(char); }).join('');
+                this._cleaned += remaining;
                 if (typeof this.props.infinity === 'object' && this.props.infinity.each > 0) {
                     remaining = (_b = (_a = remaining.match(new RegExp(".{1,".concat(this.props.infinity.each, "}"), 'g'))) === null || _a === void 0 ? void 0 : _a.join(this.props.infinity.add)) !== null && _b !== void 0 ? _b : remaining;
                 }
                 result += remaining;
                 result += mask.substring(mask.length - --maskControl);
-                this._entries++;
                 targetControl = 0;
                 maskControl = 0;
                 break;
@@ -118,9 +131,9 @@ var Mask = (function () {
             }
             else if (maskChar in this.props.patterns) {
                 if (this.props.patterns[maskChar].test(targetChar)) {
+                    this._cleaned += targetChar;
                     result += targetChar;
                     maskControl--;
-                    this._entries++;
                 }
                 targetControl--;
             }
@@ -134,10 +147,11 @@ var Mask = (function () {
         }
         if (targetControl && this.props.masks.length > ++maskIndex) {
             var lastEntries = this.entries;
+            var lastCleaned = this.cleaned;
             var nextResult = this._apply(target, maskIndex);
             if (this.entries > lastEntries)
                 return nextResult;
-            this._entries = lastEntries;
+            this._cleaned = lastCleaned;
         }
         while (maskControl && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(function (char) { return char in _this.props.patterns; }))) {
             var maskChar = mask.charAt(mask.length - maskControl);
@@ -148,8 +162,10 @@ var Mask = (function () {
             maskControl--;
         }
         this._completed = maskControl === 0 && result !== '';
-        if (this.props.reverse)
+        if (this.props.reverse) {
+            this._cleaned = Mask.reverser(this._cleaned);
             result = Mask.reverser(result);
+        }
         switch (this.props.transform) {
             case 'lowercase': return result.toLowerCase();
             case 'uppercase': return result.toUpperCase();

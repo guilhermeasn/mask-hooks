@@ -154,4 +154,20 @@ describe('Mask class tests', () => {
 
     });
 
+    test('Mask entries', () => {
+
+        const mask = new Mask({
+            masks: [ '^?-?$' ],
+            reverse: true,
+            infinity: true,
+            transform: 'uppercase'
+        });
+
+        expect(mask.apply('1q2w3e4')).toBe('^1Q2W3E-4$');
+        expect(mask.completed).toBe(true);
+        expect(mask.entries).toBe(7);
+        expect(mask.cleaned).toBe('1Q2W3E4');
+
+    });
+
 });

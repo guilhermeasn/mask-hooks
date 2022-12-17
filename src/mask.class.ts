@@ -61,7 +61,7 @@ export default class Mask {
     private readonly _reserved : string = '¬';   // reserved char, must be only one character
     
     private _completed : boolean = false;
-    private _entries   : number  = 0;
+    private _cleaned   : string  = '';
     private _remnant   : string[][];
 
     private _props : Required<MaskProps>;
@@ -120,8 +120,20 @@ export default class Mask {
         return this._completed;
     }
 
+    public get cleaned() : string {
+
+        switch(this.props.transform) {
+            case 'lowercase':     return this._cleaned.toLowerCase();
+            case 'uppercase':     return this._cleaned.toUpperCase();
+            case 'capitalize':    return Mask.capitalize(this._cleaned, false);
+            case 'capitalizeAll': return Mask.capitalize(this._cleaned, true);
+            default:              return this._cleaned;
+        }
+
+    }
+
     public get entries() : number {
-        return this._entries;
+        return this._cleaned.length;
     }
 
     public apply<T extends Stringable>(target : T) : string {
@@ -145,7 +157,7 @@ export default class Mask {
 
         }
 
-        this._entries = 0;
+        this._cleaned = '';
 
         // control variables
 
@@ -189,6 +201,7 @@ export default class Mask {
             if(maskChar === this._reserved) {
                 
                 let remaining : string = target.substring(target.length - targetControl).split('').filter(char => infinityPattern.test(char)).join('');
+                this._cleaned += remaining;
 
                 if(typeof this.props.infinity === 'object' && this.props.infinity.each > 0) {
                     remaining = remaining.match(new RegExp(`.{1,${ this.props.infinity.each }}`, 'g'))?.join(this.props.infinity.add) ?? remaining;
@@ -196,8 +209,6 @@ export default class Mask {
 
                 result += remaining;
                 result += mask.substring(mask.length - --maskControl);
-
-                this._entries++;
 
                 targetControl = 0;
                 maskControl = 0;
@@ -212,9 +223,9 @@ export default class Mask {
             } else if(maskChar in this.props.patterns) {
 
                 if(this.props.patterns[maskChar].test(targetChar)) {
+                    this._cleaned += targetChar;
                     result += targetChar;
                     maskControl--;
-                    this._entries++;
                 }
                 
                 targetControl--;
@@ -236,9 +247,10 @@ export default class Mask {
 
         if(targetControl && this.props.masks.length > ++maskIndex) {
             const lastEntries : number = this.entries;
+            const lastCleaned : string = this.cleaned;
             const nextResult  : string = this._apply(target, maskIndex);
             if(this.entries > lastEntries) return nextResult;
-            this._entries = lastEntries;
+            this._cleaned = lastCleaned;
         }
 
         // fills the rest of the mask with a placeholder or just completes the mask that there are no more characters to replace
@@ -260,7 +272,10 @@ export default class Mask {
 
         // reverse the reverse data
 
-        if(this.props.reverse) result = Mask.reverser(result);
+        if(this.props.reverse) {
+            this._cleaned = Mask.reverser(this._cleaned);
+            result = Mask.reverser(result);
+        }
 
         // returns result with optional transformation
 

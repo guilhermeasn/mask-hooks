@@ -4,7 +4,7 @@ export default class Mask {
         this._escape = '\\';
         this._reserved = '¬';
         this._completed = false;
-        this._entries = 0;
+        this._cleaned = '';
         this._props = {
             masks: props.masks,
             patterns: (_a = props.patterns) !== null && _a !== void 0 ? _a : Mask.defaultPatterns,
@@ -45,8 +45,17 @@ export default class Mask {
     get completed() {
         return this._completed;
     }
+    get cleaned() {
+        switch (this.props.transform) {
+            case 'lowercase': return this._cleaned.toLowerCase();
+            case 'uppercase': return this._cleaned.toUpperCase();
+            case 'capitalize': return Mask.capitalize(this._cleaned, false);
+            case 'capitalizeAll': return Mask.capitalize(this._cleaned, true);
+            default: return this._cleaned;
+        }
+    }
     get entries() {
-        return this._entries;
+        return this._cleaned.length;
     }
     apply(target) {
         return this._apply(target.toString(), 0);
@@ -61,7 +70,7 @@ export default class Mask {
                 return find;
             }).join('');
         }
-        this._entries = 0;
+        this._cleaned = '';
         let result = '';
         let mask = this.props.masks[maskIndex].replace(this._reserved, '');
         let targetControl = target.length;
@@ -83,12 +92,12 @@ export default class Mask {
             let maskChar = mask.charAt(mask.length - maskControl);
             if (maskChar === this._reserved) {
                 let remaining = target.substring(target.length - targetControl).split('').filter(char => infinityPattern.test(char)).join('');
+                this._cleaned += remaining;
                 if (typeof this.props.infinity === 'object' && this.props.infinity.each > 0) {
                     remaining = (_b = (_a = remaining.match(new RegExp(`.{1,${this.props.infinity.each}}`, 'g'))) === null || _a === void 0 ? void 0 : _a.join(this.props.infinity.add)) !== null && _b !== void 0 ? _b : remaining;
                 }
                 result += remaining;
                 result += mask.substring(mask.length - --maskControl);
-                this._entries++;
                 targetControl = 0;
                 maskControl = 0;
                 break;
@@ -99,9 +108,9 @@ export default class Mask {
             }
             else if (maskChar in this.props.patterns) {
                 if (this.props.patterns[maskChar].test(targetChar)) {
+                    this._cleaned += targetChar;
                     result += targetChar;
                     maskControl--;
-                    this._entries++;
                 }
                 targetControl--;
             }
@@ -115,10 +124,11 @@ export default class Mask {
         }
         if (targetControl && this.props.masks.length > ++maskIndex) {
             const lastEntries = this.entries;
+            const lastCleaned = this.cleaned;
             const nextResult = this._apply(target, maskIndex);
             if (this.entries > lastEntries)
                 return nextResult;
-            this._entries = lastEntries;
+            this._cleaned = lastCleaned;
         }
         while (maskControl && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(char => char in this.props.patterns))) {
             let maskChar = mask.charAt(mask.length - maskControl);
@@ -129,8 +139,10 @@ export default class Mask {
             maskControl--;
         }
         this._completed = maskControl === 0 && result !== '';
-        if (this.props.reverse)
+        if (this.props.reverse) {
+            this._cleaned = Mask.reverser(this._cleaned);
             result = Mask.reverser(result);
+        }
         switch (this.props.transform) {
             case 'lowercase': return result.toLowerCase();
             case 'uppercase': return result.toUpperCase();

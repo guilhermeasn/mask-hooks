@@ -9,7 +9,8 @@ export function useCompleteMask(settings) {
         return ({
             result: mask.apply(target),
             completed: mask.completed,
-            entries: mask.entries
+            entries: mask.entries,
+            cleaned: mask.cleaned
         });
     }
     return apply.bind(mask);
