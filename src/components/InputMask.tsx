@@ -45,7 +45,7 @@ export default function InputMask(props : MaskProps) {
 
             { cleaned && (
                 <FormText as='p' className="bg-dark text-light my-2 p-1 rounded text-nowrap flex-nowrap">
-                    { maskData.cleaned || '(whitout entries)' }
+                    { maskData.cleaned || '(without entries)' }
                 </FormText>
             ) }
             
