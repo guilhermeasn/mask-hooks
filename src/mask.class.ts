@@ -204,8 +204,9 @@ export default class Mask {
                 
                 let remaining : string = target.substring(target.length - targetControl).split('').filter(char => infinityPattern.test(char)).join('');
                 
-                if(this.props.maxentries && this.props.maxentries > this.entries) {
-                    remaining = remaining.substring(0, this.props.maxentries - this.entries);
+                if(this.props.maxentries !== null) {
+                    const sub = this.props.maxentries - this.entries;
+                    remaining = sub > 0 ? remaining.substring(0, sub) : '';
                 }
                 
                 this._cleaned += remaining;
@@ -231,7 +232,7 @@ export default class Mask {
 
                 if(this.props.patterns[maskChar].test(targetChar)) {
 
-                    if(this.props.maxentries && this.props.maxentries === this.entries) break;
+                    if(this.props.maxentries !== null && this.props.maxentries <= this.entries) break;
                     
                     this._cleaned += targetChar;
                     result += targetChar;

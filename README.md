@@ -43,7 +43,8 @@ export function InputMask() {
         infinity: {
             add: '.',
             each: 3
-        }
+        },
+        maxentries: 8
     });
 
     const [ value, setValue ] = useState(mask(''));
@@ -206,6 +207,7 @@ The useMask receives the settings parameter of type MaskProps. See available set
 |**reverse**|`boolean`|`false`|Mask fill in inverted mode|
 |**transform**|`'uppercase'`<br />`'lowercase'`<br />`'capitalize'`<br />`'capitalizeAll'`<br />`'none'`|`'none'`|Apply a transformation to the result string|
 |**infinity**|`boolean`<br />`{each:number;add:string;}`|`false`|Allows data entry indefinitely by the last mask replacement character|
+|**maxentries**|`number`<br />`null`|`null`|If specified a number will limit the amount of user entries|
 |**patterns**|`{[key in string]: RegExp}`|`{'#': /[0-9]/,'@': /[A-Za-z]/,'?': /[A-Za-z0-9]/}`|Characters to be substituted in the mask if approved by the regular expression|
 
 ## Presets
