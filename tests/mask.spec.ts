@@ -170,4 +170,24 @@ describe('Mask class tests', () => {
 
     });
 
+    test('Max entries', () => {
+
+        const mask = new Mask({
+            masks: [ '>>>?<<<' ],
+            infinity: true,
+            maxentries: 10
+        });
+
+        expect(mask.apply('1q2w3e4')).toBe('>>>1q2w3e4<<<');
+        expect(mask.apply('1q2w3e4e3w2q1')).toBe('>>>1q2w3e4e3w<<<');
+
+        const mask2 = new Mask({
+            masks: [ '??????????????????' ],
+            maxentries: 10
+        });
+        
+        expect(mask2.apply('1q2w3e4e3w2q1')).toBe('1q2w3e4e3w');
+
+    });
+
 });

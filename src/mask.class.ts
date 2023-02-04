@@ -20,6 +20,7 @@ export type MaskProps = {
     reverse     ?: boolean;
     infinity    ?: boolean | Extra;
     transform   ?: 'uppercase' | 'lowercase' | 'capitalize' | 'capitalizeAll' | 'none';
+    maxentries  ?: number | null;
 }
 
 type Extra = {
@@ -78,7 +79,8 @@ export default class Mask {
             placeholder: props.placeholder ?? '',
             reverse:     props.reverse     ?? false,
             infinity:    props.infinity    ?? false,
-            transform:   props.transform   ?? 'none'
+            transform:   props.transform   ?? 'none',
+            maxentries:  props.maxentries  ?? null
         }
 
         // sort masks by pattern chars
@@ -201,6 +203,11 @@ export default class Mask {
             if(maskChar === this._reserved) {
                 
                 let remaining : string = target.substring(target.length - targetControl).split('').filter(char => infinityPattern.test(char)).join('');
+                
+                if(this.props.maxentries && this.props.maxentries > this.entries) {
+                    remaining = remaining.substring(0, this.props.maxentries - this.entries);
+                }
+                
                 this._cleaned += remaining;
 
                 if(typeof this.props.infinity === 'object' && this.props.infinity.each > 0) {
@@ -223,9 +230,14 @@ export default class Mask {
             } else if(maskChar in this.props.patterns) {
 
                 if(this.props.patterns[maskChar].test(targetChar)) {
+
+                    if(this.props.maxentries && this.props.maxentries === this.entries) break;
+                    
                     this._cleaned += targetChar;
                     result += targetChar;
+
                     maskControl--;
+
                 }
                 
                 targetControl--;
