@@ -101,7 +101,8 @@ const presets : { [key in PresetOption] : MaskProps } = {
         infinity: {
             add: ',',
             each: 3
-        }
+        },
+        maxentries: 20
     },
 
     CURRENCY_PTBR: {
@@ -111,7 +112,8 @@ const presets : { [key in PresetOption] : MaskProps } = {
         infinity: {
             add: '.',
             each: 3
-        }
+        },
+        maxentries: 20
     },
 
     DOCUMENT_CPF: {
