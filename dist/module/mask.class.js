@@ -1,6 +1,6 @@
 export default class Mask {
     constructor(props) {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f;
         this._escape = '\\';
         this._reserved = '¬';
         this._completed = false;
@@ -11,7 +11,8 @@ export default class Mask {
             placeholder: (_b = props.placeholder) !== null && _b !== void 0 ? _b : '',
             reverse: (_c = props.reverse) !== null && _c !== void 0 ? _c : false,
             infinity: (_d = props.infinity) !== null && _d !== void 0 ? _d : false,
-            transform: (_e = props.transform) !== null && _e !== void 0 ? _e : 'none'
+            transform: (_e = props.transform) !== null && _e !== void 0 ? _e : 'none',
+            maxentries: (_f = props.maxentries) !== null && _f !== void 0 ? _f : null
         };
         this._props.masks = this.props.masks.sort((a, b) => a.split('').filter(i => i in this.props.patterns).length -
             b.split('').filter(i => i in this.props.patterns).length);
@@ -122,11 +123,19 @@ export default class Mask {
                 maskControl--;
             }
         }
-        if (targetControl && this.props.masks.length > ++maskIndex) {
+        if (targetControl && this.props.masks.length > maskIndex + 1) {
             const lastEntries = this.entries;
             const lastCleaned = this.cleaned;
-            const nextResult = this._apply(target, maskIndex);
+            const nextResult = this._apply(target, maskIndex + 1);
             if (this.entries > lastEntries)
+                return nextResult;
+            this._cleaned = lastCleaned;
+        }
+        if (targetControl && this.props.reverse) {
+            const lastEntries = this.entries;
+            const lastCleaned = this.cleaned;
+            const nextResult = this._apply(Mask.reverser(target.substring(1)), maskIndex);
+            if (this.entries >= lastEntries)
                 return nextResult;
             this._cleaned = lastCleaned;
         }
@@ -142,6 +151,9 @@ export default class Mask {
         if (this.props.reverse) {
             this._cleaned = Mask.reverser(this._cleaned);
             result = Mask.reverser(result);
+        }
+        if (this.props.maxentries !== null && this.entries > this.props.maxentries) {
+            return this._apply(this.cleaned.substring(0, this.props.maxentries), maskIndex);
         }
         switch (this.props.transform) {
             case 'lowercase': return result.toLowerCase();

@@ -7,6 +7,7 @@ export declare type MaskProps = {
     reverse?: boolean;
     infinity?: boolean | Extra;
     transform?: 'uppercase' | 'lowercase' | 'capitalize' | 'capitalizeAll' | 'none';
+    maxentries?: number | null;
 };
 declare type Extra = {
     each: number;

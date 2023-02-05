@@ -203,12 +203,6 @@ export default class Mask {
             if(maskChar === this._reserved) {
                 
                 let remaining : string = target.substring(target.length - targetControl).split('').filter(char => infinityPattern.test(char)).join('');
-                
-                if(this.props.maxentries !== null) {
-                    const sub = this.props.maxentries - this.entries;
-                    remaining = sub > 0 ? remaining.substring(0, sub) : '';
-                }
-                
                 this._cleaned += remaining;
 
                 if(typeof this.props.infinity === 'object' && this.props.infinity.each > 0) {
@@ -231,8 +225,6 @@ export default class Mask {
             } else if(maskChar in this.props.patterns) {
 
                 if(this.props.patterns[maskChar].test(targetChar)) {
-
-                    if(this.props.maxentries !== null && this.props.maxentries <= this.entries) break;
                     
                     this._cleaned += targetChar;
                     result += targetChar;
@@ -258,11 +250,21 @@ export default class Mask {
 
         // if there is more target, move to a bigger mask if available
 
-        if(targetControl && this.props.masks.length > ++maskIndex) {
+        if(targetControl && this.props.masks.length > maskIndex + 1) {
             const lastEntries : number = this.entries;
             const lastCleaned : string = this.cleaned;
-            const nextResult  : string = this._apply(target, maskIndex);
+            const nextResult  : string = this._apply(target, maskIndex + 1);
             if(this.entries > lastEntries) return nextResult;
+            this._cleaned = lastCleaned;
+        }
+
+        // if there is more target and the dice are reversed, try to advance the target
+
+        if(targetControl && this.props.reverse) {
+            const lastEntries : number = this.entries;
+            const lastCleaned : string = this.cleaned;
+            const nextResult  : string = this._apply(Mask.reverser(target.substring(1)), maskIndex);
+            if(this.entries >= lastEntries) return nextResult;
             this._cleaned = lastCleaned;
         }
 
@@ -288,6 +290,12 @@ export default class Mask {
         if(this.props.reverse) {
             this._cleaned = Mask.reverser(this._cleaned);
             result = Mask.reverser(result);
+        }
+
+        // if there is limitation in data entry
+
+        if(this.props.maxentries !== null && this.entries > this.props.maxentries) {
+            return this._apply(this.cleaned.substring(0, this.props.maxentries), maskIndex);
         }
 
         // returns result with optional transformation

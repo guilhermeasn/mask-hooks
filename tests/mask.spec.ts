@@ -172,14 +172,14 @@ describe('Mask class tests', () => {
 
     test('Max entries', () => {
 
-        const mask = new Mask({
+        const mask1 = new Mask({
             masks: [ '>>>?<<<' ],
             infinity: true,
             maxentries: 10
         });
 
-        expect(mask.apply('1q2w3e4')).toBe('>>>1q2w3e4<<<');
-        expect(mask.apply('1q2w3e4e3w2q1')).toBe('>>>1q2w3e4e3w<<<');
+        expect(mask1.apply('1q2w3e4')).toBe('>>>1q2w3e4<<<');
+        expect(mask1.apply('1q2w3e4e3w2q1')).toBe('>>>1q2w3e4e3w<<<');
 
         const mask2 = new Mask({
             masks: [ '??????????????????' ],
@@ -187,6 +187,16 @@ describe('Mask class tests', () => {
         });
         
         expect(mask2.apply('1q2w3e4e3w2q1')).toBe('1q2w3e4e3w');
+
+        const mask3 = new Mask({
+            masks: [ '?-??' ],
+            infinity: true,
+            maxentries: 10,
+            reverse: true
+        });
+
+        expect(mask3.apply('1q2w3e4')).toBe('1q2w3-e4');
+        expect(mask3.apply('1q2w3e4e3w2q1')).toBe('1q2w3e4e-3w');
 
     });
 
