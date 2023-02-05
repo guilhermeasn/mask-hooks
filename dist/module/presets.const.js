@@ -60,8 +60,7 @@ const presets = {
         infinity: {
             add: ',',
             each: 3
-        },
-        maxentries: 20
+        }
     },
     CURRENCY_PTBR: {
         masks: ['R$ #,##'],
@@ -70,8 +69,27 @@ const presets = {
         infinity: {
             add: '.',
             each: 3
+        }
+    },
+    CURRENCY_DOLLAR_LIMITED: {
+        masks: ['$#.##'],
+        placeholder: '0',
+        reverse: true,
+        infinity: {
+            add: ',',
+            each: 3
         },
-        maxentries: 20
+        maxentries: 8
+    },
+    CURRENCY_PTBR_LIMITED: {
+        masks: ['R$ #,##'],
+        placeholder: '0',
+        reverse: true,
+        infinity: {
+            add: '.',
+            each: 3
+        },
+        maxentries: 8
     },
     DOCUMENT_CPF: {
         masks: ['###.###.###-##']
