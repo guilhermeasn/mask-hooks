@@ -227,6 +227,8 @@ You can import pre-established mask configurations. See the options:
  - CURRENCY_COMMA
  - CURRENCY_DOLLAR
  - CURRENCY_PTBR
+ - CURRENCY_DOLLAR_LIMITED
+ - CURRENCY_PTBR_LIMITED
  - DOCUMENT_CPF
  - DOCUMENT_CNPJ
  - DOCUMENT_CPF_CNPJ

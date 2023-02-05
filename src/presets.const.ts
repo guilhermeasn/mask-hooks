@@ -1,25 +1,27 @@
 import type { MaskProps } from "./mask.class";
 
 export type PresetOption = (
-    'ONLY_NUMBERS'      |
-    'ONLY_LETTERS'      |
-    'ONLY_CHARS'        |
-    'DATE_STAMP'        |
-    'DATE_PTBR'         |
-    'DATETIME_STAMP'    |
-    'DATETIME_PTBR'     |
-    'PHONE_USA'         |
-    'PHONE_BR'          |
-    'CURRENCY_POINT'    |
-    'CURRENCY_COMMA'    |
-    'CURRENCY_DOLLAR'   |
-    'CURRENCY_PTBR'     |
-    'DOCUMENT_CPF'      |
-    'DOCUMENT_CNPJ'     |
-    'DOCUMENT_CPF_CNPJ' |
-    'ZIPCODE_USA'       |
-    'ZIPCODE_BR'        |
-    'PRODUCT_KEY'       |
+    'ONLY_NUMBERS'            |
+    'ONLY_LETTERS'            |
+    'ONLY_CHARS'              |
+    'DATE_STAMP'              |
+    'DATE_PTBR'               |
+    'DATETIME_STAMP'          |
+    'DATETIME_PTBR'           |
+    'PHONE_USA'               |
+    'PHONE_BR'                |
+    'CURRENCY_POINT'          |
+    'CURRENCY_COMMA'          |
+    'CURRENCY_DOLLAR'         |
+    'CURRENCY_PTBR'           |
+    'CURRENCY_DOLLAR_LIMITED' |
+    'CURRENCY_PTBR_LIMITED'   |
+    'DOCUMENT_CPF'            |
+    'DOCUMENT_CNPJ'           |
+    'DOCUMENT_CPF_CNPJ'       |
+    'ZIPCODE_USA'             |
+    'ZIPCODE_BR'              |
+    'PRODUCT_KEY'             |
     'COLOR_HEX'
 );
 
@@ -101,8 +103,7 @@ const presets : { [key in PresetOption] : MaskProps } = {
         infinity: {
             add: ',',
             each: 3
-        },
-        maxentries: 20
+        }
     },
 
     CURRENCY_PTBR: {
@@ -112,8 +113,29 @@ const presets : { [key in PresetOption] : MaskProps } = {
         infinity: {
             add: '.',
             each: 3
+        }
+    },
+
+    CURRENCY_DOLLAR_LIMITED: {
+        masks: [ '$#.##' ],
+        placeholder: '0',
+        reverse: true,
+        infinity: {
+            add: ',',
+            each: 3
         },
-        maxentries: 20
+        maxentries: 8
+    },
+
+    CURRENCY_PTBR_LIMITED: {
+        masks: [ 'R$ #,##' ],
+        placeholder: '0',
+        reverse: true,
+        infinity: {
+            add: '.',
+            each: 3
+        },
+        maxentries: 8
     },
 
     DOCUMENT_CPF: {
