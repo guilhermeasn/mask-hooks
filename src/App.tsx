@@ -53,46 +53,42 @@ export default function App() {
 
                 <h3 className="py-3 mb-3 border-bottom">Custom Mask</h3>
 
-                <Col md={ 6 } className='my-2 d-flex justify-content-around align-items-center'>
+                <Col md={ 6 } className='my-2'>
 
-                    <div>
+                    <FormCheck
+                        className="mb-2"
+                        type="switch"
+                        label='Reverse'
+                        checked={ customMask.reverse ?? false }
+                        onChange={ (check : any) => setCustomMask({ ...customMask, reverse: check.target.checked }) }
+                    />
 
-                        <FormCheck
-                            className="mb-2"
-                            type="switch"
-                            label='Reverse'
-                            checked={ customMask.reverse ?? false }
-                            onChange={ (check : any) => setCustomMask({ ...customMask, reverse: check.target.checked }) }
-                        />
+                    <FormCheck
+                        type="switch"
+                        label='Infinity'
+                        checked={ !!customMask.infinity }
+                        onChange={ (check : any) => setCustomMask({ ...customMask, infinity: check.target.checked }) }
+                    />
 
-                        <FormCheck
-                            type="switch"
-                            label='Infinity'
-                            checked={ !!customMask.infinity }
-                            onChange={ (check : any) => setCustomMask({ ...customMask, infinity: check.target.checked }) }
-                        />
+                </Col>
 
-                    </div>
+                <Col md={ 6 } className='my-2'>
 
-                    <div>
+                    <Input
+                        className={ customMask.infinity ? 'mb-2' : 'mb-2 bg-secondary' }
+                        title="Each"
+                        value={ typeof customMask.infinity === 'object' ? customMask.infinity.each : 0 }
+                        onChange={ (input : any) => setCustomMask({ ...customMask, infinity: { each: input.currentTarget.value, add: typeof customMask.infinity === 'object' ? customMask.infinity.add : '' } }) }
+                        disabled={ !customMask.infinity }
+                    />
 
-                        <Input
-                            className={ customMask.infinity ? 'mb-2' : 'mb-2 bg-secondary' }
-                            title="Each"
-                            value={ typeof customMask.infinity === 'object' ? customMask.infinity.each : 0 }
-                            onChange={ (input : any) => setCustomMask({ ...customMask, infinity: { each: input.currentTarget.value, add: typeof customMask.infinity === 'object' ? customMask.infinity.add : '' } }) }
-                            disabled={ !customMask.infinity }
-                        />
-
-                        <Input
-                            className={ customMask.infinity ? '' : 'bg-secondary' }
-                            title="Add"
-                            value={ typeof customMask.infinity === 'object' ? customMask.infinity.add : '' }
-                            onChange={ (input : any) => setCustomMask({ ...customMask, infinity: { add: input.currentTarget.value, each: typeof customMask.infinity === 'object' ? customMask.infinity.each : 0 } }) }
-                            disabled={ !customMask.infinity }
-                        />
-
-                    </div>
+                    <Input
+                        className={ customMask.infinity ? '' : 'bg-secondary' }
+                        title="Add"
+                        value={ typeof customMask.infinity === 'object' ? customMask.infinity.add : '' }
+                        onChange={ (input : any) => setCustomMask({ ...customMask, infinity: { add: input.currentTarget.value, each: typeof customMask.infinity === 'object' ? customMask.infinity.each : 0 } }) }
+                        disabled={ !customMask.infinity }
+                    />
 
                 </Col>
 
@@ -108,6 +104,17 @@ export default function App() {
                         ]}
                         value={ customMask.transform }
                         onChange={ (select : any) => setCustomMask({ ...customMask, transform: select.currentTarget.value }) }
+                    />
+                </Col>
+
+                <Col md={ 6 } className='my-2'>
+                    <Input
+                        title="Max Entries"
+                        value={ customMask.maxentries ?? '' }
+                        onChange={ (input : any) => {
+                            const m = parseInt(input.currentTarget.value.replace(/\D/g, ''));
+                            setCustomMask({ ...customMask, maxentries: isNaN(m) ? null : m });
+                        }}
                     />
                 </Col>
 
