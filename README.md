@@ -30,7 +30,7 @@ yarn add mask-hooks
 
  - Custom Mask
 
-```
+```js
 import { useMask } from "mask-hooks";
 import { useState } from "react";
 
@@ -63,7 +63,7 @@ export function InputMask() {
 
  - Preset Mask
 
-```
+```js
 import { useMask, presets } from 'mask-hooks';
 
 export default function MaskDocs() {
@@ -82,7 +82,7 @@ export default function MaskDocs() {
 
  - Changed Preset Mask
 
-```
+```js
 import { useMask, getPresetMask } from 'mask-hooks';
 
 export default function MaskProduct() {
@@ -103,7 +103,7 @@ export default function MaskProduct() {
 
  - Mask verification completed
 
-```
+```js
 import { useCompleteMask, presets } from "mask-hooks";
 import { useState } from "react";
 
@@ -128,7 +128,7 @@ export function InputMask() {
 
 - use mask directly
 
-```
+```js
 import { applyMask, presets } from 'mask-hooks';
 
 export default function maskColor(target) {
@@ -143,25 +143,25 @@ Resources exported by the **mask-hooks** package:
 
  - **Function `useMask`**: main resource to use package. Returns a function to use the preconfigured mask.
 
-```
+```ts
 function useMask(settings: MaskProps): <T extends Stringable>(target: T) => string
 ```
 
  - **Function `useCompleteMask`**: Returns a function to use the preconfigured mask with additional information in the result.
 
-```
+```ts
 function useCompleteMask(settings: MaskProps): <T extends Stringable>(target: T) => { result: string, completed: boolean; entries: number; cleaned: string; }
 ```
 
  - **Function `applyMask`**: use a mask directly on the target
 
-```
+```ts
 function applyMask<T extends Stringable>(target: T, settings: MaskProps): string
 ```
 
  - **Class `Mask`**: application mask core
 
-```
+```ts
 class Mask {
 
     static defaultPatterns: {
@@ -186,13 +186,13 @@ class Mask {
 
  - **Constant `presets`**: preconfigured masks
 
-```
+```ts
 const presets: { [key in PresetOption]: MaskProps; }
 ```
 
  - **Function `getPresetMask`**: get a preset, optionally being able to change its settings
 
-```
+```ts
 function getPresetMask(preset: PresetOption, change: Partial<MaskProps> = {}): MaskProps
 ```
 
