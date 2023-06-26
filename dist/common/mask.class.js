@@ -9,7 +9,7 @@ var Mask = (function () {
         this._completed = false;
         this._cleaned = '';
         this._props = {
-            masks: Array.isArray(props.masks) ? props.masks : [(_a = props.masks) === null || _a === void 0 ? void 0 : _a.toString()],
+            masks: Array.isArray(props.masks) ? props.masks.map(function (m) { return m.toString(); }) : [(_a = props.masks) === null || _a === void 0 ? void 0 : _a.toString()],
             patterns: (_b = props.patterns) !== null && _b !== void 0 ? _b : Mask.defaultPatterns,
             placeholder: (_c = props.placeholder) !== null && _c !== void 0 ? _c : '',
             reverse: (_d = props.reverse) !== null && _d !== void 0 ? _d : false,
