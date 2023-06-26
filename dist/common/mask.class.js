@@ -3,19 +3,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Mask = (function () {
     function Mask(props) {
         var _this = this;
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g;
         this._escape = '\\';
         this._reserved = '¬';
         this._completed = false;
         this._cleaned = '';
         this._props = {
-            masks: props.masks,
-            patterns: (_a = props.patterns) !== null && _a !== void 0 ? _a : Mask.defaultPatterns,
-            placeholder: (_b = props.placeholder) !== null && _b !== void 0 ? _b : '',
-            reverse: (_c = props.reverse) !== null && _c !== void 0 ? _c : false,
-            infinity: (_d = props.infinity) !== null && _d !== void 0 ? _d : false,
-            transform: (_e = props.transform) !== null && _e !== void 0 ? _e : 'none',
-            maxentries: (_f = props.maxentries) !== null && _f !== void 0 ? _f : null
+            masks: Array.isArray(props.masks) ? props.masks : [(_a = props.masks) === null || _a === void 0 ? void 0 : _a.toString()],
+            patterns: (_b = props.patterns) !== null && _b !== void 0 ? _b : Mask.defaultPatterns,
+            placeholder: (_c = props.placeholder) !== null && _c !== void 0 ? _c : '',
+            reverse: (_d = props.reverse) !== null && _d !== void 0 ? _d : false,
+            infinity: (_e = props.infinity) !== null && _e !== void 0 ? _e : false,
+            transform: (_f = props.transform) !== null && _f !== void 0 ? _f : 'none',
+            maxentries: (_g = props.maxentries) !== null && _g !== void 0 ? _g : null
         };
         this._props.masks = this.props.masks.sort(function (a, b) {
             return a.split('').filter(function (i) { return i in _this.props.patterns; }).length -

@@ -200,4 +200,17 @@ describe('Mask class tests', () => {
 
     });
 
+    test('Mask strange types', () => {
+
+        // @ts-ignore
+        expect(new Mask({ masks: '1#3#5' }).apply('24')).toBe('12345');
+
+        // @ts-ignore
+        expect(new Mask({ masks: 12345 }).apply('')).toBe('12345');
+
+        // @ts-ignore
+        expect(new Mask({ masks: {k: 'v'} }).apply('')).toBe('[object Object]');
+
+    });
+
 });
