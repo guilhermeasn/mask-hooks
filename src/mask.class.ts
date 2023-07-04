@@ -165,6 +165,12 @@ export default class Mask {
         return target;
     }
 
+    private _prepareMask(maskIndex : number) : string {
+        let mask = this._delReservedChars(this.props.masks[maskIndex], this._reserveds[0]);
+        mask = mask.replace(/\[\d+-\d+\]/gim, this._reserveds[2]);
+        return mask;
+    }
+
     private _apply(target : string, maskIndex : number) : string {
 
         // erase the remnant mask and placeholer
@@ -182,12 +188,13 @@ export default class Mask {
 
         this._cleaned = '';
 
+        target = this._delReservedChars(target);
+
         // control variables
 
         let result : string = '';
         
-        target = this._delReservedChars(target);
-        let mask : string = this._delReservedChars(this.props.masks[maskIndex], this._reserveds[0]);
+        let mask = this._prepareMask(maskIndex);
 
         let targetControl : number = target.length;
         let maskControl   : number = mask.length;
