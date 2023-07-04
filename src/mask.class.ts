@@ -8,8 +8,12 @@
  * @ - one letter, can be changed
  * ? - one number or letter, can be changed
  *
+ * [min-max] - numerical range
+ * 
  * \ - escape char
- * ¬ - reserved char
+ * 
+ * ▌ - reserved char
+ * ▐ - reserved char
  *
  */
 
@@ -58,8 +62,13 @@ export default class Mask {
 
     /* ATTRIBUTES */
 
-    private readonly _escape   : string = '\\';  // escape char, must be only one character
-    private readonly _reserved : string = '¬';   // reserved char, must be only one character
+    /**
+     * ### Reserved chars
+     * - index 0 reserved to escape char
+     * - index 1 reserved to infinity data
+     * - index 2 reserved to numerical range
+     */
+    private readonly _reserveds : string[] = ['\\', '▌', '▐'];
     
     private _completed : boolean = false;
     private _cleaned   : string  = '';
@@ -104,8 +113,8 @@ export default class Mask {
             throw new Error('Pattern keys must be only one character');
         }
 
-        if(Object.keys(this.props.patterns).some(char => char === this._escape || char === this._reserved)) {
-            throw new Error(`The characters ${ this._escape } and ${ this._reserved } are reserveds`)
+        if(Object.keys(this.props.patterns).some(char => char === this._reserveds[0] || this._reserveds.some(r => r === char))) {
+            throw new Error(`The characters ${ this._reserveds.join(', ') } are reserveds`)
         }
 
         // data that is auto-populated
@@ -144,6 +153,14 @@ export default class Mask {
 
     /* PRIVATE METHODS */
 
+    private _delReservedChars(target : string, ...out : string[]) : string {
+        this._reserveds.forEach(reserved => {
+            if(!out.some(c => c === reserved))
+                target = target.replace(reserved, '');
+        });
+        return target;
+    }
+
     private _apply(target : string, maskIndex : number) : string {
 
         // erase the remnant mask and placeholer
@@ -165,7 +182,8 @@ export default class Mask {
 
         let result : string = '';
         
-        let mask : string = this.props.masks[maskIndex].replace(this._reserved, '');
+        target = this._delReservedChars(target);
+        let mask : string = this._delReservedChars(this.props.masks[maskIndex], this._reserveds[0]);
 
         let targetControl : number = target.length;
         let maskControl   : number = mask.length;
@@ -189,7 +207,7 @@ export default class Mask {
 
             infinityPattern = this.props.patterns[mask[lastCharPattern]];
 
-            mask = mask.substring(0, lastCharPattern) + this._reserved + mask.substring(lastCharPattern + 1);
+            mask = mask.substring(0, lastCharPattern) + this._reserveds[1] + mask.substring(lastCharPattern + 1);
 
         }
 
@@ -200,7 +218,7 @@ export default class Mask {
             let targetChar = target.charAt(target.length - targetControl);
             let maskChar = mask.charAt(mask.length - maskControl);
 
-            if(maskChar === this._reserved) {
+            if(maskChar === this._reserveds[1]) {
                 
                 let remaining : string = target.substring(target.length - targetControl).split('').filter(char => infinityPattern.test(char)).join('');
                 this._cleaned += remaining;
@@ -217,7 +235,7 @@ export default class Mask {
 
                 break;
 
-            } else if(maskChar === this._escape) {
+            } else if(maskChar === this._reserveds[0]) {
 
                 result += mask.charAt(mask.length - --maskControl);
                 maskControl--;
@@ -274,8 +292,8 @@ export default class Mask {
 
             let maskChar = mask.charAt(mask.length - maskControl);
 
-            if(maskChar === this._escape) result += mask.charAt(mask.length - --maskControl);
-            else result += (maskChar in this.props.patterns || maskChar === this._reserved) ? this.props.placeholder : maskChar;
+            if(maskChar === this._reserveds[0]) result += mask.charAt(mask.length - --maskControl);
+            else result += (maskChar in this.props.patterns || maskChar === this._reserveds[1]) ? this.props.placeholder : maskChar;
 
             maskControl--;
 

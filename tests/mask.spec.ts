@@ -45,7 +45,7 @@ describe('Mask class tests', () => {
         expect(() => new Mask({
             masks: [ '?' ],
             patterns: {
-                '¬': /./ 
+                '\\': /./ 
             }
         })).toThrow(/reserveds/gim);
 
