@@ -51,13 +51,25 @@ export default class Mask {
         return target.split('').reverse().join('');
     }
 
-    public static capitalize(target : string, all: boolean = false) : string {
-        if(all) return target.split(' ').reduce((p, c) => p + ' ' + Mask.capitalize(c), '').trim();
+    public static transform(target : string, type : Required<MaskProps>['transform']) : string {
 
-        target = target.toLowerCase();
-        const i = target.search(/[a-zçáéíóúàèìòùâêîôûäëïöüãõ]/);
-        
-        return target.substring(0, i) + target.charAt(i).toUpperCase() + target.substring(i + 1);
+        function capitalize(target : string, all: boolean = false) : string {
+            if(all) return target.split(' ').reduce((p, c) => p + ' ' + capitalize(c), '').trim();
+    
+            target = target.toLowerCase();
+            const i = target.search(/[a-zçáéíóúàèìòùâêîôûäëïöüãõ]/);
+            
+            return target.substring(0, i) + target.charAt(i).toUpperCase() + target.substring(i + 1);
+        }
+
+        switch(type) {
+            case 'lowercase':     return target.toLowerCase();
+            case 'uppercase':     return target.toUpperCase();
+            case 'capitalize':    return capitalize(target, false);
+            case 'capitalizeAll': return capitalize(target, true);
+            default:              return target;
+        }
+
     }
 
     /* ATTRIBUTES */
@@ -132,15 +144,7 @@ export default class Mask {
     }
 
     public get cleaned() : string {
-
-        switch(this.props.transform) {
-            case 'lowercase':     return this._cleaned.toLowerCase();
-            case 'uppercase':     return this._cleaned.toUpperCase();
-            case 'capitalize':    return Mask.capitalize(this._cleaned, false);
-            case 'capitalizeAll': return Mask.capitalize(this._cleaned, true);
-            default:              return this._cleaned;
-        }
-
+        return Mask.transform(this._cleaned, this.props.transform);
     }
 
     public get entries() : number {
@@ -317,14 +321,7 @@ export default class Mask {
         }
 
         // returns result with optional transformation
-
-        switch(this.props.transform) {
-            case 'lowercase':     return result.toLowerCase();
-            case 'uppercase':     return result.toUpperCase();
-            case 'capitalize':    return Mask.capitalize(result, false);
-            case 'capitalizeAll': return Mask.capitalize(result, true);
-            default:              return result;
-        }
+        return Mask.transform(result, this.props.transform);
 
     }
 
