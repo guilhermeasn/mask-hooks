@@ -74,13 +74,11 @@ export default class Mask {
 
     /* ATTRIBUTES */
 
-    /**
-     * ### Reserved chars
-     * - index 0 reserved to escape char
-     * - index 1 reserved to infinity data
-     * - index 2 reserved to numerical range
-     */
-    private readonly _reserveds : string[] = ['\\', '▌', '▐'];
+    private readonly _reserveds = {
+        escape:    '\\',
+        infinity:  '▌',
+        numerical: '▐'
+    };
     
     private _completed : boolean = false;
     private _cleaned   : string  = '';
@@ -125,8 +123,8 @@ export default class Mask {
             throw new Error('Pattern keys must be only one character');
         }
 
-        if(Object.keys(this.props.patterns).some(char => char === this._reserveds[0] || this._reserveds.some(r => r === char))) {
-            throw new Error(`The characters ${ this._reserveds.join(', ') } are reserveds`)
+        if(Object.keys(this.props.patterns).some(char => Object.values(this._reserveds).some(reserved => reserved === char))) {
+            throw new Error(`The characters ${ Object.values(this._reserveds).join(', ') } are reserveds`)
         }
 
         // data that is auto-populated
@@ -157,18 +155,18 @@ export default class Mask {
 
     /* PRIVATE METHODS */
 
-    private _delReservedChars(target : string, ...out : string[]) : string {
-        this._reserveds.forEach(reserved => {
-            if(!out.some(c => c === reserved))
-                target = target.replace(reserved, '');
-        });
-        return target;
-    }
+    private _getDataMask(maskIndex : number) : [ string, Array<[number, number]> ] {
 
-    private _prepareMask(maskIndex : number) : string {
-        let mask = this._delReservedChars(this.props.masks[maskIndex], this._reserveds[0]);
-        mask = mask.replace(/\[\d+-\d+\]/gim, this._reserveds[2]);
-        return mask;
+        let mask = this.props.masks[maskIndex];
+
+        mask = mask.replace(this._reserveds.infinity, '');
+        mask = mask.replace(this._reserveds.numerical, '');
+
+        return [
+            mask.replace(/\[\d+-\d+\]/gim, this._reserveds.numerical),
+            (mask.match(/\[\d+-\d+\]/gim) ?? []).map(r => r.replace(/[\[\]]/gim, '').split('-').map(v => parseInt(v)) ) as Array<[number, number]>
+        ];
+
     }
 
     private _apply(target : string, maskIndex : number) : string {
@@ -188,13 +186,11 @@ export default class Mask {
 
         this._cleaned = '';
 
-        target = this._delReservedChars(target);
-
         // control variables
 
         let result : string = '';
         
-        let mask = this._prepareMask(maskIndex);
+        let [ mask, range ] = this._getDataMask(maskIndex);
 
         let targetControl : number = target.length;
         let maskControl   : number = mask.length;
@@ -218,7 +214,7 @@ export default class Mask {
 
             infinityPattern = this.props.patterns[mask[lastCharPattern]];
 
-            mask = mask.substring(0, lastCharPattern) + this._reserveds[1] + mask.substring(lastCharPattern + 1);
+            mask = mask.substring(0, lastCharPattern) + this._reserveds.infinity + mask.substring(lastCharPattern + 1);
 
         }
 
@@ -229,7 +225,7 @@ export default class Mask {
             let targetChar = target.charAt(target.length - targetControl);
             let maskChar = mask.charAt(mask.length - maskControl);
 
-            if(maskChar === this._reserveds[1]) {
+            if(maskChar === this._reserveds.infinity) {
                 
                 let remaining : string = target.substring(target.length - targetControl).split('').filter(char => infinityPattern.test(char)).join('');
                 this._cleaned += remaining;
@@ -246,9 +242,15 @@ export default class Mask {
 
                 break;
 
-            } else if(maskChar === this._reserveds[0]) {
+            } else if(maskChar === this._reserveds.escape) {
 
                 result += mask.charAt(mask.length - --maskControl);
+                maskControl--;
+
+            } else if(maskChar === this._reserveds.numerical) {
+
+                // MAKE
+                result += 0;
                 maskControl--;
 
             } else if(maskChar in this.props.patterns) {
@@ -303,8 +305,8 @@ export default class Mask {
 
             let maskChar = mask.charAt(mask.length - maskControl);
 
-            if(maskChar === this._reserveds[0]) result += mask.charAt(mask.length - --maskControl);
-            else result += (maskChar in this.props.patterns || maskChar === this._reserveds[1]) ? this.props.placeholder : maskChar;
+            if(maskChar === this._reserveds.escape) result += mask.charAt(mask.length - --maskControl);
+            else result += (maskChar in this.props.patterns || maskChar === this._reserveds.infinity) ? this.props.placeholder : maskChar;
 
             maskControl--;
 
