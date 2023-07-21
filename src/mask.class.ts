@@ -155,20 +155,6 @@ export default class Mask {
 
     /* PRIVATE METHODS */
 
-    private _getDataMask(maskIndex : number) : [ string, Array<[number, number]> ] {
-
-        let mask = this.props.masks[maskIndex];
-
-        mask = mask.replace(this._reserveds.infinity, '');
-        mask = mask.replace(this._reserveds.numerical, '');
-
-        return [
-            mask.replace(/\[\d+-\d+\]/gim, this._reserveds.numerical),
-            (mask.match(/\[\d+-\d+\]/gim) ?? []).map(r => r.replace(/[\[\]]/gim, '').split('-').map(v => parseInt(v)) ) as Array<[number, number]>
-        ];
-
-    }
-
     private _apply(target : string, maskIndex : number) : string {
 
         // erase the remnant mask and placeholer
@@ -190,8 +176,15 @@ export default class Mask {
 
         let result : string = '';
         
-        let [ mask, range ] = this._getDataMask(maskIndex);
+        let mask = this.props.masks[maskIndex];
 
+        mask = mask.replace(this._reserveds.infinity, '');
+        mask = mask.replace(this._reserveds.numerical, '');
+
+        let range = (mask.match(/\[\d+-\d+\]/gim) ?? []).map(r => r.replace(/[\[\]]/gim, ''));
+
+        mask = mask.replace(/\[\d+-\d+\]/gim, this._reserveds.numerical);
+        
         let targetControl : number = target.length;
         let maskControl   : number = mask.length;
 

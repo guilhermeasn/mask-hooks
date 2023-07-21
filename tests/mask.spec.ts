@@ -213,15 +213,14 @@ describe('Mask class tests', () => {
 
     });
 
-    test('Mask numerical range', () => {
+    // test('Mask numerical range', () => {
 
-        const mask = new Mask({
-            masks: [ '[1-31]/[1-12]/[1900-2100]' ]
-        })
+    //     const mask = new Mask({
+    //         masks: [ '[1-31]/[1-12]/[1900-2100]' ]
+    //     })
 
-        // @ts-ignore
-        console.log(mask._getDataMask(0));
+    //     // ...
 
-    });
+    // });
 
 });
