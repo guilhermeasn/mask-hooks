@@ -182,6 +182,7 @@ export default class Mask {
         mask = mask.replace(this._reserveds.numerical, '');
 
         let range = (mask.match(/\[\d+-\d+\]/gim) ?? []).map(r => r.replace(/[\[\]]/gim, ''));
+        if(range.length) mask = mask.replace(/\[\d+-\d+\]/gim, this._reserveds.numerical);
 
         mask = mask.replace(/\[\d+-\d+\]/gim, this._reserveds.numerical);
         
