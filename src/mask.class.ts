@@ -181,10 +181,9 @@ export default class Mask {
         mask = mask.replace(this._reserveds.infinity, '');
         mask = mask.replace(this._reserveds.numerical, '');
 
+        let rangeIndex : number = 0;
         let range = (mask.match(/\[\d+-\d+\]/gim) ?? []).map(r => r.replace(/[\[\]]/gim, ''));
         if(range.length) mask = mask.replace(/\[\d+-\d+\]/gim, this._reserveds.numerical);
-
-        mask = mask.replace(/\[\d+-\d+\]/gim, this._reserveds.numerical);
         
         let targetControl : number = target.length;
         let maskControl   : number = mask.length;
@@ -219,7 +218,12 @@ export default class Mask {
             let targetChar = target.charAt(target.length - targetControl);
             let maskChar = mask.charAt(mask.length - maskControl);
 
-            if(maskChar === this._reserveds.infinity) {
+            if(maskChar === this._reserveds.escape) {
+
+                result += mask.charAt(mask.length - --maskControl);
+                maskControl--;
+
+            } else if(maskChar === this._reserveds.infinity) {
                 
                 let remaining : string = target.substring(target.length - targetControl).split('').filter(char => infinityPattern.test(char)).join('');
                 this._cleaned += remaining;
@@ -236,16 +240,46 @@ export default class Mask {
 
                 break;
 
-            } else if(maskChar === this._reserveds.escape) {
-
-                result += mask.charAt(mask.length - --maskControl);
-                maskControl--;
-
             } else if(maskChar === this._reserveds.numerical) {
 
-                // MAKE
-                result += 0;
-                maskControl--;
+                let [min, max] = range[rangeIndex++].split('-').map(n => parseInt(n));
+
+                const numTest = (num : string, minTest : boolean = false) : boolean => {
+                    let int : number = parseInt(num);
+                    return !isNaN(int) &&
+                            int <= max &&
+                            (minTest ? int >= min : true)
+                }
+
+                let num : string = '';
+
+                while(numTest(num + targetChar) && targetControl) {
+                    num += targetChar;
+                    targetChar = target.charAt(target.length - --targetControl);
+                }
+
+                /* UNDER CONSTRUCTION */
+
+                console.log(min, max, num);
+                num = parseInt(num).toString();
+
+                if(numTest(num, true)) {
+
+                    let maxlength = max.toString().length;
+
+                    if(maxlength != num.length) {
+                        let complement : string = '';
+                        for(let c = 0; c < maxlength; c++) {
+                            complement += '0';
+                        }
+                        num = (complement + num).slice(num.length)
+                    }
+
+                    this._cleaned += num;
+                    result += num;
+                    maskControl--;
+
+                }
 
             } else if(maskChar in this.props.patterns) {
 

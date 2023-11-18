@@ -219,7 +219,9 @@ describe('Mask class tests', () => {
             masks: [ '[1-31]/[1-12]/[1900-2100]' ]
         })
 
-        // ...
+        /* UNDER CONSTRUCTION */
+
+        expect(mask.apply('4302010')).toBe('04/03/2010');
 
     });
 
