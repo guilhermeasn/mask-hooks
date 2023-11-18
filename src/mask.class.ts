@@ -260,20 +260,31 @@ export default class Mask {
 
                 /* UNDER CONSTRUCTION */
 
-                console.log(min, max, num);
                 num = parseInt(num).toString();
 
-                if(numTest(num, true)) {
+                let maxlength = max.toString().length;
 
-                    let maxlength = max.toString().length;
+                if(maxlength != num.length) {
 
-                    if(maxlength != num.length) {
-                        let complement : string = '';
-                        for(let c = 0; c < maxlength; c++) {
-                            complement += '0';
-                        }
-                        num = (complement + num).slice(num.length)
+                    let complement : string = '';
+
+                    for(let c = 0; c < maxlength; c++) {
+                        complement += '0';
                     }
+
+                    const avail = parseInt((num + complement).slice(0, maxlength)) <= max;
+
+                    if(avail)  {
+                        this._cleaned += num;
+                        result += num;
+                    } else {
+                        num = (complement + num).slice(num.length);
+                        this._cleaned += num;
+                        result += num;
+                        maskControl--;
+                    }
+                        
+                } else if(numTest(num, true)) {
 
                     this._cleaned += num;
                     result += num;
@@ -329,12 +340,16 @@ export default class Mask {
 
         // fills the rest of the mask with a placeholder or just completes the mask that there are no more characters to replace
         
-        while(maskControl && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(char => char in this.props.patterns))) {
+        while(maskControl && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(char => char in this.props.patterns || char === this._reserveds.numerical))) {
 
             let maskChar = mask.charAt(mask.length - maskControl);
 
             if(maskChar === this._reserveds.escape) result += mask.charAt(mask.length - --maskControl);
-            else result += (maskChar in this.props.patterns || maskChar === this._reserveds.infinity) ? this.props.placeholder : maskChar;
+            else result += (
+                maskChar in this.props.patterns       ||
+                maskChar === this._reserveds.infinity ||
+                maskChar === this._reserveds.numerical
+            ) ? this.props.placeholder : maskChar;
 
             maskControl--;
 

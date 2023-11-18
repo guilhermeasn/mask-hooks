@@ -222,6 +222,9 @@ describe('Mask class tests', () => {
         /* UNDER CONSTRUCTION */
 
         expect(mask.apply('4302010')).toBe('04/03/2010');
+        expect(mask.apply('432')).toBe('04/03/2');
+        expect(mask.apply('121')).toBe('12/1');
+        expect(mask.apply('1231')).toBe('12/03/1')
 
     });
 
