@@ -268,6 +268,59 @@ export default class Mask {
                  * 
                  */
 
+                /**
+// algoritimo para usar no console
+
+let result = '';
+
+let min = 2000;
+let max = 3001;
+
+let len = max.toString().length;
+
+function reset(_min = 2000, _max = 3001) {
+    min = _min;
+    max = _max;
+    len = max.toString().length
+    result = '';
+}
+
+function padding(num = '', size = 2, right = true) {
+
+    let complement = '';
+
+    for(let c = 0; c < size; c++) {
+        complement += '0';
+    }
+
+    return right
+        ? (num + complement).slice(0, size)
+        : (complement + num).slice(num.length);
+
+}
+
+function input(num = '') {
+
+    num = num.toString();
+    if(isNaN(parseInt(num))) return;
+
+    let acc = result + num;
+
+    if(acc.length < len) {
+        let test = parseInt(padding(acc, len, true))
+        console.log('testando opcao', test);
+        if(test >= min && test <= max) {
+            result += num;
+        } else {
+            input('0' + num);
+        }
+    } else if(parseInt(acc) >= min && parseInt(acc) <= max) result += num;
+
+    return result;
+
+}
+                 */
+
                 // let [min, max] = range[rangeIndex++].split('-').map(n => parseInt(n));
 
                 // const numTest = (num : string, minTest : boolean = false) : boolean => {
