@@ -38,7 +38,7 @@ export type Stringable = {
 
 export default class Mask {
 
-    /* STATIC METHODS */
+    /* STATIC RESOURCES */
 
     public static defaultPatterns = {
         // test only one char at a time
@@ -69,6 +69,18 @@ export default class Mask {
             case 'capitalizeAll': return capitalize(target, true);
             default:              return target;
         }
+
+    }
+
+    public static padding(target : string, length : number, mode : 'LEFT' | 'RIGHT', char : string = '0') {
+
+        let pad : string = '';
+
+        for(let c = 0; c < length; c++) pad += char;
+
+        return mode === 'LEFT'  ? (pad + target).slice(target.length) :
+               mode === 'RIGHT' ? (target + pad).slice(0, length)     :
+               target;
 
     }
 
@@ -242,55 +254,69 @@ export default class Mask {
 
             } else if(maskChar === this._reserveds.numerical) {
 
-                let [min, max] = range[rangeIndex++].split('-').map(n => parseInt(n));
+                /**
+                 * # Algoritmo para o numerical range:
+                 * 
+                 * 1 - declarar as variáveis de controle: minimo, maximo, comprimento, numeroAtual, numeroTotal;
+                 *      1.1 - verificar se o próximo caracter do target é numero e substituir no numeroAtual
+                 *      1.2 - adicionar no numeroTotal
+                 * 2 - verificar comprimento do numeroTotal:
+                 *      2.1 - se comprimento menor: verificar se com zeros a direita até o comprimento permanece sendo menor ou igual ao máximo e maior ou igual ao minimo
+                 *          2.1.1 - se sim: permitir a entrada do numeroAtual, sem os zeros que foram adicionados a direita, voltar para 1.1
+                 *          2.1.2 - se não: colocar um zero a esquerda no numeroAtual e numeroTotal, voltar para 2
+                 *      2.2 - se comprimento igual: verificar se numeroTotal continua maior ou igual que o minimo e menor e igual que o minimo para permitir a entrada do numeroAtual
+                 * 
+                 */
 
-                const numTest = (num : string, minTest : boolean = false) : boolean => {
-                    let int : number = parseInt(num);
-                    return !isNaN(int) &&
-                            int <= max &&
-                            (minTest ? int >= min : true)
-                }
+                // let [min, max] = range[rangeIndex++].split('-').map(n => parseInt(n));
 
-                let num : string = '';
+                // const numTest = (num : string, minTest : boolean = false) : boolean => {
+                //     let int : number = parseInt(num);
+                //     return !isNaN(int) &&
+                //             int <= max &&
+                //             (minTest ? int >= min : true)
+                // }
 
-                while(numTest(num + targetChar) && targetControl) {
-                    num += targetChar;
-                    targetChar = target.charAt(target.length - --targetControl);
-                }
+                // let num : string = '';
 
-                /* UNDER CONSTRUCTION */
+                // while(numTest(num + targetChar) && targetControl) {
+                //     num += targetChar;
+                //     targetChar = target.charAt(target.length - --targetControl);
+                // }
 
-                num = parseInt(num).toString();
+                // /* UNDER CONSTRUCTION */
 
-                let maxlength = max.toString().length;
+                // num = parseInt(num).toString();
 
-                if(maxlength != num.length) {
+                // let maxlength = max.toString().length;
 
-                    let complement : string = '';
+                // if(maxlength != num.length) {
 
-                    for(let c = 0; c < maxlength; c++) {
-                        complement += '0';
-                    }
+                //     let complement : string = '';
 
-                    const avail = parseInt((num + complement).slice(0, maxlength)) <= max;
+                //     for(let c = 0; c < maxlength; c++) {
+                //         complement += '0';
+                //     }
 
-                    if(avail)  {
-                        this._cleaned += num;
-                        result += num;
-                    } else {
-                        num = (complement + num).slice(num.length);
-                        this._cleaned += num;
-                        result += num;
-                        maskControl--;
-                    }
+                //     const avail = parseInt((num + complement).slice(0, maxlength)) <= max;
+
+                //     if(avail)  {
+                //         this._cleaned += num;
+                //         result += num;
+                //     } else {
+                //         num = (complement + num).slice(num.length);
+                //         this._cleaned += num;
+                //         result += num;
+                //         maskControl--;
+                //     }
                         
-                } else if(numTest(num, true)) {
+                // } else if(numTest(num, true)) {
 
-                    this._cleaned += num;
-                    result += num;
-                    maskControl--;
+                //     this._cleaned += num;
+                //     result += num;
+                //     maskControl--;
 
-                }
+                // }
 
             } else if(maskChar in this.props.patterns) {
 
