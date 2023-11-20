@@ -195,6 +195,7 @@ export default class Mask {
 
         mask = mask.replace(this._reserveds.infinity, '');
         mask = mask.replace(this._reserveds.numerical, '');
+        // mask = mask.replace(new RegExp(`\\${this._reserveds.escape}$`), '');
 
         const rangePattern = new RegExp(`(?<!\\${this._reserveds.escape})\\[\\d+-\\d+\\]`, 'gim');
         const range = (mask.match(rangePattern) ?? []).map(r => r.replace(/[\[\]]/gim, ''));
@@ -368,7 +369,7 @@ export default class Mask {
 
         // fills the rest of the mask with a placeholder or just completes the mask that there are no more characters to replace
         
-        while(maskControl && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(char => char in this.props.patterns || char === this._reserveds.numerical))) {
+        while(maskControl > 0 && (this.props.placeholder || !mask.substring(mask.length - maskControl).split('').some(char => char in this.props.patterns || char === this._reserveds.numerical))) {
 
             let maskChar = mask.charAt(mask.length - maskControl);
 

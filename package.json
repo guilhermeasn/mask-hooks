@@ -1,6 +1,6 @@
 {
   "name": "mask-hooks",
-  "version": "3.0.0-beta.9",
+  "version": "3.0.0-beta.10",
   "description": "Lightweight package with functions and hooks for masking data inputs and outputs for Node.JS projects",
   "main": "dist/common/index.js",
   "module": "dist/module/index.js",

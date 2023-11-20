@@ -74,7 +74,7 @@ describe('Mask class tests', () => {
 
     });
 
-    test('Apply mask with char scape', () => {
+    test('Apply mask with char escape', () => {
 
         const mask = new Mask({
             masks: ['§ \\@???.\\?? §'],
@@ -86,6 +86,18 @@ describe('Mask class tests', () => {
         expect(mask.apply(2290)).toBe('§ @229.?0 §');
         expect(mask.apply('a1b2c3d4e5')).toBe('§ @a1b.?2c3d4e5 §');
 
+        const mask2 = new Mask({
+            masks: ['\\\\']
+        });
+
+        expect(mask2.apply('abc')).toBe('\\');
+
+        const mask3 = new Mask({
+            masks: ['\\']
+        });
+
+        expect(mask3.apply('abc')).toBe('');
+        
     });
 
     test('Apply mask multiple', () => {
