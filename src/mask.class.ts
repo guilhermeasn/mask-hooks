@@ -243,7 +243,7 @@ export default class Mask {
                     result += mask.charAt(mask.length - --maskControl);
                     maskControl--;
 
-                    break;
+                    continue loop;
 
                 case this._reserveds.infinity:
 
@@ -314,7 +314,7 @@ export default class Mask {
 
                     }
 
-                    break;
+                    continue loop;
 
                 default:
 
