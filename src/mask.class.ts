@@ -268,7 +268,63 @@ export default class Mask {
                  * 
                  */
 
-                
+                console.log(range.length, rangeIndex, targetChar);
+
+                const [ min, max ] : number[] = range[rangeIndex++].split('-').sort().map(n => parseInt(n));
+                const length : number = max.toString().length;
+
+                let accumulator : string = '';
+
+                const checker = (num : string, testMin = true) : boolean => {
+                    const int = parseInt(num);
+                    return !isNaN(int) && (testMin ? int >= min : true) && int <= max;
+                }
+
+                while(targetControl && checker(accumulator + targetChar, false)) {
+                    
+                    accumulator += targetChar;
+
+                    console.log('aqui 1 accumulator', accumulator);
+                    
+                    if(accumulator.length < length) {
+                        
+                        let testNumber : string = Mask.padding(accumulator, length, 'RIGHT', '0');
+
+                        console.log('aqui 2 testNumber', testNumber);
+
+                        if(checker(testNumber)) {
+                            
+                            this._cleaned += targetChar;
+                            result += targetChar;
+                            targetChar = target.charAt(target.length - --targetControl);
+                            console.log('aqui 3 result targetChar', result, targetChar);
+
+                        } else {
+                            
+                            accumulator = accumulator.slice(0, -1);
+                            targetChar = '0' + targetChar;
+                            console.log('aqui 4 accumulator targetChar', accumulator, targetChar);
+
+                        }
+
+                    } else if(accumulator.length === length && checker(accumulator)) {
+                        
+                        this._cleaned += targetChar;
+                        result += targetChar;
+                        maskControl--;
+                        targetControl--;
+                        console.log('aqui 5 result', result);
+                        break;
+
+                    } else {
+
+                        console.log('aqui 6 result', result);
+                        targetControl--;
+                        break;
+
+                    }
+
+                }
 
             } else if(maskChar in this.props.patterns) {
 
