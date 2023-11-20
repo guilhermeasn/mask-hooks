@@ -8,6 +8,10 @@ export type PresetOption = (
     'DATE_PTBR'               |
     'DATETIME_STAMP'          |
     'DATETIME_PTBR'           |
+    'DATE_STAMP_LIMITED'      |
+    'DATE_PTBR_LIMITED'       |
+    'DATETIME_STAMP_LIMITED'  |
+    'DATETIME_PTBR_LIMITED'   |
     'PHONE_USA'               |
     'PHONE_BR'                |
     'CURRENCY_POINT'          |
@@ -65,6 +69,22 @@ const presets : { [key in PresetOption] : MaskProps } = {
         masks: [ '##/##/#### ##:##' ]
     },
 
+    DATE_STAMP_LIMITED: {
+        masks: [ '[1800-2200]-[1-12][1-31]' ]
+    },
+
+    DATE_PTBR_LIMITED: {
+        masks: [ '[1-31]/[1-12]/[1800-2200]' ]
+    },
+
+    DATETIME_STAMP_LIMITED: {
+        masks: [ '[1800-2200]-[1-12][1-31] [0-23]:[0-59]:[0-59]' ]
+    },
+
+    DATETIME_PTBR_LIMITED: {
+        masks: [ '[1-31]/[1-12]/[1800-2200] [0-23]:[0-59]' ]
+    },
+    
     PHONE_USA: {
         masks: [ '(###) ###-####' ]
     },
