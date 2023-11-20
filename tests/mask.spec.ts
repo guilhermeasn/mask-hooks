@@ -245,7 +245,7 @@ describe('Mask class tests', () => {
             masks: [ 'a[0-3]b\\[0-3]c' ]
         });
 
-        expect(mask.apply('0')).toBe('a0b[0-3]c');
+        expect(mask.apply('000')).toBe('a0b[0-3]c');
 
     });
 
