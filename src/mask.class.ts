@@ -286,7 +286,7 @@ export default class Mask {
                         this._cleaned += targetChar;
                         result += targetChar;
 
-                    } else if(!accumulator && !isNaN(parseInt(targetChar))) {
+                    } else if(!accumulator && /^\d$/.test(targetChar)) {
                         
                         for(let c = 1; c < length; c++) {
                             if(checker(targetChar, c)) {
