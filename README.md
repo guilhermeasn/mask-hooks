@@ -1,6 +1,6 @@
 # mask-hooks examples
 
-Examples for mask hooks v2
+Examples for mask hooks v3
 
 ## [View the examples](https://guilhermeasn.github.io/mask-hooks/)
 
