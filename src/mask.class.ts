@@ -229,7 +229,7 @@ export default class Mask {
 
         // fill the mask with the target
         
-        loop: while(targetControl && maskControl) {
+        loop: while(targetControl > 0 && maskControl > 0) {
 
             let targetChar = target.charAt(target.length - targetControl);
             let maskChar = mask.charAt(mask.length - maskControl);
@@ -284,7 +284,7 @@ export default class Mask {
 
                     }
 
-                    while(targetControl) {
+                    while(targetControl > 0) {
                         
                         if(checker(accumulator + targetChar)) {
 
