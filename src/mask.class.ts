@@ -233,12 +233,16 @@ export default class Mask {
             let targetChar = target.charAt(target.length - targetControl);
             let maskChar = mask.charAt(mask.length - maskControl);
 
-            if(maskChar === this._reserveds.escape) {
+            if(maskChar === this._reserveds.escape) { 
+
+                // escape next char
 
                 result += mask.charAt(mask.length - --maskControl);
                 maskControl--;
 
             } else if(maskChar === this._reserveds.infinity) {
+
+                // unlimited char entries with validation
                 
                 let remaining : string = target.substring(target.length - targetControl).split('').filter(char => infinityPattern.test(char)).join('');
                 this._cleaned += remaining;
@@ -257,6 +261,8 @@ export default class Mask {
 
             } else if(maskChar === this._reserveds.numerical) {
 
+                // numerical range validation
+
                 const [ min, max ] : number[] = range[rangeIndex++].split('-').sort((a, b) => parseInt(a) - parseInt(b)).map(n => parseInt(n));
                 const length : number = max.toString().length;
 
@@ -265,7 +271,7 @@ export default class Mask {
                 const checker = (num : string, discount : number = 0) : boolean => {
                     
                     const int = parseInt(num);
-                    
+
                     return /^\d+$/.test(num) && !isNaN(int) &&
                         parseInt(Mask.padding(int, length - discount, '9')) >= min &&
                         parseInt(Mask.padding(int, length - discount, '0')) <= max;
@@ -307,6 +313,8 @@ export default class Mask {
 
             } else if(maskChar in this.props.patterns) {
 
+                // validates char
+
                 if(this.props.patterns[maskChar].test(targetChar)) {
                     
                     this._cleaned += targetChar;
@@ -319,6 +327,8 @@ export default class Mask {
                 targetControl--;
 
             } else {
+
+                // include mask char
 
                 if(targetChar === maskChar) {
                     targetControl--;
