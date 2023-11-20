@@ -272,7 +272,7 @@ export default class Mask {
                 const checker = (num : string) : boolean => {
 
                     const int : number = parseInt(num);
-                    const discount : number = /^(0+)[1-9]/.exec(num)?.[1]?.length ?? 0;
+                    const discount : number = /^(0+)\d/.exec(num)?.[1]?.length ?? 0;
 
                     return /^\d+$/.test(num) && !isNaN(int) &&
                         parseInt(Mask.padding(int, length - discount, '9')) >= min &&
