@@ -213,18 +213,29 @@ describe('Mask class tests', () => {
 
     });
 
-    test('Mask numerical range', () => {
+    test('Mask numerical range in date', () => {
 
         const mask = new Mask({
             masks: [ '[1-31]/[1-12]/[1900-2100]' ]
-        })
-
-        /* UNDER CONSTRUCTION */
+        });
 
         expect(mask.apply('4302010')).toBe('04/03/2010');
         expect(mask.apply('432')).toBe('04/03/2');
         expect(mask.apply('121')).toBe('12/1');
-        expect(mask.apply('1231')).toBe('12/03/1')
+        expect(mask.apply('1231')).toBe('12/03/1');
+
+    });
+
+    test('Mask numerical range misc', () => {
+
+        const mask2 = new Mask({
+            masks: [ '[50-2300]' ]
+        });
+
+        expect(mask2.apply('4')).toBe('04');
+        expect(mask2.apply('19')).toBe('19');
+        expect(mask2.apply('a2b9c')).toBe('2');
+        expect(mask2.apply('a2b9c3')).toBe('23');
 
     });
 

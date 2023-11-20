@@ -72,15 +72,18 @@ export default class Mask {
 
     }
 
-    public static padding(target : string, length : number, mode : 'LEFT' | 'RIGHT', char : string = '0') {
+    public static padding(target : string | number, length : number, char : string = '_', left : boolean = false) : string {
 
         let pad : string = '';
+        target = target.toString();
+        
+        if(char.length !== 1) throw new Error('Provide only one char for padding');
 
         for(let c = 0; c < length; c++) pad += char;
 
-        return mode === 'LEFT'  ? (pad + target).slice(target.length) :
-               mode === 'RIGHT' ? (target + pad).slice(0, length)     :
-               target;
+        return left
+            ? (pad + target).slice(target.length)
+            : (target + pad).slice(0, length);
 
     }
 
@@ -254,75 +257,51 @@ export default class Mask {
 
             } else if(maskChar === this._reserveds.numerical) {
 
-                /**
-                 * # Algoritmo para o numerical range:
-                 * 
-                 * 1 - declarar as variáveis de controle: minimo, maximo, comprimento, numeroAtual, numeroTotal;
-                 *      1.1 - verificar se o próximo caracter do target é numero e substituir no numeroAtual
-                 *      1.2 - adicionar no numeroTotal
-                 * 2 - verificar comprimento do numeroTotal:
-                 *      2.1 - se comprimento menor: verificar se com zeros a direita até o comprimento permanece sendo menor ou igual ao máximo e maior ou igual ao minimo
-                 *          2.1.1 - se sim: permitir a entrada do numeroAtual, sem os zeros que foram adicionados a direita, voltar para 1.1
-                 *          2.1.2 - se não: colocar um zero a esquerda no numeroAtual e numeroTotal, voltar para 2
-                 *      2.2 - se comprimento igual: verificar se numeroTotal continua maior ou igual que o minimo e menor e igual que o minimo para permitir a entrada do numeroAtual
-                 * 
-                 */
-
-                console.log(range.length, rangeIndex, targetChar);
-
-                const [ min, max ] : number[] = range[rangeIndex++].split('-').sort().map(n => parseInt(n));
+                const [ min, max ] : number[] = range[rangeIndex++].split('-').sort((a, b) => parseInt(a) - parseInt(b)).map(n => parseInt(n));
                 const length : number = max.toString().length;
 
                 let accumulator : string = '';
 
-                const checker = (num : string, testMin = true) : boolean => {
+                const checker = (num : string, discount : number = 0) : boolean => {
+                    
                     const int = parseInt(num);
-                    return !isNaN(int) && (testMin ? int >= min : true) && int <= max;
+                    
+                    return /^\d+$/.test(num) && !isNaN(int) &&
+                        parseInt(Mask.padding(int, length - discount, '9')) >= min &&
+                        parseInt(Mask.padding(int, length - discount, '0')) <= max;
+
                 }
 
-                while(targetControl && checker(accumulator + targetChar, false)) {
+                while(targetControl) {
                     
-                    accumulator += targetChar;
+                    if(checker(accumulator + targetChar)) {
 
-                    console.log('aqui 1 accumulator', accumulator);
-                    
-                    if(accumulator.length < length) {
-                        
-                        let testNumber : string = Mask.padding(accumulator, length, 'RIGHT', '0');
-
-                        console.log('aqui 2 testNumber', testNumber);
-
-                        if(checker(testNumber)) {
-                            
-                            this._cleaned += targetChar;
-                            result += targetChar;
-                            targetChar = target.charAt(target.length - --targetControl);
-                            console.log('aqui 3 result targetChar', result, targetChar);
-
-                        } else {
-                            
-                            accumulator = accumulator.slice(0, -1);
-                            targetChar = '0' + targetChar;
-                            console.log('aqui 4 accumulator targetChar', accumulator, targetChar);
-
-                        }
-
-                    } else if(accumulator.length === length && checker(accumulator)) {
-                        
+                        accumulator += targetChar;
                         this._cleaned += targetChar;
                         result += targetChar;
-                        maskControl--;
-                        targetControl--;
-                        console.log('aqui 5 result', result);
-                        break;
 
-                    } else {
+                    } else if(!accumulator && !isNaN(parseInt(targetChar))) {
+                        
+                        for(let c = 1; c < length; c++) {
+                            if(checker(targetChar, c)) {
+                                
+                                accumulator += Mask.padding(targetChar, c + 1, '0', true);
+                                this._cleaned += accumulator;
+                                result += accumulator;
+                                break;
 
-                        console.log('aqui 6 result', result);
-                        targetControl--;
-                        break;
+                            }
+                        }
 
                     }
+
+                    if(accumulator.length === length) {
+                        maskControl--;
+                        targetControl--;
+                        break;
+                    }
+
+                    targetChar = target.charAt(target.length - --targetControl);
 
                 }
 
