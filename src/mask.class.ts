@@ -323,28 +323,24 @@ export default class Mask {
                         // validates char
         
                         if(this.props.patterns[maskChar].test(targetChar)) {
-                            
+
                             this._cleaned += targetChar;
                             result += targetChar;
-        
                             maskControl--;
-        
+                            
                         }
-                        
+
                         targetControl--;
-        
-                    } else {
-        
-                        // include mask char
-        
-                        if(targetChar === maskChar) {
-                            targetControl--;
-                        }
-        
-                        result += maskChar;
-                        maskControl--;
+
+                        continue loop;
         
                     }
+        
+                    // include mask char
+    
+                    if(targetChar === maskChar) targetControl--;
+                    result += maskChar;
+                    maskControl--;
 
             }
 
