@@ -229,112 +229,122 @@ export default class Mask {
 
         // fill the mask with the target
         
-        while(targetControl && maskControl) {
+        loop: while(targetControl && maskControl) {
 
             let targetChar = target.charAt(target.length - targetControl);
             let maskChar = mask.charAt(mask.length - maskControl);
 
-            if(maskChar === this._reserveds.escape) { 
+            switch(maskChar) {
 
-                // escape next char
+                case this._reserveds.escape:
 
-                result += mask.charAt(mask.length - --maskControl);
-                maskControl--;
+                    // escape next char
 
-            } else if(maskChar === this._reserveds.infinity) {
+                    result += mask.charAt(mask.length - --maskControl);
+                    maskControl--;
 
-                // unlimited char entries with validation
+                    break;
+
+                case this._reserveds.infinity:
+
+                    // unlimited char entries with validation
                 
-                let remaining : string = target.substring(target.length - targetControl).split('').filter(char => infinityPattern.test(char)).join('');
-                this._cleaned += remaining;
+                    let remaining : string = target.substring(target.length - targetControl).split('').filter(char => infinityPattern.test(char)).join('');
+                    this._cleaned += remaining;
 
-                if(typeof this.props.infinity === 'object' && this.props.infinity.each > 0) {
-                    remaining = remaining.match(new RegExp(`.{1,${ this.props.infinity.each }}`, 'g'))?.join(this.props.infinity.add) ?? remaining;
-                }
+                    if(typeof this.props.infinity === 'object' && this.props.infinity.each > 0) {
+                        remaining = remaining.match(new RegExp(`.{1,${ this.props.infinity.each }}`, 'g'))?.join(this.props.infinity.add) ?? remaining;
+                    }
 
-                result += remaining;
-                result += mask.substring(mask.length - --maskControl);
+                    result += remaining;
+                    result += mask.substring(mask.length - --maskControl);
 
-                targetControl = 0;
-                maskControl = 0;
+                    targetControl = 0;
+                    maskControl = 0;
 
-                break;
+                    break loop;
 
-            } else if(maskChar === this._reserveds.numerical) {
+                case this._reserveds.numerical:
 
-                // numerical range validation
+                    // numerical range validation
 
-                const [ min, max ] : number[] = range[rangeIndex++].split('-').sort((a, b) => parseInt(a) - parseInt(b)).map(n => parseInt(n));
-                const length : number = max.toString().length;
+                    const [ min, max ] : number[] = range[rangeIndex++].split('-').sort((a, b) => parseInt(a) - parseInt(b)).map(n => parseInt(n));
+                    const length : number = max.toString().length;
 
-                let accumulator : string = '';
+                    let accumulator : string = '';
 
-                const checker = (num : string) : boolean => {
+                    const checker = (num : string) : boolean => {
 
-                    const int : number = parseInt(num);
-                    const discount : number = /^(0+)\d/.exec(num)?.[1]?.length ?? 0;
+                        const int : number = parseInt(num);
+                        const discount : number = /^(0+)\d/.exec(num)?.[1]?.length ?? 0;
 
-                    return /^\d+$/.test(num) && !isNaN(int) &&
-                        parseInt(Mask.padding(int, length - discount, '9')) >= min &&
-                        parseInt(Mask.padding(int, length - discount, '0')) <= max;
+                        return /^\d+$/.test(num) && !isNaN(int) &&
+                            parseInt(Mask.padding(int, length - discount, '9')) >= min &&
+                            parseInt(Mask.padding(int, length - discount, '0')) <= max;
 
-                }
+                    }
 
-                while(targetControl) {
-                    
-                    if(checker(accumulator + targetChar)) {
-
-                        accumulator += targetChar;
-                        this._cleaned += targetChar;
-                        result += targetChar;
-
-                    } else if(!accumulator && /^\d$/.test(targetChar)) {
+                    while(targetControl) {
                         
-                        if(checker('0' + targetChar)) {
+                        if(checker(accumulator + targetChar)) {
+
+                            accumulator += targetChar;
+                            this._cleaned += targetChar;
+                            result += targetChar;
+
+                        } else if(!accumulator && /^\d$/.test(targetChar)) {
                             
-                            accumulator += '0' + targetChar;
-                            this._cleaned += accumulator;
-                            result += accumulator;
+                            if(checker('0' + targetChar)) {
+                                
+                                accumulator += '0' + targetChar;
+                                this._cleaned += accumulator;
+                                result += accumulator;
+
+                            }
 
                         }
 
+                        if(accumulator.length === length) {
+                            maskControl--;
+                            targetControl--;
+                            break;
+                        }
+
+                        targetChar = target.charAt(target.length - --targetControl);
+
                     }
 
-                    if(accumulator.length === length) {
-                        maskControl--;
+                    break;
+
+                default:
+
+                    if(maskChar in this.props.patterns) {
+
+                        // validates char
+        
+                        if(this.props.patterns[maskChar].test(targetChar)) {
+                            
+                            this._cleaned += targetChar;
+                            result += targetChar;
+        
+                            maskControl--;
+        
+                        }
+                        
                         targetControl--;
-                        break;
+        
+                    } else {
+        
+                        // include mask char
+        
+                        if(targetChar === maskChar) {
+                            targetControl--;
+                        }
+        
+                        result += maskChar;
+                        maskControl--;
+        
                     }
-
-                    targetChar = target.charAt(target.length - --targetControl);
-
-                }
-
-            } else if(maskChar in this.props.patterns) {
-
-                // validates char
-
-                if(this.props.patterns[maskChar].test(targetChar)) {
-                    
-                    this._cleaned += targetChar;
-                    result += targetChar;
-
-                    maskControl--;
-
-                }
-                
-                targetControl--;
-
-            } else {
-
-                // include mask char
-
-                if(targetChar === maskChar) {
-                    targetControl--;
-                }
-
-                result += maskChar;
-                maskControl--;
 
             }
 
