@@ -269,9 +269,10 @@ export default class Mask {
 
                 let accumulator : string = '';
 
-                const checker = (num : string, discount : number = 0) : boolean => {
-                    
-                    const int = parseInt(num);
+                const checker = (num : string) : boolean => {
+
+                    const int : number = parseInt(num);
+                    const discount : number = /^(0+)[1-9]/.exec(num)?.[1]?.length ?? 0;
 
                     return /^\d+$/.test(num) && !isNaN(int) &&
                         parseInt(Mask.padding(int, length - discount, '9')) >= min &&
@@ -289,15 +290,12 @@ export default class Mask {
 
                     } else if(!accumulator && /^\d$/.test(targetChar)) {
                         
-                        f: for(let c = 1; c < length; c++) {
-                            if(checker(targetChar, c)) {
-                                
-                                accumulator += Mask.padding(targetChar, c + 1, '0', true);
-                                this._cleaned += accumulator;
-                                result += accumulator;
-                                break f;
+                        if(checker('0' + targetChar)) {
+                            
+                            accumulator += '0' + targetChar;
+                            this._cleaned += accumulator;
+                            result += accumulator;
 
-                            }
                         }
 
                     }
