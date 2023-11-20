@@ -40,7 +40,7 @@ export default class Mask {
 
     /* STATIC RESOURCES */
 
-    public static defaultPatterns = {
+    public static defaultPatterns : Required<MaskProps>['patterns'] = {
         // test only one char at a time
         '#': /[0-9]/,
         '@': /[A-Za-z]/,
@@ -196,9 +196,10 @@ export default class Mask {
         mask = mask.replace(this._reserveds.infinity, '');
         mask = mask.replace(this._reserveds.numerical, '');
 
-        let rangeIndex : number = 0;
-        let range = (mask.match(/\[\d+-\d+\]/gim) ?? []).map(r => r.replace(/[\[\]]/gim, ''));
-        if(range.length) mask = mask.replace(/\[\d+-\d+\]/gim, this._reserveds.numerical);
+        const rangePattern = new RegExp(`(?<!\\${this._reserveds.escape})\\[\\d+-\\d+\\]`, 'gim');
+        const range = (mask.match(rangePattern) ?? []).map(r => r.replace(/[\[\]]/gim, ''));
+        if(range.length) mask = mask.replace(rangePattern, this._reserveds.numerical);
+        let rangeIndex : keyof typeof range = 0;
         
         let targetControl : number = target.length;
         let maskControl   : number = mask.length;

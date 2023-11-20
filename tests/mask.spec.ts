@@ -228,14 +228,24 @@ describe('Mask class tests', () => {
 
     test('Mask numerical range misc', () => {
 
-        const mask2 = new Mask({
+        const mask = new Mask({
             masks: [ '[50-2300]' ]
         });
 
-        expect(mask2.apply('4')).toBe('04');
-        expect(mask2.apply('19')).toBe('19');
-        expect(mask2.apply('a2b9c')).toBe('2');
-        expect(mask2.apply('a2b9c3')).toBe('23');
+        expect(mask.apply('4')).toBe('04');
+        expect(mask.apply('19')).toBe('19');
+        expect(mask.apply('a2b9c')).toBe('2');
+        expect(mask.apply('a2b9c3')).toBe('23');
+
+    });
+
+    test('Mask numerical range escape', () => {
+
+        const mask = new Mask({
+            masks: [ 'a[0-3]b\\[0-3]c' ]
+        });
+
+        expect(mask.apply('0')).toBe('a0b[0-3]c');
 
     });
 
