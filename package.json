@@ -1,6 +1,6 @@
 {
   "name": "mask-hooks",
-  "version": "3.0.0-beta.5",
+  "version": "3.0.0",
   "description": "Lightweight package with functions and hooks for masking data inputs and outputs for Node.JS projects",
   "main": "dist/common/index.js",
   "module": "dist/module/index.js",
@@ -8,7 +8,10 @@
   "scripts": {
     "test": "jest",
     "build": "rimraf dist && tsc --project tsconfig.json && tsc --project tsconfig.m.json",
-    "packpublish": "npm pack --pack-destination .\\packs\\ && npm publish"
+    "minify": "minify-all-js .\\dist\\ -m",
+    "DELETE_packpublish": "npm pack --pack-destination .\\packs\\ && npm publish",
+    "publish:ps": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./bin/publish.ps1",
+    "publish:sh": "sh ./bin/publish.sh"
   },
   "repository": {
     "type": "git",
@@ -30,6 +33,7 @@
   "devDependencies": {
     "@types/jest": "^28.1.6",
     "jest": "^28.1.3",
+    "minify-all-js": "^0.1.9",
     "rimraf": "^3.0.2",
     "ts-jest": "^28.0.7",
     "typescript": "^4.7.4"
