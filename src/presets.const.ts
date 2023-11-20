@@ -70,7 +70,7 @@ const presets : { [key in PresetOption] : MaskProps } = {
     },
 
     DATE_STAMP_LIMITED: {
-        masks: [ '[1800-2200]-[1-12][1-31]' ]
+        masks: [ '[1800-2200]-[1-12]-[1-31]' ]
     },
 
     DATE_PTBR_LIMITED: {
@@ -78,7 +78,7 @@ const presets : { [key in PresetOption] : MaskProps } = {
     },
 
     DATETIME_STAMP_LIMITED: {
-        masks: [ '[1800-2200]-[1-12][1-31] [0-23]:[0-59]:[0-59]' ]
+        masks: [ '[1800-2200]-[1-12]-[1-31] [0-23]:[0-59]:[0-59]' ]
     },
 
     DATETIME_PTBR_LIMITED: {

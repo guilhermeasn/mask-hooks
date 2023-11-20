@@ -224,6 +224,10 @@ describe('Mask class tests', () => {
         expect(mask.apply('121')).toBe('12/1');
         expect(mask.apply('1231')).toBe('12/03/1');
 
+        expect(mask.apply('04032010')).toBe('04/03/2010');
+        expect(mask.apply('04/03/2010')).toBe('04/03/2010');
+        expect(mask.apply('a05b05c1995d')).toBe('05/05/1995');
+
     });
 
     test('Mask numerical range misc', () => {

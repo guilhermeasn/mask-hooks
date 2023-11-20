@@ -289,13 +289,13 @@ export default class Mask {
 
                     } else if(!accumulator && /^\d$/.test(targetChar)) {
                         
-                        for(let c = 1; c < length; c++) {
+                        f: for(let c = 1; c < length; c++) {
                             if(checker(targetChar, c)) {
                                 
                                 accumulator += Mask.padding(targetChar, c + 1, '0', true);
                                 this._cleaned += accumulator;
                                 result += accumulator;
-                                break;
+                                break f;
 
                             }
                         }
