@@ -195,7 +195,6 @@ export default class Mask {
 
         mask = mask.replace(this._reserveds.infinity, '');
         mask = mask.replace(this._reserveds.numerical, '');
-        // mask = mask.replace(new RegExp(`\\${this._reserveds.escape}$`), '');
 
         const rangePattern = new RegExp(`(?<!\\${this._reserveds.escape})\\[\\d+-\\d+\\]`, 'gim');
         const range = (mask.match(rangePattern) ?? []).map(r => r.replace(/[\[\]]/gim, ''));
