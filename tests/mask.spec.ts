@@ -266,6 +266,20 @@ describe('Mask class tests', () => {
 
         expect(mask.apply('000')).toBe('a0b[0-3]c');
 
+        const mask2 = new Mask({
+            masks: [ '[0-9] (\\[0-9]) - ###' ]
+        });
+
+        expect(mask2.apply('0123')).toBe('0 ([0-9]) - 123');
+
+        const mask3 = new Mask({
+            masks: [ '[0-99]\\[0-99] ?' ],
+            infinity: true
+        });
+
+        expect(mask3.apply('35gasn')).toBe('35[0-99] gasn');
+        expect(mask3.apply('34tgcn')).toBe('34[0-99] tgcn');
+
     });
 
 });

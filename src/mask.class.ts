@@ -200,6 +200,8 @@ export default class Mask {
         const range = (mask.match(rangePattern) ?? []).map(r => r.replace(/[\[\]]/gim, ''));
         if(range.length) mask = mask.replace(rangePattern, this._reserveds.numerical);
         let rangeIndex : keyof typeof range = 0;
+
+        mask = mask.replace(/\\(\[\d+-\d+\])/gim, '$1');
         
         let targetControl : number = target.length;
         let maskControl   : number = mask.length;
