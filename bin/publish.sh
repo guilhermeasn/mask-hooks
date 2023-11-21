@@ -2,7 +2,7 @@ if (yarn test); then
 
     yarn build
     npm pack --pack-destination .\\packs\\
-    # npm publish
+    npm publish
 
 else
 

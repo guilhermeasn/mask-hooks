@@ -5,7 +5,7 @@ if($LASTEXITCODE -eq 0) {
     yarn build
     yarn minify
     npm pack --pack-destination .\\packs\\
-    # npm publish
+    npm publish
 
 } else {
 
