@@ -192,7 +192,7 @@ function useMask(settings: MaskProps): <T extends Stringable>(target: T) => stri
  - **Function `useCompleteMask`**: Returns a function to use the preconfigured mask with additional information in the result.
 
 ```ts
-function useCompleteMask(settings: MaskProps, onComplete ?: (result : string, cleaned: string) => boolean): <T extends Stringable>(target: T) => { result: string, completed: boolean; entries: number; cleaned: string; passing   : boolean | null; }
+function useCompleteMask(settings: MaskProps, onComplete ?: (result : string, cleaned: string) => boolean): <T extends Stringable>(target: T) => { result: string, completed: boolean; entries: number; cleaned: string; passing : boolean | null; }
 ```
 
  - **Function `applyMask`**: use a mask directly on the target
