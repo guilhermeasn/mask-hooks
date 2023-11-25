@@ -19,6 +19,16 @@ describe('Functions and hooks tests', () => {
 
     });
 
+    test('Hook useCompleteMask with test', () => {
+
+        const maskComplete = useCompleteMask(getPresetMask('DATE_STAMP'), result => !isNaN(Date.parse(result)));
+        
+        expect(maskComplete('20231').passing).toBe(null);
+        expect(maskComplete('20231125').passing).toBe(true);
+        expect(maskComplete('20231150').passing).toBe(false);
+
+    });
+
     test('Function applyMask', () => {
 
         expect(applyMask('1a2b3c', getPresetMask('ONLY_LETTERS', { transform: 'uppercase' }))).toBe('ABC');

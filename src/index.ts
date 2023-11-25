@@ -1,5 +1,5 @@
-import Mask from './mask.class';
 import type { MaskProps, Stringable } from './mask.class';
+import Mask from './mask.class';
 
 export type MaskApplicator<O = string> = <T extends Stringable>(target : T) => O;
 
@@ -8,6 +8,7 @@ export type CompleteMask = {
     completed : boolean;
     entries   : number;
     cleaned   : string;
+    passing   : boolean | null;
 }
 
 export function useMask(settings : MaskProps) : MaskApplicator {
@@ -17,17 +18,22 @@ export function useMask(settings : MaskProps) : MaskApplicator {
 
 }
 
-export function useCompleteMask(settings : MaskProps) : MaskApplicator<CompleteMask> {
+export function useCompleteMask(settings : MaskProps, onComplete ?: (result : string, cleaned: string) => boolean) : MaskApplicator<CompleteMask> {
 
     const mask = new Mask(settings);
 
     function apply<T extends Stringable>(target : T) : CompleteMask {
+
+        const result : string = mask.apply(target);
+
         return ({
-            result:    mask.apply(target),
+            result,
             completed: mask.completed,
             entries:   mask.entries,
-            cleaned:   mask.cleaned
-        })
+            cleaned:   mask.cleaned,
+            passing:   (typeof onComplete === 'function' && mask.completed) ? onComplete(result, mask.cleaned) : null
+        });
+
     }
 
     return apply.bind(mask);
@@ -41,7 +47,8 @@ export function applyMask<T extends Stringable>(target : T, settings : MaskProps
 
 }
 
-export { default as presets, getPresetMask } from './presets.const';
+export { getPresetMask, default as presets } from './presets.const';
 export type { PresetOption } from './presets.const';
-export type { MaskProps, Stringable };
 export { Mask };
+export type { MaskProps, Stringable };
+

@@ -144,6 +144,30 @@ export function InputMask() {
 }
 ```
 
+ - Mask verification completed and tested
+
+```js
+import { useCompleteMask, presets } from "mask-hooks";
+import { useState } from "react";
+
+export function InputMask() {
+
+    const maskComplete = useCompleteMask(presets.DATE_STAMP, result => !isNaN(Date.parse(result)));
+    const [ data, setData ] = useState(maskComplete(''));
+
+    return (
+
+        <input
+            value={ data.result }
+            onChange={ input => setData(maskComplete(input.currentTarget.value)) }
+            style={ { color: data.passing ? "#00ff00" : "#ff0000" } }
+        />
+
+    );
+
+}
+```
+
 - use mask directly
 
 ```js
@@ -168,7 +192,7 @@ function useMask(settings: MaskProps): <T extends Stringable>(target: T) => stri
  - **Function `useCompleteMask`**: Returns a function to use the preconfigured mask with additional information in the result.
 
 ```ts
-function useCompleteMask(settings: MaskProps): <T extends Stringable>(target: T) => { result: string, completed: boolean; entries: number; cleaned: string; }
+function useCompleteMask(settings: MaskProps, onComplete ?: (result : string, cleaned: string) => boolean): <T extends Stringable>(target: T) => { result: string, completed: boolean; entries: number; cleaned: string; passing   : boolean | null; }
 ```
 
  - **Function `applyMask`**: use a mask directly on the target
