@@ -127,7 +127,7 @@ import { useState } from "react";
 
 export function InputMask() {
 
-    const maskComplete = useCompleteMask(presets.DATE_STAMP);
+    const maskComplete = useCompleteMask(presets.DATETIME_STAMP_LIMITED);
     const [ data, setData ] = useState(maskComplete(''));
 
     return (
@@ -157,7 +157,7 @@ export function InputMask() {
     // the result is received by the 'passing' key
 
     const maskTest = (result) => !isNaN(Date.parse(result));
-    
+
     const maskComplete = useCompleteMask(presets.DATE_STAMP, maskTest);
     const [ data, setData ] = useState(maskComplete(''));
 
