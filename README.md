@@ -28,13 +28,13 @@ yarn add mask-hooks
 
 ## Examples with React
 
- - Custom Mask
+ - Custom Mask - [Sandbox](https://codesandbox.io/p/sandbox/amazing-sea-2m3m8j?file=%2Fsrc%2Fexamples%2FCustomMask.js)
 
 ```js
 import { useMask } from "mask-hooks";
 import { useState } from "react";
 
-export function InputMask() {
+export default function InputMask() {
 
     const mask = useMask({
         masks: [ 'R$ #,##' ],
@@ -61,7 +61,7 @@ export function InputMask() {
 }
 ```
 
- - Custom Mask with Numerical Range
+ - Custom Mask with Numerical Range - [Sandbox](https://codesandbox.io/p/sandbox/amazing-sea-2m3m8j?file=%2Fsrc%2Fexamples%2FCustomMaskNumericalRange.js)
 
 ```js
 import { useMask } from 'mask-hooks';
@@ -69,7 +69,7 @@ import { useMask } from 'mask-hooks';
 export default function Time() {
 
     const time = useMask({
-        masks: [ '[0-23]:[0-59]:[0-59]' ];
+        masks: [ '[0-23]:[0-59]:[0-59]' ]
     });
 
     return (
@@ -79,7 +79,7 @@ export default function Time() {
 }
 ```
 
- - Preset Mask
+ - Preset Mask - [Sandbox](https://codesandbox.io/p/sandbox/amazing-sea-2m3m8j?file=%2Fsrc%2Fexamples%2FPresetMask.js)
 
 ```js
 import { useMask, presets } from 'mask-hooks';
@@ -98,7 +98,7 @@ export default function MaskDocs() {
 }
 ```
 
- - Changed Preset Mask
+ - Changed Preset Mask - [Sandbox](https://codesandbox.io/p/sandbox/amazing-sea-2m3m8j?file=%2Fsrc%2Fexamples%2FChangedPresetMask.js)
 
 ```js
 import { useMask, getPresetMask } from 'mask-hooks';
@@ -113,19 +113,19 @@ export default function MaskProduct() {
                 productKeyMask('h3pbvfhb27rjtgh')
                 /* print H3PBV-FHB27-RJTGH-_____-_____ */
             }
-        <div>
+        </div>
     );
 
 }
 ```
 
- - Mask verification completed
+ - Mask verification completed - [Sandbox](https://codesandbox.io/p/sandbox/amazing-sea-2m3m8j?file=%2Fsrc%2Fexamples%2FMaskVerificationCompleted.js)
 
 ```js
 import { useCompleteMask, presets } from "mask-hooks";
 import { useState } from "react";
 
-export function InputMask() {
+export default function InputMask() {
 
     const maskComplete = useCompleteMask(presets.DATETIME_STAMP_LIMITED);
     const [ data, setData ] = useState(maskComplete(''));
@@ -144,13 +144,13 @@ export function InputMask() {
 }
 ```
 
- - Mask verification completed and tested
+ - Mask verification completed and tested - [Sandbox](https://codesandbox.io/p/sandbox/amazing-sea-2m3m8j?file=%2Fsrc%2Fexamples%2FMaskVerificationCompletedTested.js)
 
 ```js
 import { useCompleteMask, presets } from "mask-hooks";
 import { useState } from "react";
 
-export function InputMask() {
+export default function InputMask() {
 
     // When filling out the mask is completed a test function
     // is applied to check whether a valid date was entered,
@@ -174,7 +174,7 @@ export function InputMask() {
 }
 ```
 
-- use mask directly
+- use mask directly - [Sandbox](https://codesandbox.io/p/sandbox/amazing-sea-2m3m8j?file=%2Fsrc%2Fexamples%2FUseMaskDirectly.js)
 
 ```js
 import { applyMask, presets } from 'mask-hooks';
@@ -182,7 +182,6 @@ import { applyMask, presets } from 'mask-hooks';
 export default function maskColor(target) {
     return applyMask(target, presets.COLOR_HEX);
 }
-
 ```
 
 ## Resources
