@@ -152,6 +152,10 @@ import { useState } from "react";
 
 export function InputMask() {
 
+    // When filling out the mask is completed a test function
+    // is applied to check whether a valid date was entered,
+    // the result is received by the 'passing' key
+    
     const maskComplete = useCompleteMask(presets.DATE_STAMP, result => !isNaN(Date.parse(result)));
     const [ data, setData ] = useState(maskComplete(''));
 
