@@ -193,6 +193,13 @@ const presets : { [key in PresetOption] : MaskProps } = {
         ],
         patterns: { 'H': /[A-Fa-f0-9]/ },
         transform: 'uppercase'
+    },
+
+    CAPITALIZE_ALL: {
+        masks: [ '.' ],
+        patterns: { '.': /./ },
+        infinity: true,
+        transform: 'capitalizaAll'
     }
 
 }
