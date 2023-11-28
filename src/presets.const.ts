@@ -26,7 +26,8 @@ export type PresetOption = (
     'ZIPCODE_USA'             |
     'ZIPCODE_BR'              |
     'PRODUCT_KEY'             |
-    'COLOR_HEX'
+    'COLOR_HEX'               |
+    'CAPITALIZE_ALL'
 );
 
 export function getPresetMask(preset : PresetOption, change : Partial<MaskProps> = {}) : MaskProps {
