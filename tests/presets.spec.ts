@@ -137,7 +137,7 @@ describe('Presets test all', () => {
 
         expect(mask('guilherme neves')).toBe('Guilherme Neves');
         expect(mask('ça áo ést')).toBe('Ça Áo Ést');
-        expect(mask('mask hooks')).toBe('Mask Hooks');
+        expect(mask('MASK HOOKS')).toBe('Mask Hooks');
 
     });
 
