@@ -200,7 +200,7 @@ const presets : { [key in PresetOption] : MaskProps } = {
         masks: [ '.' ],
         patterns: { '.': /./ },
         infinity: true,
-        transform: 'capitalizaAll'
+        transform: 'capitalizeAll'
     }
 
 }
