@@ -131,4 +131,14 @@ describe('Presets test all', () => {
 
     });
 
+    test('Preset CAPITALIZE_ALL', () => {
+
+        const mask = useMask(presets.CAPITALIZE_ALL);
+
+        expect(mask('guilherme neves')).toBe('Guilherme Neves');
+        expect(mask('ça áo ést')).toBe('Ça Áo Ést');
+        expect(mask('mask hooks')).toBe('Mask Hooks');
+
+    });
+
 });
