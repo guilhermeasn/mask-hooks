@@ -288,6 +288,7 @@ You can import pre-established mask configurations. See the options:
 - ZIPCODE_BR
 - PRODUCT_KEY
 - COLOR_HEX
+- CAPITALIZE_ALL
 
 ## Migrating v2 to v3
 
