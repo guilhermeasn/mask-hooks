@@ -54,7 +54,7 @@ export default class Mask {
     public static transform(target : string, type : Required<MaskProps>['transform']) : string {
 
         function capitalize(target : string, all: boolean = false) : string {
-            if(all) return target.split(' ').reduce((p, c) => p + ' ' + capitalize(c), '').trim();
+            if(all) return target.split(' ').reduce((p, c, i) =>  i ? p + ' ' + capitalize(c) : capitalize(c), '');
     
             target = target.toLowerCase();
             const i = target.search(/[a-zçáéíóúàèìòùâêîôûäëïöüãõ]/);
