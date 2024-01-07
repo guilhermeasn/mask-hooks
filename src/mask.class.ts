@@ -25,7 +25,7 @@ export type MaskProps = {
     /**
      * The masks that will be applied to the target. By default the characters ?, #, @ will be replaced by letters or numbers, numbers, letters, respectively. This character pattern can be changed. You can also use a Numerical Range to limit a numeric value to be entered using the pattern [<number>-<number>]. To escape a replacement character use \ before it.
      */
-    masks : string[] | string;
+    masks : [ string, ...string[] ] | string;
 
     /**
      * Autofill of the mask to be filled
@@ -59,17 +59,29 @@ export type MaskProps = {
 
 }
 
+/**
+ * Mask function settings
+ */
 export type RequiredMaskProps = Required<{ masks : string[] } & Omit<MaskProps, 'masks'>>;
 
+/**
+ * Applies characters to the infinite mask
+ */
 type Extra = {
     each : number;
     add  : string;
 }
 
+/**
+ * Types that can become strings
+ */
 export type Stringable = {
     toString : () => string;
 }
 
+/**
+ * Application mask core
+ */
 export default class Mask {
 
     /* STATIC RESOURCES */
@@ -142,7 +154,7 @@ export default class Mask {
         // fill props needed
 
         this._props = {
-            masks:       Array.isArray(props.masks) ? props.masks.map(m => m.toString()) : [ (props.masks as any)?.toString() ],
+            masks:       Array.isArray(props.masks) ? props.masks.map(m => m.toString()) : [ props.masks ],
             patterns:    props.patterns    ?? Mask.defaultPatterns,
             placeholder: props.placeholder ?? '',
             reverse:     props.reverse     ?? false,
