@@ -1,5 +1,8 @@
 import type { MaskProps } from "./mask.class";
 
+/**
+ * Pre-established mask configuration options
+ */
 export type PresetOption = (
     'ONLY_NUMBERS'            |
     'ONLY_LETTERS'            |
@@ -30,6 +33,9 @@ export type PresetOption = (
     'CAPITALIZE_ALL'
 );
 
+/**
+ * Get and change pre-established mask configurations
+ */
 export function getPresetMask(preset : PresetOption, change : Partial<MaskProps> = {}) : MaskProps {
     return {
         ...presets[preset],
@@ -37,6 +43,9 @@ export function getPresetMask(preset : PresetOption, change : Partial<MaskProps>
     }
 }
 
+/**
+ * Pre-established mask configurations
+ */
 const presets : { [key in PresetOption] : MaskProps } = {
 
     ONLY_NUMBERS: {

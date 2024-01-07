@@ -17,14 +17,46 @@
  *
  */
 
+/**
+ * Mask function settings
+ */
 export type MaskProps = {
-    masks        : string[] | string;
-    patterns    ?: { [key in string] : RegExp };
+
+    /**
+     * The masks that will be applied to the target. By default the characters ?, #, @ will be replaced by letters or numbers, numbers, letters, respectively. This character pattern can be changed. You can also use a Numerical Range to limit a numeric value to be entered using the pattern [<number>-<number>]. To escape a replacement character use \ before it.
+     */
+    masks : string[] | string;
+
+    /**
+     * Autofill of the mask to be filled
+     */
+    patterns ?: { [key in string] : RegExp };
+
+    /**
+     * Autofill of the mask to be filled
+     */
     placeholder ?: string;
-    reverse     ?: boolean;
-    infinity    ?: boolean | Extra;
-    transform   ?: 'uppercase' | 'lowercase' | 'capitalize' | 'capitalizeAll' | 'none';
-    maxentries  ?: number | null;
+
+    /**
+     * Mask fill in inverted mode
+     */
+    reverse ?: boolean;
+
+    /**
+     * Allows data entry indefinitely by the last mask replacement character
+     */
+    infinity ?: boolean | Extra;
+
+    /**
+     * Apply a transformation to the result string
+     */
+    transform ?: 'uppercase' | 'lowercase' | 'capitalize' | 'capitalizeAll' | 'none';
+
+    /**
+     * Characters to be substituted in the mask if approved by the regular expression
+     */
+    maxentries ?: number | null;
+
 }
 
 export type RequiredMaskProps = Required<{ masks : string[] } & Omit<MaskProps, 'masks'>>;

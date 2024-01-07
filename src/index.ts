@@ -1,8 +1,14 @@
 import type { MaskProps, Stringable } from './mask.class';
 import Mask from './mask.class';
 
+/**
+ * Function to use the preconfigured mask
+ */
 export type MaskApplicator<O = string> = <T extends Stringable>(target : T) => O;
 
+/**
+ * Dataset of the complete mask result
+ */
 export type CompleteMask = {
     result    : string;
     completed : boolean;
@@ -11,6 +17,9 @@ export type CompleteMask = {
     passing   : boolean | null;
 }
 
+/**
+ * Returns a function to use the preconfigured mask.
+ */
 export function useMask(settings : MaskProps) : MaskApplicator {
 
     const mask = new Mask(settings);
@@ -18,6 +27,9 @@ export function useMask(settings : MaskProps) : MaskApplicator {
 
 }
 
+/**
+ * Returns a function to use the preconfigured mask with additional information in the result.
+ */
 export function useCompleteMask(settings : MaskProps, onComplete ?: (result : string, cleaned: string) => boolean) : MaskApplicator<CompleteMask> {
 
     const mask = new Mask(settings);
@@ -40,6 +52,9 @@ export function useCompleteMask(settings : MaskProps, onComplete ?: (result : st
 
 }
 
+/**
+ * Use a mask directly on the target.
+ */
 export function applyMask<T extends Stringable>(target : T, settingsOrMasks : MaskProps | string | string[]) : string {
 
     const mask = new Mask(typeof settingsOrMasks === 'object' && !Array.isArray(settingsOrMasks) ? settingsOrMasks : { masks: settingsOrMasks });
