@@ -40,9 +40,9 @@ export function useCompleteMask(settings : MaskProps, onComplete ?: (result : st
 
 }
 
-export function applyMask<T extends Stringable>(target : T, settings : MaskProps) : string {
+export function applyMask<T extends Stringable>(target : T, settingsOrMasks : MaskProps | string | string[]) : string {
 
-    const mask = new Mask(settings);
+    const mask = new Mask(typeof settingsOrMasks === 'object' && !Array.isArray(settingsOrMasks) ? settingsOrMasks : { masks: settingsOrMasks });
     return mask.apply(target);
 
 }

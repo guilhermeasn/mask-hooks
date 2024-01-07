@@ -18,7 +18,7 @@
  */
 
 export type MaskProps = {
-    masks        : string[];
+    masks        : string[] | string;
     patterns    ?: { [key in string] : RegExp };
     placeholder ?: string;
     reverse     ?: boolean;
@@ -26,6 +26,8 @@ export type MaskProps = {
     transform   ?: 'uppercase' | 'lowercase' | 'capitalize' | 'capitalizeAll' | 'none';
     maxentries  ?: number | null;
 }
+
+export type RequiredMaskProps = Required<{ masks : string[] } & Omit<MaskProps, 'masks'>>;
 
 type Extra = {
     each : number;
@@ -40,7 +42,7 @@ export default class Mask {
 
     /* STATIC RESOURCES */
 
-    public static defaultPatterns : Required<MaskProps>['patterns'] = {
+    public static defaultPatterns : RequiredMaskProps['patterns'] = {
         // test only one char at a time
         '#': /[0-9]/,
         '@': /[A-Za-z]/,
@@ -51,7 +53,7 @@ export default class Mask {
         return target.split('').reverse().join('');
     }
 
-    public static transform(target : string, type : Required<MaskProps>['transform']) : string {
+    public static transform(target : string, type : RequiredMaskProps['transform']) : string {
 
         function capitalize(target : string, all: boolean = false) : string {
             if(all) return target.split(' ').reduce((p, c, i) =>  i ? p + ' ' + capitalize(c) : capitalize(c), '');
@@ -99,7 +101,7 @@ export default class Mask {
     private _cleaned   : string  = '';
     private _remnant   : string[][];
 
-    private _props : Required<MaskProps>;
+    private _props : RequiredMaskProps;
 
     /* PUBLIC METHODS */
 
@@ -148,7 +150,7 @@ export default class Mask {
 
     }
 
-    public get props() : Readonly<Required<MaskProps>> {
+    public get props() : Readonly<RequiredMaskProps> {
         return this._props;
     }
 

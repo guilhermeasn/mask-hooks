@@ -121,7 +121,7 @@ describe('Mask class tests', () => {
 
     test('Apply mask and transform', () => {
 
-        const masks = [ '=> @@@@@ @@@!' ];
+        const masks = '=> @@@@@ @@@!';
         const target = 'aBcDefGh';
 
         expect(new Mask({ masks, transform: 'none' }).apply(target)).toBe('=> aBcDe fGh!');
@@ -215,9 +215,6 @@ describe('Mask class tests', () => {
     test('Mask strange types', () => {
 
         // @ts-ignore
-        expect(new Mask({ masks: '1#3#5' }).apply('24')).toBe('12345');
-
-        // @ts-ignore
         expect(new Mask({ masks: 12345 }).apply('')).toBe('12345');
 
         // @ts-ignore
@@ -228,7 +225,7 @@ describe('Mask class tests', () => {
     test('Mask numerical range in date', () => {
 
         const mask = new Mask({
-            masks: [ '[1-31]/[1-12]/[1900-2100]' ]
+            masks: '[1-31]/[1-12]/[1900-2100]'
         });
 
         expect(mask.apply('4302010')).toBe('04/03/2010');
@@ -248,7 +245,7 @@ describe('Mask class tests', () => {
     test('Mask numerical range misc', () => {
 
         const mask = new Mask({
-            masks: [ '[50-2300]' ]
+            masks: '[50-2300]'
         });
 
         expect(mask.apply('4')).toBe('04');
@@ -261,19 +258,19 @@ describe('Mask class tests', () => {
     test('Mask numerical range escape', () => {
 
         const mask = new Mask({
-            masks: [ 'a[0-3]b\\[0-3]c' ]
+            masks: 'a[0-3]b\\[0-3]c'
         });
 
         expect(mask.apply('000')).toBe('a0b[0-3]c');
 
         const mask2 = new Mask({
-            masks: [ '[0-9] (\\[0-9]) - ###' ]
+            masks: '[0-9] (\\[0-9]) - ###'
         });
 
         expect(mask2.apply('0123')).toBe('0 ([0-9]) - 123');
 
         const mask3 = new Mask({
-            masks: [ '[0-99]\\[0-99] ?' ],
+            masks: '[0-99]\\[0-99] ?',
             infinity: true
         });
 

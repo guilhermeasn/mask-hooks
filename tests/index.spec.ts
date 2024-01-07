@@ -32,6 +32,7 @@ describe('Functions and hooks tests', () => {
     test('Function applyMask', () => {
 
         expect(applyMask('1a2b3c', getPresetMask('ONLY_LETTERS', { transform: 'uppercase' }))).toBe('ABC');
+        expect(applyMask('1a2b3c', '###')).toBe('123');
 
     });
 

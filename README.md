@@ -37,7 +37,7 @@ import { useState } from "react";
 export default function InputMask() {
 
     const mask = useMask({
-        masks: [ 'R$ #,##' ],
+        masks: '$ #,##',
         placeholder: '0',
         reverse: true,
         infinity: {
@@ -69,7 +69,7 @@ import { useMask } from 'mask-hooks';
 export default function Time() {
 
     const time = useMask({
-        masks: [ '[0-23]:[0-59]:[0-59]' ]
+        masks: '[0-23]:[0-59]:[0-59]'
     });
 
     return (
@@ -203,7 +203,7 @@ function useCompleteMask(settings: MaskProps, onComplete ?: (result : string, cl
  - **Function `applyMask`**: use a mask directly on the target
 
 ```ts
-function applyMask<T extends Stringable>(target: T, settings: MaskProps): string
+function applyMask<T extends Stringable>(target : T, settingsOrMasks : MaskProps | string | string[]) : string
 ```
 
  - **Class `Mask`**: application mask core
@@ -250,7 +250,7 @@ The useMask receives the settings parameter of type MaskProps. See available set
 
 |Prop|Type|Default|Details|
 |---|---|---|---|
-|**masks**|`Array<string>`||The masks that will be applied to the target. By default the characters `?`, `#`, `@` will be replaced by letters or numbers, numbers, letters, respectively. This character pattern can be changed. You can also use a Numerical Range to limit a numeric value to be entered using the pattern [\<number\>-\<number\>]. To escape a replacement character use `\` before it.|
+|**masks**|`string`<br />`Array<string>`||The masks that will be applied to the target. By default the characters `?`, `#`, `@` will be replaced by letters or numbers, numbers, letters, respectively. This character pattern can be changed. You can also use a Numerical Range to limit a numeric value to be entered using the pattern [\<number\>-\<number\>]. To escape a replacement character use `\` before it.|
 |**placeholder**|`string`|`''`|Autofill of the mask to be filled|
 |**reverse**|`boolean`|`false`|Mask fill in inverted mode|
 |**transform**|`'uppercase'`<br />`'lowercase'`<br />`'capitalize'`<br />`'capitalizeAll'`<br />`'none'`|`'none'`|Apply a transformation to the result string|

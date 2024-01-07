@@ -40,54 +40,54 @@ export function getPresetMask(preset : PresetOption, change : Partial<MaskProps>
 const presets : { [key in PresetOption] : MaskProps } = {
 
     ONLY_NUMBERS: {
-        masks: [ '#' ],
+        masks: '#',
         infinity: true
     },
 
     ONLY_LETTERS: {
-        masks: [ '@' ],
+        masks: '@',
         infinity: true
     },
 
     ONLY_CHARS: {
-        masks: [ '?' ],
+        masks: '?',
         infinity: true
     },
 
     DATE_STAMP: {
-        masks: [ '####-##-##' ]
+        masks: '####-##-##'
     },
 
     DATE_PTBR: {
-        masks: [ '##/##/####' ]
+        masks: '##/##/####'
     },
 
     DATETIME_STAMP: {
-        masks: [ '####-##-## ##:##:##' ]
+        masks: '####-##-## ##:##:##'
     },
 
     DATETIME_PTBR: {
-        masks: [ '##/##/#### ##:##' ]
+        masks: '##/##/#### ##:##'
     },
 
     DATE_STAMP_LIMITED: {
-        masks: [ '[1800-2200]-[1-12]-[1-31]' ]
+        masks: '[1800-2200]-[1-12]-[1-31]'
     },
 
     DATE_PTBR_LIMITED: {
-        masks: [ '[1-31]/[1-12]/[1800-2200]' ]
+        masks: '[1-31]/[1-12]/[1800-2200]'
     },
 
     DATETIME_STAMP_LIMITED: {
-        masks: [ '[1800-2200]-[1-12]-[1-31] [0-23]:[0-59]:[0-59]' ]
+        masks: '[1800-2200]-[1-12]-[1-31] [0-23]:[0-59]:[0-59]'
     },
 
     DATETIME_PTBR_LIMITED: {
-        masks: [ '[1-31]/[1-12]/[1800-2200] [0-23]:[0-59]' ]
+        masks: '[1-31]/[1-12]/[1800-2200] [0-23]:[0-59]'
     },
     
     PHONE_USA: {
-        masks: [ '(###) ###-####' ]
+        masks: '(###) ###-####'
     },
 
     PHONE_BR: {
@@ -98,7 +98,7 @@ const presets : { [key in PresetOption] : MaskProps } = {
     },
 
     CURRENCY_POINT: {
-        masks: [ '#.##' ],
+        masks: '#.##',
         placeholder: '0',
         reverse: true,
         infinity: {
@@ -108,7 +108,7 @@ const presets : { [key in PresetOption] : MaskProps } = {
     },
 
     CURRENCY_COMMA: {
-        masks: [ '#,##' ],
+        masks: '#,##',
         placeholder: '0',
         reverse: true,
         infinity: {
@@ -118,7 +118,7 @@ const presets : { [key in PresetOption] : MaskProps } = {
     },
 
     CURRENCY_DOLLAR: {
-        masks: [ '$#.##' ],
+        masks: '$#.##',
         placeholder: '0',
         reverse: true,
         infinity: {
@@ -128,7 +128,7 @@ const presets : { [key in PresetOption] : MaskProps } = {
     },
 
     CURRENCY_PTBR: {
-        masks: [ 'R$ #,##' ],
+        masks: 'R$ #,##',
         placeholder: '0',
         reverse: true,
         infinity: {
@@ -138,7 +138,7 @@ const presets : { [key in PresetOption] : MaskProps } = {
     },
 
     CURRENCY_DOLLAR_LIMITED: {
-        masks: [ '$#.##' ],
+        masks: '$#.##',
         placeholder: '0',
         reverse: true,
         infinity: {
@@ -149,7 +149,7 @@ const presets : { [key in PresetOption] : MaskProps } = {
     },
 
     CURRENCY_PTBR_LIMITED: {
-        masks: [ 'R$ #,##' ],
+        masks: 'R$ #,##',
         placeholder: '0',
         reverse: true,
         infinity: {
@@ -160,11 +160,11 @@ const presets : { [key in PresetOption] : MaskProps } = {
     },
 
     DOCUMENT_CPF: {
-        masks: [ '###.###.###-##' ]
+        masks: '###.###.###-##'
     },
 
     DOCUMENT_CNPJ: {
-        masks: [ '##.###.###/####-##' ]
+        masks: '##.###.###/####-##'
     },
 
     DOCUMENT_CPF_CNPJ: {
@@ -175,15 +175,15 @@ const presets : { [key in PresetOption] : MaskProps } = {
     },
 
     ZIPCODE_USA: {
-        masks: [ '#####' ]
+        masks: '#####'
     },
 
     ZIPCODE_BR: {
-        masks: [ '##.###-###' ]
+        masks: '##.###-###'
     },
 
     PRODUCT_KEY: {
-        masks: [ '?????-?????-?????-?????-?????' ],
+        masks: '?????-?????-?????-?????-?????',
         transform: 'uppercase'
     },
 
@@ -197,7 +197,7 @@ const presets : { [key in PresetOption] : MaskProps } = {
     },
 
     CAPITALIZE_ALL: {
-        masks: [ '.' ],
+        masks: '.',
         patterns: { '.': /./ },
         infinity: true,
         transform: 'capitalizeAll'
