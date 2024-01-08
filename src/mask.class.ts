@@ -154,7 +154,7 @@ export default class Mask {
         // fill props needed
 
         this._props = {
-            masks:       Array.isArray(props.masks) ? props.masks.map(m => m.toString()) : [ props.masks ],
+            masks:       Array.isArray(props.masks) ? props.masks.map(m => m.toString()) : [ props.masks.toString() ],
             patterns:    props.patterns    ?? Mask.defaultPatterns,
             placeholder: props.placeholder ?? '',
             reverse:     props.reverse     ?? false,

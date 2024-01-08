@@ -27,6 +27,7 @@ describe('Mask class tests', () => {
     test('Throw errors', () => {
 
         expect(() => new Mask({
+            // @ts-ignore
             masks: []
         })).toThrow(/mask/gim);
         
