@@ -1,6 +1,7 @@
 if (yarn test); then
 
     yarn build
+    yarn minify
     npm pack --pack-destination .\\packs\\
     npm publish
 
